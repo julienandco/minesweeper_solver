@@ -1,0 +1,62 @@
+%set(para_into).
+%set(para_from).
+set(binary_res).
+
+% Lenguaje del Problema
+%
+% Funciones:
+% vecinos(x,y): El nombre de casillas vecinas que tiene la casilla de coordenadas (x,y).
+%
+% Propiedades:
+% - filas(x): Hay x filas en la cuadricúla
+% - columnas(x): Hay x columnas en la cuadricúla
+% - sensor(x,y,z): En la casilla de coordenadas (x,y) hay un sensor que detecta z bombas
+% - bomba(x,y): Hay una bomba en la casilla de coordenadas (x,y)
+% - vacio(x,y): La casilla de coordenas (x,y) está vacía
+
+
+%list(demodulators).
+    %TODO: anzahl filas und columnas hier berücksichtigen
+%    vecinos(x,y) = 
+%        $IF($EQ(x,1) | $EQ(x,num_filas),
+%            $IF($EQ(y,1) | $EQ(y,num_col),
+%                2,
+%                3),
+%            $IF($EQ(y,1) | $EQ(y,num_col),
+%                3,
+%                4)
+%    ).
+%end_of_list.
+
+make_evaluable(_>_, $GT(_,_)).
+make_evaluable(_<=_, $LE(_,_)).
+make_evaluable(_+_, $SUM(_,_)).
+make_evaluable(_-_, $DIFF(_,_)).
+
+formula_list(usable).
+    % Sensores que no detectan nada. % TODO: x-y checks einbauen
+    all x y (sensor(x,y,0) -> vacio(x-1, y) & vacio(x+1,y) & vacio(x,y-1) & vacio(x,y+1)).
+end_of_list.
+
+%formula_list(passive).
+% all x y (posicion(x1,x2,x3,x4) -> $ANS(x1,x2,x3,x4)).
+%end_of_list.
+
+formula_list(sos).
+    % Situación inicial.
+    filas(5).
+    columnas(5).
+    sensor(1,3,3).
+    sensor(2,4,2).
+    sensor(3,2,0).
+    sensor(4,1,1).
+    sensor(4,3,2).
+    sensor(4,5,2).
+    sensor(5,4,2).
+
+    % Situación final.
+    %-(all x y ((filas(f) & columnas(c) & x > 0 & x <= f & y > 0 & y <= c) -> (bomba(x,y) | vacio(x,y) | sensor(x,y,z)))).
+    %TODO: wie kann ich hier die range triggern? will alle zahlen zw 1 und 5 haben und nicht nur die die bereits vorhanden sind
+    -(all x y ((filas(f) & columnas(c)& x>0 & x<=f & y>0 & y<=c) -> (bomba(x,y) | vacio(x,y) | (exists z (sensor(x,y,z)))))). 
+end_of_list.
+
