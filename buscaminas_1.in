@@ -35,14 +35,7 @@ make_evaluable(_+_, $SUM(_,_)).
 make_evaluable(_-_, $DIFF(_,_)).
 
 formula_list(usable).
-    % Sensores que no detectan nada.
-    % En el medio del tablero
-    all x y f c (filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,0) -> vacio(x-1, y) & vacio(x+1,y) & vacio(x,y-1) & vacio(x,y+1)).
-    % En los lados del tablero
-    all y c (columnas(c) & y>1 & y<c & sensor(1,y,0) -> vacio(1, y-1) & vacio(1,y+1) & vacio(2,y)).
-    all y f c (filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,0) -> vacio(f, y-1) & vacio(f,y+1) & vacio(f-1,y)).
-    all x f (filas(f) & x>1 & x<f & sensor(x,1,0) -> vacio(x-1, 1) & vacio(x+1,1) & vacio(x,2)).
-    all x f c (filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,0) -> vacio(x-1, c) & vacio(x+1,c) & vacio(x,c-1)).
+    %% Sensores que no detectan nada...
 
     % En las esquinas del tablero
     sensor(1,1,0) -> vacio(1, 2) & vacio(2,1).
@@ -50,20 +43,32 @@ formula_list(usable).
     all c (columnas(c) & sensor(1,c,0) -> vacio(1, c-1) & vacio(2,c)).
     all f c (filas(f) & columnas(c) & sensor(f,c,0) -> vacio(f, c-1) & vacio(f-1,c)).
 
-    % Sensores que detectan una bomba en cada celda vecina.
-    % En las esquinas del tablero
+    % En el medio del tablero
+    all x y f c (filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,0) -> vacio(x-1, y) & vacio(x+1,y) & vacio(x,y-1) & vacio(x,y+1)).
+    
+    % En los lados del tablero
+    all y c (columnas(c) & y>1 & y<c & sensor(1,y,0) -> vacio(1, y-1) & vacio(1,y+1) & vacio(2,y)).
+    all y f c (filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,0) -> vacio(f, y-1) & vacio(f,y+1) & vacio(f-1,y)).
+    all x f (filas(f) & x>1 & x<f & sensor(x,1,0) -> vacio(x-1, 1) & vacio(x+1,1) & vacio(x,2)).
+    all x f c (filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,0) -> vacio(x-1, c) & vacio(x+1,c) & vacio(x,c-1)).
+
+    %% Sensores que detectan una bomba en cada celda vecina...
+
+    % En las esquinas del tablero (2 bombas)
     sensor(1,1,2) -> bomba(1, 2) & bomba(2,1).
     all f (filas(f) & sensor(f,1,2) -> bomba(f-1, 1) & bomba(f,2)).
     all c (columnas(c) & sensor(1,c,2) -> bomba(1, c-1) & bomba(2,c)).
     all f c (filas(f) & columnas(c) & sensor(f,c,2) -> bomba(f, c-1) & bomba(f-1,c)).
-    % En los lados del tablero
+
+    % En el medio del tablero (4 bombas)
+    all x y f c (filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,4) -> bomba(x-1, y) & bomba(x+1,y) & bomba(x,y-1) & bomba(x,y+1)).
+
+    % En los lados del tablero (3 bombas)
     all y c (columnas(c) & y>1 & y<c & sensor(1,y,3) -> bomba(1, y-1) & bomba(1,y+1) & bomba(2,y)).
     all y f c (filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,3) -> bomba(f, y-1) & bomba(f,y+1) & bomba(f-1,y)).
     all x f (filas(f) & x>1 & x<f & sensor(x,1,3) -> bomba(x-1, 1) & bomba(x+1,1) & bomba(x,2)).
     all x f c (filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,3) -> bomba(x-1, c) & bomba(x+1,c) & bomba(x,c-1)).
-    % En el medio del tablero
-    all x y f c (filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,4) -> bomba(x-1, y) & bomba(x+1,y) & bomba(x,y-1) & bomba(x,y+1)).
-
+   
 end_of_list.
 
 %formula_list(usable).
@@ -85,6 +90,13 @@ formula_list(sos).
     sensor(4,3,2).
     sensor(4,5,2).
     sensor(5,4,2).
+
+    % um sitacion final zu bauen: filas(f) baut ein filas array [1,2,...,f] auf. analog columnas
+    % dann: all x y ((x in filas_array & y in col_array) -> es muss entweder bomb(x,y), leer(x,y) oder sensor(x,y) gelten)
+    % und: es muss GENAU 1 von den drei optionen stimmen
+
+    %dann: wenn das oben stimmt und alle elemente in der liste results() sind, dann -> $ANS(results).
+    % (dazu jede zelle die neu assigned wird in die results liste schmettern)
 
     % Situación final.
     %-(all x y f c((filas(f) & columnas(c) & x > 0 & x <= f & y > 0 & y <= c) -> (bomba(x,y) | vacio(x,y) | sensor(x,y,z)))).
