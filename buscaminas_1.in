@@ -23,6 +23,9 @@ make_evaluable(_<=_, $LE(_,_)).
 make_evaluable(_+_, $SUM(_,_)).
 make_evaluable(_-_, $DIFF(_,_)).
 
+%TODO: siehe ipad: es fehlen zwischenfälle (z.b sensor zeigt 2 bomben, es gibt 3 nachbarn, davon 1 safe bombe 1 safe leer -> kannst 
+% auch was machen)
+
 formula_list(usable).
     %% Sensores que no detectan nada...
 
