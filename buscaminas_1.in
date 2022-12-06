@@ -18,6 +18,11 @@ make_evaluable(_<=_, $LE(_,_)).
 make_evaluable(_+_, $SUM(_,_)).
 make_evaluable(_-_, $DIFF(_,_)).
 
+%TODO: was jetzt noch fehlt: falls ein sensor durch die "en general" regeln vervollständigt wird, wird er noch nicht in 
+% completado gepackt. das muss noch gemacht werden.
+
+% dazu neue regel: sensor() & bomba & vacio wie sein soll -> completado(sensor)
+
 formula_list(usable).
     %% Sensores que no detectan nada...
 
