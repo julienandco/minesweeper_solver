@@ -44,7 +44,7 @@ formula_list(usable).
     %% Sensores que detectan una bomba en cada celda vecina...
 
     % En las esquinas del tablero (2 bombas)
-    sensor(1,1,2) -> bomba(1, 2) & bomba(2,1).
+    sensor(1,1,2) -> bomba(1, 2) & bomba(2,1) & completado(1,1).
     all f (filas(f) & sensor(f,1,2) -> bomba(f-1,1) & bomba(f,2) & completado(f,1)).
     all c (columnas(c) & sensor(1,c,2) -> bomba(1,c-1) & bomba(2,c) & completado(1,c)).
     all f c (filas(f) & columnas(c) & sensor(f,c,2) -> bomba(f,c-1) & bomba(f-1,c) & completado(f,c)).
@@ -94,7 +94,6 @@ formula_list(usable).
 
     % En general, hay que dos celdas sean vacias y la otra con una bomba  
     all y c (columnas(c) & y>1 & y<c & sensor(1,y,1) -> ((bomba(1,y-1) & vacio(1,y+1) & vacio(2,y)) | (vacio(1,y-1) & bomba(1,y+1) & vacio(2,y)) | (vacio(1,y-1) & vacio(1,y+1) & bomba(2,y)))).
-
 
     % bomba conocida
     all y c (columnas(c) & y>1 & y<c & sensor(1,y,1) & bomba(1,y-1) -> vacio(1,y+1) & vacio(2,y) & completado(1,y)).
