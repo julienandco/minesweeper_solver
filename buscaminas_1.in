@@ -26,6 +26,9 @@ make_evaluable(_-_, $DIFF(_,_)).
 %TODO: siehe ipad: es fehlen zwischenfälle (z.b sensor zeigt 2 bomben, es gibt 3 nachbarn, davon 1 safe bombe 1 safe leer -> kannst 
 % auch was machen)
 
+% wie könnte man das umsetzen? neue regel: sensor(x,y,2) -> entweder (rechts-links) OR (rechts-oben) OR ... OR ... (anal. für andere zs)
+% wenn ich dann in dem oben beschriebenen fall bin, weiß ich dank der so generierten disjunktion, das die übrige zelle ne bombe sein muss
+
 formula_list(usable).
     %% Sensores que no detectan nada...
 
