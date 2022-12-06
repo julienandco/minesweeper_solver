@@ -1,25 +1,89 @@
 ----- Otter 3.3f, August 2004 -----
 The process was started by julien on Juliens-MacBook-Pro.local,
-Sun Dec  4 19:46:45 2022
-The command was "../../../otter-3.3f/bin/otter".  The process ID is 86581.
+Tue Dec  6 09:49:45 2022
+The command was "../../../otter-3.3f/bin/otter".  The process ID is 88197.
 
 set(binary_res).
    dependent: set(factor).
    dependent: set(unit_deletion).
+make_evaluable(_>_,$GT(_,_)).
+make_evaluable(_<_,$LT(_,_)).
+make_evaluable(_<=_,$LE(_,_)).
 make_evaluable(_+_,$SUM(_,_)).
 make_evaluable(_-_,$DIFF(_,_)).
 
 formula_list(usable).
-all x y (sensor(x,y,0)->vacio(x-1,y)&vacio(x+1,y)&vacio(x,y-1)&vacio(x,y+1)).
+all x y f c (filas(f)&columnas(c)&x>1&x<f&y>1&y<c&sensor(x,y,0)->vacio(x-1,y)&vacio(x+1,y)&vacio(x,y-1)&vacio(x,y+1)).
+all y c (columnas(c)&y>1&y<c&sensor(1,y,0)->vacio(1,y-1)&vacio(1,y+1)&vacio(2,y)).
+all y f c (filas(f)&columnas(c)&y>1&y<c&sensor(f,y,0)->vacio(f,y-1)&vacio(f,y+1)&vacio(f-1,y)).
+all x f (filas(f)&x>1&x<f&sensor(x,1,0)->vacio(x-1,1)&vacio(x+1,1)&vacio(x,2)).
+all x f c (filas(f)&columnas(c)&x>1&x<f&sensor(x,c,0)->vacio(x-1,c)&vacio(x+1,c)&vacio(x,c-1)).
+sensor(1,1,0)->vacio(1,2)&vacio(2,1).
+all f (filas(f)&sensor(f,1,0)->vacio(f-1,1)&vacio(f,2)).
+all c (columnas(c)&sensor(1,c,0)->vacio(1,c-1)&vacio(2,c)).
+all f c (filas(f)&columnas(c)&sensor(f,c,0)->vacio(f,c-1)&vacio(f-1,c)).
+sensor(1,1,2)->bomba(1,2)&bomba(2,1).
+all f (filas(f)&sensor(f,1,2)->bomba(f-1,1)&bomba(f,2)).
+all c (columnas(c)&sensor(1,c,2)->bomba(1,c-1)&bomba(2,c)).
+all f c (filas(f)&columnas(c)&sensor(f,c,2)->bomba(f,c-1)&bomba(f-1,c)).
+all y c (columnas(c)&y>1&y<c&sensor(1,y,3)->bomba(1,y-1)&bomba(1,y+1)&bomba(2,y)).
+all y f c (filas(f)&columnas(c)&y>1&y<c&sensor(f,y,3)->bomba(f,y-1)&bomba(f,y+1)&bomba(f-1,y)).
+all x f (filas(f)&x>1&x<f&sensor(x,1,3)->bomba(x-1,1)&bomba(x+1,1)&bomba(x,2)).
+all x f c (filas(f)&columnas(c)&x>1&x<f&sensor(x,c,3)->bomba(x-1,c)&bomba(x+1,c)&bomba(x,c-1)).
+all x y f c (filas(f)&columnas(c)&x>1&x<f&y>1&y<c&sensor(x,y,4)->bomba(x-1,y)&bomba(x+1,y)&bomba(x,y-1)&bomba(x,y+1)).
 end_of_list.
 
 -------> usable clausifies to:
 
 list(usable).
-1 [] -sensor(x,y,0)|vacio(x-1,y).
-2 [] -sensor(x,y,0)|vacio(x+1,y).
-3 [] -sensor(x,y,0)|vacio(x,y-1).
-4 [] -sensor(x,y,0)|vacio(x,y+1).
+1 [] -filas(x1)| -columnas(x2)| -(x>1)| -(x<x1)| -(y>1)| -(y<x2)| -sensor(x,y,0)|vacio(x-1,y).
+2 [] -filas(x1)| -columnas(x2)| -(x>1)| -(x<x1)| -(y>1)| -(y<x2)| -sensor(x,y,0)|vacio(x+1,y).
+3 [] -filas(x1)| -columnas(x2)| -(x>1)| -(x<x1)| -(y>1)| -(y<x2)| -sensor(x,y,0)|vacio(x,y-1).
+4 [] -filas(x1)| -columnas(x2)| -(x>1)| -(x<x1)| -(y>1)| -(y<x2)| -sensor(x,y,0)|vacio(x,y+1).
+5 [] -columnas(x3)| -(y>1)| -(y<x3)| -sensor(1,y,0)|vacio(1,y-1).
+6 [] -columnas(x3)| -(y>1)| -(y<x3)| -sensor(1,y,0)|vacio(1,y+1).
+7 [] -columnas(x3)| -(y>1)| -(y<x3)| -sensor(1,y,0)|vacio(2,y).
+8 [] -filas(x4)| -columnas(x5)| -(y>1)| -(y<x5)| -sensor(x4,y,0)|vacio(x4,y-1).
+9 [] -filas(x4)| -columnas(x5)| -(y>1)| -(y<x5)| -sensor(x4,y,0)|vacio(x4,y+1).
+10 [] -filas(x4)| -columnas(x5)| -(y>1)| -(y<x5)| -sensor(x4,y,0)|vacio(x4-1,y).
+11 [] -filas(x6)| -(x>1)| -(x<x6)| -sensor(x,1,0)|vacio(x-1,1).
+12 [] -filas(x6)| -(x>1)| -(x<x6)| -sensor(x,1,0)|vacio(x+1,1).
+13 [] -filas(x6)| -(x>1)| -(x<x6)| -sensor(x,1,0)|vacio(x,2).
+14 [] -filas(x7)| -columnas(x8)| -(x>1)| -(x<x7)| -sensor(x,x8,0)|vacio(x-1,x8).
+15 [] -filas(x7)| -columnas(x8)| -(x>1)| -(x<x7)| -sensor(x,x8,0)|vacio(x+1,x8).
+16 [] -filas(x7)| -columnas(x8)| -(x>1)| -(x<x7)| -sensor(x,x8,0)|vacio(x,x8-1).
+17 [] -sensor(1,1,0)|vacio(1,2).
+18 [] -sensor(1,1,0)|vacio(2,1).
+19 [] -filas(x9)| -sensor(x9,1,0)|vacio(x9-1,1).
+20 [] -filas(x9)| -sensor(x9,1,0)|vacio(x9,2).
+21 [] -columnas(x10)| -sensor(1,x10,0)|vacio(1,x10-1).
+22 [] -columnas(x10)| -sensor(1,x10,0)|vacio(2,x10).
+23 [] -filas(x11)| -columnas(x12)| -sensor(x11,x12,0)|vacio(x11,x12-1).
+24 [] -filas(x11)| -columnas(x12)| -sensor(x11,x12,0)|vacio(x11-1,x12).
+25 [] -sensor(1,1,2)|bomba(1,2).
+26 [] -sensor(1,1,2)|bomba(2,1).
+27 [] -filas(x13)| -sensor(x13,1,2)|bomba(x13-1,1).
+28 [] -filas(x13)| -sensor(x13,1,2)|bomba(x13,2).
+29 [] -columnas(x14)| -sensor(1,x14,2)|bomba(1,x14-1).
+30 [] -columnas(x14)| -sensor(1,x14,2)|bomba(2,x14).
+31 [] -filas(x15)| -columnas(x16)| -sensor(x15,x16,2)|bomba(x15,x16-1).
+32 [] -filas(x15)| -columnas(x16)| -sensor(x15,x16,2)|bomba(x15-1,x16).
+33 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|bomba(1,y-1).
+34 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|bomba(1,y+1).
+35 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|bomba(2,y).
+36 [] -filas(x18)| -columnas(x19)| -(y>1)| -(y<x19)| -sensor(x18,y,3)|bomba(x18,y-1).
+37 [] -filas(x18)| -columnas(x19)| -(y>1)| -(y<x19)| -sensor(x18,y,3)|bomba(x18,y+1).
+38 [] -filas(x18)| -columnas(x19)| -(y>1)| -(y<x19)| -sensor(x18,y,3)|bomba(x18-1,y).
+39 [] -filas(x20)| -(x>1)| -(x<x20)| -sensor(x,1,3)|bomba(x-1,1).
+40 [] -filas(x20)| -(x>1)| -(x<x20)| -sensor(x,1,3)|bomba(x+1,1).
+41 [] -filas(x20)| -(x>1)| -(x<x20)| -sensor(x,1,3)|bomba(x,2).
+42 [] -filas(x21)| -columnas(x22)| -(x>1)| -(x<x21)| -sensor(x,x22,3)|bomba(x-1,x22).
+43 [] -filas(x21)| -columnas(x22)| -(x>1)| -(x<x21)| -sensor(x,x22,3)|bomba(x+1,x22).
+44 [] -filas(x21)| -columnas(x22)| -(x>1)| -(x<x21)| -sensor(x,x22,3)|bomba(x,x22-1).
+45 [] -filas(x23)| -columnas(x24)| -(x>1)| -(x<x23)| -(y>1)| -(y<x24)| -sensor(x,y,4)|bomba(x-1,y).
+46 [] -filas(x23)| -columnas(x24)| -(x>1)| -(x<x23)| -(y>1)| -(y<x24)| -sensor(x,y,4)|bomba(x+1,y).
+47 [] -filas(x23)| -columnas(x24)| -(x>1)| -(x<x23)| -(y>1)| -(y<x24)| -sensor(x,y,4)|bomba(x,y-1).
+48 [] -filas(x23)| -columnas(x24)| -(x>1)| -(x<x23)| -(y>1)| -(y<x24)| -sensor(x,y,4)|bomba(x,y+1).
 end_of_list.
 
 formula_list(sos).
@@ -32,97 +96,1171 @@ sensor(4,1,1).
 sensor(4,3,2).
 sensor(4,5,2).
 sensor(5,4,2).
--(all x y (bomba(x,y)|vacio(x,y)| (exists z sensor(x,y,z)))).
+-(all x y f c (filas(f)&columnas(c)&x>0&x<=f&y>0&y<=c->bomba(x,y)|vacio(x,y)| (exists z sensor(x,y,z)))).
 end_of_list.
 
 -------> sos clausifies to:
 
 list(sos).
-5 [] filas(5).
-6 [] columnas(5).
-7 [] sensor(1,3,3).
-8 [] sensor(2,4,2).
-9 [] sensor(3,2,0).
-10 [] sensor(4,1,1).
-11 [] sensor(4,3,2).
-12 [] sensor(4,5,2).
-13 [] sensor(5,4,2).
-14 [] -bomba($c2,$c1).
-15 [] -vacio($c2,$c1).
-16 [] -sensor($c2,$c1,z).
+49 [] filas(5).
+50 [] columnas(5).
+51 [] sensor(1,3,3).
+52 [] sensor(2,4,2).
+53 [] sensor(3,2,0).
+54 [] sensor(4,1,1).
+55 [] sensor(4,3,2).
+56 [] sensor(4,5,2).
+57 [] sensor(5,4,2).
+58 [] filas($c2).
+59 [] columnas($c1).
+60 [] $c4>0.
+61 [] $c4<=$c2.
+62 [] $c3>0.
+63 [] $c3<=$c1.
+64 [] -bomba($c4,$c3).
+65 [] -vacio($c4,$c3).
+66 [] -sensor($c4,$c3,z).
 end_of_list.
 
 ======= end of input processing =======
 
 =========== start of search ===========
 
-given clause #1: (wt=2) 5 [] filas(5).
+given clause #1: (wt=2) 49 [] filas(5).
+** KEPT (pick-wt=23): 67 [binary,49.1,48.1] -columnas(x)| -(y>1)| -(y<5)| -(z>1)| -(z<x)| -sensor(y,z,4)|bomba(y,z+1).
+** KEPT (pick-wt=23): 68 [binary,49.1,47.1] -columnas(x)| -(y>1)| -(y<5)| -(z>1)| -(z<x)| -sensor(y,z,4)|bomba(y,z-1).
+** KEPT (pick-wt=23): 69 [binary,49.1,46.1] -columnas(x)| -(y>1)| -(y<5)| -(z>1)| -(z<x)| -sensor(y,z,4)|bomba(y+1,z).
+** KEPT (pick-wt=23): 70 [binary,49.1,45.1] -columnas(x)| -(y>1)| -(y<5)| -(z>1)| -(z<x)| -sensor(y,z,4)|bomba(y-1,z).
+** KEPT (pick-wt=17): 71 [binary,49.1,44.1] -columnas(x)| -(y>1)| -(y<5)| -sensor(y,x,3)|bomba(y,x-1).
+** KEPT (pick-wt=17): 72 [binary,49.1,43.1] -columnas(x)| -(y>1)| -(y<5)| -sensor(y,x,3)|bomba(y+1,x).
+** KEPT (pick-wt=17): 73 [binary,49.1,42.1] -columnas(x)| -(y>1)| -(y<5)| -sensor(y,x,3)|bomba(y-1,x).
+** KEPT (pick-wt=13): 74 [binary,49.1,41.1] -(x>1)| -(x<5)| -sensor(x,1,3)|bomba(x,2).
+** KEPT (pick-wt=15): 75 [binary,49.1,40.1] -(x>1)| -(x<5)| -sensor(x,1,3)|bomba(x+1,1).
+** KEPT (pick-wt=15): 76 [binary,49.1,39.1] -(x>1)| -(x<5)| -sensor(x,1,3)|bomba(x-1,1).
+** KEPT (pick-wt=15): 77 [binary,49.1,38.1,demod] -columnas(x)| -(y>1)| -(y<x)| -sensor(5,y,3)|bomba(4,y).
+** KEPT (pick-wt=17): 78 [binary,49.1,37.1] -columnas(x)| -(y>1)| -(y<x)| -sensor(5,y,3)|bomba(5,y+1).
+** KEPT (pick-wt=17): 79 [binary,49.1,36.1] -columnas(x)| -(y>1)| -(y<x)| -sensor(5,y,3)|bomba(5,y-1).
+** KEPT (pick-wt=9): 80 [binary,49.1,32.1,demod] -columnas(x)| -sensor(5,x,2)|bomba(4,x).
+** KEPT (pick-wt=11): 81 [binary,49.1,31.1] -columnas(x)| -sensor(5,x,2)|bomba(5,x-1).
+** KEPT (pick-wt=7): 82 [binary,49.1,28.1] -sensor(5,1,2)|bomba(5,2).
+** KEPT (pick-wt=7): 83 [binary,49.1,27.1,demod] -sensor(5,1,2)|bomba(4,1).
+** KEPT (pick-wt=9): 84 [binary,49.1,24.1,demod] -columnas(x)| -sensor(5,x,0)|vacio(4,x).
+** KEPT (pick-wt=11): 85 [binary,49.1,23.1] -columnas(x)| -sensor(5,x,0)|vacio(5,x-1).
+** KEPT (pick-wt=7): 86 [binary,49.1,20.1] -sensor(5,1,0)|vacio(5,2).
+** KEPT (pick-wt=7): 87 [binary,49.1,19.1,demod] -sensor(5,1,0)|vacio(4,1).
+** KEPT (pick-wt=17): 88 [binary,49.1,16.1] -columnas(x)| -(y>1)| -(y<5)| -sensor(y,x,0)|vacio(y,x-1).
+** KEPT (pick-wt=17): 89 [binary,49.1,15.1] -columnas(x)| -(y>1)| -(y<5)| -sensor(y,x,0)|vacio(y+1,x).
+** KEPT (pick-wt=17): 90 [binary,49.1,14.1] -columnas(x)| -(y>1)| -(y<5)| -sensor(y,x,0)|vacio(y-1,x).
+** KEPT (pick-wt=13): 91 [binary,49.1,13.1] -(x>1)| -(x<5)| -sensor(x,1,0)|vacio(x,2).
+** KEPT (pick-wt=15): 92 [binary,49.1,12.1] -(x>1)| -(x<5)| -sensor(x,1,0)|vacio(x+1,1).
+** KEPT (pick-wt=15): 93 [binary,49.1,11.1] -(x>1)| -(x<5)| -sensor(x,1,0)|vacio(x-1,1).
+** KEPT (pick-wt=15): 94 [binary,49.1,10.1,demod] -columnas(x)| -(y>1)| -(y<x)| -sensor(5,y,0)|vacio(4,y).
+** KEPT (pick-wt=17): 95 [binary,49.1,9.1] -columnas(x)| -(y>1)| -(y<x)| -sensor(5,y,0)|vacio(5,y+1).
+** KEPT (pick-wt=17): 96 [binary,49.1,8.1] -columnas(x)| -(y>1)| -(y<x)| -sensor(5,y,0)|vacio(5,y-1).
+** KEPT (pick-wt=23): 97 [binary,49.1,4.1] -columnas(x)| -(y>1)| -(y<5)| -(z>1)| -(z<x)| -sensor(y,z,0)|vacio(y,z+1).
+** KEPT (pick-wt=23): 98 [binary,49.1,3.1] -columnas(x)| -(y>1)| -(y<5)| -(z>1)| -(z<x)| -sensor(y,z,0)|vacio(y,z-1).
+** KEPT (pick-wt=23): 99 [binary,49.1,2.1] -columnas(x)| -(y>1)| -(y<5)| -(z>1)| -(z<x)| -sensor(y,z,0)|vacio(y+1,z).
+** KEPT (pick-wt=23): 100 [binary,49.1,1.1] -columnas(x)| -(y>1)| -(y<5)| -(z>1)| -(z<x)| -sensor(y,z,0)|vacio(y-1,z).
+** KEPT (pick-wt=20): 101 [factor,67.2.4] -columnas(x)| -(y>1)| -(y<5)| -(y<x)| -sensor(y,y,4)|bomba(y,y+1).
+** KEPT (pick-wt=15): 102 [factor,67.3.5,unit_del,50,factor_simp] -(x>1)| -(x<5)| -sensor(x,x,4)|bomba(x,x+1).
+** KEPT (pick-wt=20): 103 [factor,68.2.4] -columnas(x)| -(y>1)| -(y<5)| -(y<x)| -sensor(y,y,4)|bomba(y,y-1).
+** KEPT (pick-wt=15): 104 [factor,68.3.5,unit_del,50,factor_simp] -(x>1)| -(x<5)| -sensor(x,x,4)|bomba(x,x-1).
+** KEPT (pick-wt=20): 105 [factor,69.2.4] -columnas(x)| -(y>1)| -(y<5)| -(y<x)| -sensor(y,y,4)|bomba(y+1,y).
+** KEPT (pick-wt=15): 106 [factor,69.3.5,unit_del,50,factor_simp] -(x>1)| -(x<5)| -sensor(x,x,4)|bomba(x+1,x).
+** KEPT (pick-wt=20): 107 [factor,70.2.4] -columnas(x)| -(y>1)| -(y<5)| -(y<x)| -sensor(y,y,4)|bomba(y-1,y).
+** KEPT (pick-wt=15): 108 [factor,70.3.5,unit_del,50,factor_simp] -(x>1)| -(x<5)| -sensor(x,x,4)|bomba(x-1,x).
+** KEPT (pick-wt=20): 109 [factor,97.2.4] -columnas(x)| -(y>1)| -(y<5)| -(y<x)| -sensor(y,y,0)|vacio(y,y+1).
+** KEPT (pick-wt=15): 110 [factor,97.3.5,unit_del,50,factor_simp] -(x>1)| -(x<5)| -sensor(x,x,0)|vacio(x,x+1).
+** KEPT (pick-wt=20): 111 [factor,98.2.4] -columnas(x)| -(y>1)| -(y<5)| -(y<x)| -sensor(y,y,0)|vacio(y,y-1).
+** KEPT (pick-wt=15): 112 [factor,98.3.5,unit_del,50,factor_simp] -(x>1)| -(x<5)| -sensor(x,x,0)|vacio(x,x-1).
+** KEPT (pick-wt=20): 113 [factor,99.2.4] -columnas(x)| -(y>1)| -(y<5)| -(y<x)| -sensor(y,y,0)|vacio(y+1,y).
+** KEPT (pick-wt=15): 114 [factor,99.3.5,unit_del,50,factor_simp] -(x>1)| -(x<5)| -sensor(x,x,0)|vacio(x+1,x).
+** KEPT (pick-wt=20): 115 [factor,100.2.4] -columnas(x)| -(y>1)| -(y<5)| -(y<x)| -sensor(y,y,0)|vacio(y-1,y).
+** KEPT (pick-wt=15): 116 [factor,100.3.5,unit_del,50,factor_simp] -(x>1)| -(x<5)| -sensor(x,x,0)|vacio(x-1,x).
+102 back subsumes 101.
+104 back subsumes 103.
+106 back subsumes 105.
+108 back subsumes 107.
+110 back subsumes 109.
+112 back subsumes 111.
+114 back subsumes 113.
+116 back subsumes 115.
 
-given clause #2: (wt=2) 6 [] columnas(5).
+given clause #2: (wt=2) 50 [] columnas(5).
+** KEPT (pick-wt=23): 117 [binary,50.1,48.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<5)| -sensor(y,z,4)|bomba(y,z+1).
+** KEPT (pick-wt=23): 118 [binary,50.1,47.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<5)| -sensor(y,z,4)|bomba(y,z-1).
+** KEPT (pick-wt=23): 119 [binary,50.1,46.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<5)| -sensor(y,z,4)|bomba(y+1,z).
+** KEPT (pick-wt=23): 120 [binary,50.1,45.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<5)| -sensor(y,z,4)|bomba(y-1,z).
+** KEPT (pick-wt=15): 121 [binary,50.1,44.2,demod] -filas(x)| -(y>1)| -(y<x)| -sensor(y,5,3)|bomba(y,4).
+** KEPT (pick-wt=17): 122 [binary,50.1,43.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,5,3)|bomba(y+1,5).
+** KEPT (pick-wt=17): 123 [binary,50.1,42.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,5,3)|bomba(y-1,5).
+** KEPT (pick-wt=17): 124 [binary,50.1,38.2] -filas(x)| -(y>1)| -(y<5)| -sensor(x,y,3)|bomba(x-1,y).
+** KEPT (pick-wt=17): 125 [binary,50.1,37.2] -filas(x)| -(y>1)| -(y<5)| -sensor(x,y,3)|bomba(x,y+1).
+** KEPT (pick-wt=17): 126 [binary,50.1,36.2] -filas(x)| -(y>1)| -(y<5)| -sensor(x,y,3)|bomba(x,y-1).
+** KEPT (pick-wt=13): 127 [binary,50.1,35.1] -(x>1)| -(x<5)| -sensor(1,x,3)|bomba(2,x).
+** KEPT (pick-wt=15): 128 [binary,50.1,34.1] -(x>1)| -(x<5)| -sensor(1,x,3)|bomba(1,x+1).
+** KEPT (pick-wt=15): 129 [binary,50.1,33.1] -(x>1)| -(x<5)| -sensor(1,x,3)|bomba(1,x-1).
+** KEPT (pick-wt=11): 130 [binary,50.1,32.2] -filas(x)| -sensor(x,5,2)|bomba(x-1,5).
+** KEPT (pick-wt=9): 131 [binary,50.1,31.2,demod] -filas(x)| -sensor(x,5,2)|bomba(x,4).
+** KEPT (pick-wt=7): 132 [binary,50.1,30.1] -sensor(1,5,2)|bomba(2,5).
+** KEPT (pick-wt=7): 133 [binary,50.1,29.1,demod] -sensor(1,5,2)|bomba(1,4).
+** KEPT (pick-wt=11): 134 [binary,50.1,24.2] -filas(x)| -sensor(x,5,0)|vacio(x-1,5).
+** KEPT (pick-wt=9): 135 [binary,50.1,23.2,demod] -filas(x)| -sensor(x,5,0)|vacio(x,4).
+** KEPT (pick-wt=7): 136 [binary,50.1,22.1] -sensor(1,5,0)|vacio(2,5).
+** KEPT (pick-wt=7): 137 [binary,50.1,21.1,demod] -sensor(1,5,0)|vacio(1,4).
+** KEPT (pick-wt=15): 138 [binary,50.1,16.2,demod] -filas(x)| -(y>1)| -(y<x)| -sensor(y,5,0)|vacio(y,4).
+** KEPT (pick-wt=17): 139 [binary,50.1,15.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,5,0)|vacio(y+1,5).
+** KEPT (pick-wt=17): 140 [binary,50.1,14.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,5,0)|vacio(y-1,5).
+** KEPT (pick-wt=17): 141 [binary,50.1,10.2] -filas(x)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x-1,y).
+** KEPT (pick-wt=17): 142 [binary,50.1,9.2] -filas(x)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x,y+1).
+** KEPT (pick-wt=17): 143 [binary,50.1,8.2] -filas(x)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x,y-1).
+** KEPT (pick-wt=13): 144 [binary,50.1,7.1] -(x>1)| -(x<5)| -sensor(1,x,0)|vacio(2,x).
+** KEPT (pick-wt=15): 145 [binary,50.1,6.1] -(x>1)| -(x<5)| -sensor(1,x,0)|vacio(1,x+1).
+** KEPT (pick-wt=15): 146 [binary,50.1,5.1] -(x>1)| -(x<5)| -sensor(1,x,0)|vacio(1,x-1).
+** KEPT (pick-wt=23): 147 [binary,50.1,4.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<5)| -sensor(y,z,0)|vacio(y,z+1).
+** KEPT (pick-wt=23): 148 [binary,50.1,3.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<5)| -sensor(y,z,0)|vacio(y,z-1).
+** KEPT (pick-wt=23): 149 [binary,50.1,2.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<5)| -sensor(y,z,0)|vacio(y+1,z).
+** KEPT (pick-wt=23): 150 [binary,50.1,1.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<5)| -sensor(y,z,0)|vacio(y-1,z).
 
-given clause #3: (wt=3) 14 [] -bomba($c2,$c1).
+given clause #3: (wt=2) 58 [] filas($c2).
+** KEPT (pick-wt=23): 151 [binary,58.1,48.1] -columnas(x)| -(y>1)| -(y<$c2)| -(z>1)| -(z<x)| -sensor(y,z,4)|bomba(y,z+1).
+** KEPT (pick-wt=23): 152 [binary,58.1,47.1] -columnas(x)| -(y>1)| -(y<$c2)| -(z>1)| -(z<x)| -sensor(y,z,4)|bomba(y,z-1).
+** KEPT (pick-wt=23): 153 [binary,58.1,46.1] -columnas(x)| -(y>1)| -(y<$c2)| -(z>1)| -(z<x)| -sensor(y,z,4)|bomba(y+1,z).
+** KEPT (pick-wt=23): 154 [binary,58.1,45.1] -columnas(x)| -(y>1)| -(y<$c2)| -(z>1)| -(z<x)| -sensor(y,z,4)|bomba(y-1,z).
+** KEPT (pick-wt=17): 155 [binary,58.1,44.1] -columnas(x)| -(y>1)| -(y<$c2)| -sensor(y,x,3)|bomba(y,x-1).
+** KEPT (pick-wt=17): 156 [binary,58.1,43.1] -columnas(x)| -(y>1)| -(y<$c2)| -sensor(y,x,3)|bomba(y+1,x).
+** KEPT (pick-wt=17): 157 [binary,58.1,42.1] -columnas(x)| -(y>1)| -(y<$c2)| -sensor(y,x,3)|bomba(y-1,x).
+** KEPT (pick-wt=13): 158 [binary,58.1,41.1] -(x>1)| -(x<$c2)| -sensor(x,1,3)|bomba(x,2).
+** KEPT (pick-wt=15): 159 [binary,58.1,40.1] -(x>1)| -(x<$c2)| -sensor(x,1,3)|bomba(x+1,1).
+** KEPT (pick-wt=15): 160 [binary,58.1,39.1] -(x>1)| -(x<$c2)| -sensor(x,1,3)|bomba(x-1,1).
+** KEPT (pick-wt=17): 161 [binary,58.1,38.1] -columnas(x)| -(y>1)| -(y<x)| -sensor($c2,y,3)|bomba($c2-1,y).
+** KEPT (pick-wt=17): 162 [binary,58.1,37.1] -columnas(x)| -(y>1)| -(y<x)| -sensor($c2,y,3)|bomba($c2,y+1).
+** KEPT (pick-wt=17): 163 [binary,58.1,36.1] -columnas(x)| -(y>1)| -(y<x)| -sensor($c2,y,3)|bomba($c2,y-1).
+** KEPT (pick-wt=11): 164 [binary,58.1,32.1] -columnas(x)| -sensor($c2,x,2)|bomba($c2-1,x).
+** KEPT (pick-wt=11): 165 [binary,58.1,31.1] -columnas(x)| -sensor($c2,x,2)|bomba($c2,x-1).
+** KEPT (pick-wt=7): 166 [binary,58.1,28.1] -sensor($c2,1,2)|bomba($c2,2).
+** KEPT (pick-wt=9): 167 [binary,58.1,27.1] -sensor($c2,1,2)|bomba($c2-1,1).
+** KEPT (pick-wt=11): 168 [binary,58.1,24.1] -columnas(x)| -sensor($c2,x,0)|vacio($c2-1,x).
+** KEPT (pick-wt=11): 169 [binary,58.1,23.1] -columnas(x)| -sensor($c2,x,0)|vacio($c2,x-1).
+** KEPT (pick-wt=7): 170 [binary,58.1,20.1] -sensor($c2,1,0)|vacio($c2,2).
+** KEPT (pick-wt=9): 171 [binary,58.1,19.1] -sensor($c2,1,0)|vacio($c2-1,1).
+** KEPT (pick-wt=17): 172 [binary,58.1,16.1] -columnas(x)| -(y>1)| -(y<$c2)| -sensor(y,x,0)|vacio(y,x-1).
+** KEPT (pick-wt=17): 173 [binary,58.1,15.1] -columnas(x)| -(y>1)| -(y<$c2)| -sensor(y,x,0)|vacio(y+1,x).
+** KEPT (pick-wt=17): 174 [binary,58.1,14.1] -columnas(x)| -(y>1)| -(y<$c2)| -sensor(y,x,0)|vacio(y-1,x).
+** KEPT (pick-wt=13): 175 [binary,58.1,13.1] -(x>1)| -(x<$c2)| -sensor(x,1,0)|vacio(x,2).
+** KEPT (pick-wt=15): 176 [binary,58.1,12.1] -(x>1)| -(x<$c2)| -sensor(x,1,0)|vacio(x+1,1).
+** KEPT (pick-wt=15): 177 [binary,58.1,11.1] -(x>1)| -(x<$c2)| -sensor(x,1,0)|vacio(x-1,1).
+** KEPT (pick-wt=17): 178 [binary,58.1,10.1] -columnas(x)| -(y>1)| -(y<x)| -sensor($c2,y,0)|vacio($c2-1,y).
+** KEPT (pick-wt=17): 179 [binary,58.1,9.1] -columnas(x)| -(y>1)| -(y<x)| -sensor($c2,y,0)|vacio($c2,y+1).
+** KEPT (pick-wt=17): 180 [binary,58.1,8.1] -columnas(x)| -(y>1)| -(y<x)| -sensor($c2,y,0)|vacio($c2,y-1).
+** KEPT (pick-wt=23): 181 [binary,58.1,4.1] -columnas(x)| -(y>1)| -(y<$c2)| -(z>1)| -(z<x)| -sensor(y,z,0)|vacio(y,z+1).
+** KEPT (pick-wt=23): 182 [binary,58.1,3.1] -columnas(x)| -(y>1)| -(y<$c2)| -(z>1)| -(z<x)| -sensor(y,z,0)|vacio(y,z-1).
+** KEPT (pick-wt=23): 183 [binary,58.1,2.1] -columnas(x)| -(y>1)| -(y<$c2)| -(z>1)| -(z<x)| -sensor(y,z,0)|vacio(y+1,z).
+** KEPT (pick-wt=23): 184 [binary,58.1,1.1] -columnas(x)| -(y>1)| -(y<$c2)| -(z>1)| -(z<x)| -sensor(y,z,0)|vacio(y-1,z).
+** KEPT (pick-wt=20): 185 [factor,151.2.4] -columnas(x)| -(y>1)| -(y<$c2)| -(y<x)| -sensor(y,y,4)|bomba(y,y+1).
+** KEPT (pick-wt=17): 186 [factor,151.3.5,factor_simp] -columnas($c2)| -(x>1)| -(x<$c2)| -sensor(x,x,4)|bomba(x,x+1).
+** KEPT (pick-wt=20): 187 [factor,152.2.4] -columnas(x)| -(y>1)| -(y<$c2)| -(y<x)| -sensor(y,y,4)|bomba(y,y-1).
+** KEPT (pick-wt=17): 188 [factor,152.3.5,factor_simp] -columnas($c2)| -(x>1)| -(x<$c2)| -sensor(x,x,4)|bomba(x,x-1).
+** KEPT (pick-wt=20): 189 [factor,153.2.4] -columnas(x)| -(y>1)| -(y<$c2)| -(y<x)| -sensor(y,y,4)|bomba(y+1,y).
+** KEPT (pick-wt=17): 190 [factor,153.3.5,factor_simp] -columnas($c2)| -(x>1)| -(x<$c2)| -sensor(x,x,4)|bomba(x+1,x).
+** KEPT (pick-wt=20): 191 [factor,154.2.4] -columnas(x)| -(y>1)| -(y<$c2)| -(y<x)| -sensor(y,y,4)|bomba(y-1,y).
+** KEPT (pick-wt=17): 192 [factor,154.3.5,factor_simp] -columnas($c2)| -(x>1)| -(x<$c2)| -sensor(x,x,4)|bomba(x-1,x).
+** KEPT (pick-wt=20): 193 [factor,181.2.4] -columnas(x)| -(y>1)| -(y<$c2)| -(y<x)| -sensor(y,y,0)|vacio(y,y+1).
+** KEPT (pick-wt=17): 194 [factor,181.3.5,factor_simp] -columnas($c2)| -(x>1)| -(x<$c2)| -sensor(x,x,0)|vacio(x,x+1).
+** KEPT (pick-wt=20): 195 [factor,182.2.4] -columnas(x)| -(y>1)| -(y<$c2)| -(y<x)| -sensor(y,y,0)|vacio(y,y-1).
+** KEPT (pick-wt=17): 196 [factor,182.3.5,factor_simp] -columnas($c2)| -(x>1)| -(x<$c2)| -sensor(x,x,0)|vacio(x,x-1).
+** KEPT (pick-wt=20): 197 [factor,183.2.4] -columnas(x)| -(y>1)| -(y<$c2)| -(y<x)| -sensor(y,y,0)|vacio(y+1,y).
+** KEPT (pick-wt=17): 198 [factor,183.3.5,factor_simp] -columnas($c2)| -(x>1)| -(x<$c2)| -sensor(x,x,0)|vacio(x+1,x).
+** KEPT (pick-wt=20): 199 [factor,184.2.4] -columnas(x)| -(y>1)| -(y<$c2)| -(y<x)| -sensor(y,y,0)|vacio(y-1,y).
+** KEPT (pick-wt=17): 200 [factor,184.3.5,factor_simp] -columnas($c2)| -(x>1)| -(x<$c2)| -sensor(x,x,0)|vacio(x-1,x).
 
-given clause #4: (wt=3) 15 [] -vacio($c2,$c1).
+given clause #4: (wt=2) 59 [] columnas($c1).
+** KEPT (pick-wt=23): 201 [binary,59.1,48.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<$c1)| -sensor(y,z,4)|bomba(y,z+1).
+** KEPT (pick-wt=23): 202 [binary,59.1,47.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<$c1)| -sensor(y,z,4)|bomba(y,z-1).
+** KEPT (pick-wt=23): 203 [binary,59.1,46.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<$c1)| -sensor(y,z,4)|bomba(y+1,z).
+** KEPT (pick-wt=23): 204 [binary,59.1,45.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<$c1)| -sensor(y,z,4)|bomba(y-1,z).
+** KEPT (pick-wt=17): 205 [binary,59.1,44.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,$c1,3)|bomba(y,$c1-1).
+** KEPT (pick-wt=17): 206 [binary,59.1,43.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,$c1,3)|bomba(y+1,$c1).
+** KEPT (pick-wt=17): 207 [binary,59.1,42.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,$c1,3)|bomba(y-1,$c1).
+** KEPT (pick-wt=17): 208 [binary,59.1,38.2] -filas(x)| -(y>1)| -(y<$c1)| -sensor(x,y,3)|bomba(x-1,y).
+** KEPT (pick-wt=17): 209 [binary,59.1,37.2] -filas(x)| -(y>1)| -(y<$c1)| -sensor(x,y,3)|bomba(x,y+1).
+** KEPT (pick-wt=17): 210 [binary,59.1,36.2] -filas(x)| -(y>1)| -(y<$c1)| -sensor(x,y,3)|bomba(x,y-1).
+** KEPT (pick-wt=13): 211 [binary,59.1,35.1] -(x>1)| -(x<$c1)| -sensor(1,x,3)|bomba(2,x).
+** KEPT (pick-wt=15): 212 [binary,59.1,34.1] -(x>1)| -(x<$c1)| -sensor(1,x,3)|bomba(1,x+1).
+** KEPT (pick-wt=15): 213 [binary,59.1,33.1] -(x>1)| -(x<$c1)| -sensor(1,x,3)|bomba(1,x-1).
+** KEPT (pick-wt=11): 214 [binary,59.1,32.2] -filas(x)| -sensor(x,$c1,2)|bomba(x-1,$c1).
+** KEPT (pick-wt=11): 215 [binary,59.1,31.2] -filas(x)| -sensor(x,$c1,2)|bomba(x,$c1-1).
+** KEPT (pick-wt=7): 216 [binary,59.1,30.1] -sensor(1,$c1,2)|bomba(2,$c1).
+** KEPT (pick-wt=9): 217 [binary,59.1,29.1] -sensor(1,$c1,2)|bomba(1,$c1-1).
+** KEPT (pick-wt=11): 218 [binary,59.1,24.2] -filas(x)| -sensor(x,$c1,0)|vacio(x-1,$c1).
+** KEPT (pick-wt=11): 219 [binary,59.1,23.2] -filas(x)| -sensor(x,$c1,0)|vacio(x,$c1-1).
+** KEPT (pick-wt=7): 220 [binary,59.1,22.1] -sensor(1,$c1,0)|vacio(2,$c1).
+** KEPT (pick-wt=9): 221 [binary,59.1,21.1] -sensor(1,$c1,0)|vacio(1,$c1-1).
+** KEPT (pick-wt=17): 222 [binary,59.1,16.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,$c1,0)|vacio(y,$c1-1).
+** KEPT (pick-wt=17): 223 [binary,59.1,15.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,$c1,0)|vacio(y+1,$c1).
+** KEPT (pick-wt=17): 224 [binary,59.1,14.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,$c1,0)|vacio(y-1,$c1).
+** KEPT (pick-wt=17): 225 [binary,59.1,10.2] -filas(x)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x-1,y).
+** KEPT (pick-wt=17): 226 [binary,59.1,9.2] -filas(x)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x,y+1).
+** KEPT (pick-wt=17): 227 [binary,59.1,8.2] -filas(x)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x,y-1).
+** KEPT (pick-wt=13): 228 [binary,59.1,7.1] -(x>1)| -(x<$c1)| -sensor(1,x,0)|vacio(2,x).
+** KEPT (pick-wt=15): 229 [binary,59.1,6.1] -(x>1)| -(x<$c1)| -sensor(1,x,0)|vacio(1,x+1).
+** KEPT (pick-wt=15): 230 [binary,59.1,5.1] -(x>1)| -(x<$c1)| -sensor(1,x,0)|vacio(1,x-1).
+** KEPT (pick-wt=23): 231 [binary,59.1,4.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<$c1)| -sensor(y,z,0)|vacio(y,z+1).
+** KEPT (pick-wt=23): 232 [binary,59.1,3.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<$c1)| -sensor(y,z,0)|vacio(y,z-1).
+** KEPT (pick-wt=23): 233 [binary,59.1,2.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<$c1)| -sensor(y,z,0)|vacio(y+1,z).
+** KEPT (pick-wt=23): 234 [binary,59.1,1.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<$c1)| -sensor(y,z,0)|vacio(y-1,z).
+** KEPT (pick-wt=20): 235 [factor,201.2.4] -filas(x)| -(y>1)| -(y<x)| -(y<$c1)| -sensor(y,y,4)|bomba(y,y+1).
+** KEPT (pick-wt=17): 236 [factor,201.3.5,factor_simp] -filas($c1)| -(x>1)| -(x<$c1)| -sensor(x,x,4)|bomba(x,x+1).
+** KEPT (pick-wt=20): 237 [factor,202.2.4] -filas(x)| -(y>1)| -(y<x)| -(y<$c1)| -sensor(y,y,4)|bomba(y,y-1).
+** KEPT (pick-wt=17): 238 [factor,202.3.5,factor_simp] -filas($c1)| -(x>1)| -(x<$c1)| -sensor(x,x,4)|bomba(x,x-1).
+** KEPT (pick-wt=20): 239 [factor,203.2.4] -filas(x)| -(y>1)| -(y<x)| -(y<$c1)| -sensor(y,y,4)|bomba(y+1,y).
+** KEPT (pick-wt=17): 240 [factor,203.3.5,factor_simp] -filas($c1)| -(x>1)| -(x<$c1)| -sensor(x,x,4)|bomba(x+1,x).
+** KEPT (pick-wt=20): 241 [factor,204.2.4] -filas(x)| -(y>1)| -(y<x)| -(y<$c1)| -sensor(y,y,4)|bomba(y-1,y).
+** KEPT (pick-wt=17): 242 [factor,204.3.5,factor_simp] -filas($c1)| -(x>1)| -(x<$c1)| -sensor(x,x,4)|bomba(x-1,x).
+** KEPT (pick-wt=20): 243 [factor,231.2.4] -filas(x)| -(y>1)| -(y<x)| -(y<$c1)| -sensor(y,y,0)|vacio(y,y+1).
+** KEPT (pick-wt=17): 244 [factor,231.3.5,factor_simp] -filas($c1)| -(x>1)| -(x<$c1)| -sensor(x,x,0)|vacio(x,x+1).
+** KEPT (pick-wt=20): 245 [factor,232.2.4] -filas(x)| -(y>1)| -(y<x)| -(y<$c1)| -sensor(y,y,0)|vacio(y,y-1).
+** KEPT (pick-wt=17): 246 [factor,232.3.5,factor_simp] -filas($c1)| -(x>1)| -(x<$c1)| -sensor(x,x,0)|vacio(x,x-1).
+** KEPT (pick-wt=20): 247 [factor,233.2.4] -filas(x)| -(y>1)| -(y<x)| -(y<$c1)| -sensor(y,y,0)|vacio(y+1,y).
+** KEPT (pick-wt=17): 248 [factor,233.3.5,factor_simp] -filas($c1)| -(x>1)| -(x<$c1)| -sensor(x,x,0)|vacio(x+1,x).
+** KEPT (pick-wt=20): 249 [factor,234.2.4] -filas(x)| -(y>1)| -(y<x)| -(y<$c1)| -sensor(y,y,0)|vacio(y-1,y).
+** KEPT (pick-wt=17): 250 [factor,234.3.5,factor_simp] -filas($c1)| -(x>1)| -(x<$c1)| -sensor(x,x,0)|vacio(x-1,x).
 
-given clause #5: (wt=4) 7 [] sensor(1,3,3).
+given clause #5: (wt=3) 60 [] $c4>0.
 
-given clause #6: (wt=4) 8 [] sensor(2,4,2).
+given clause #6: (wt=3) 61 [] $c4<=$c2.
 
-given clause #7: (wt=4) 9 [] sensor(3,2,0).
-** KEPT (pick-wt=3): 17 [binary,9.1,4.1,demod] vacio(3,3).
-** KEPT (pick-wt=3): 18 [binary,9.1,3.1,demod] vacio(3,1).
-** KEPT (pick-wt=3): 19 [binary,9.1,2.1,demod] vacio(4,2).
-** KEPT (pick-wt=3): 20 [binary,9.1,1.1,demod] vacio(2,2).
+given clause #7: (wt=3) 62 [] $c3>0.
 
-given clause #8: (wt=3) 17 [binary,9.1,4.1,demod] vacio(3,3).
+given clause #8: (wt=3) 63 [] $c3<=$c1.
 
-given clause #9: (wt=3) 18 [binary,9.1,3.1,demod] vacio(3,1).
+given clause #9: (wt=3) 64 [] -bomba($c4,$c3).
 
-given clause #10: (wt=3) 19 [binary,9.1,2.1,demod] vacio(4,2).
+given clause #10: (wt=3) 65 [] -vacio($c4,$c3).
 
-given clause #11: (wt=3) 20 [binary,9.1,1.1,demod] vacio(2,2).
+given clause #11: (wt=4) 51 [] sensor(1,3,3).
+** KEPT (pick-wt=10): 251 [binary,51.1,38.5,demod,propositional] -filas(1)| -columnas(x)| -(3<x)|bomba(0,3).
+** KEPT (pick-wt=10): 252 [binary,51.1,37.5,demod,propositional] -filas(1)| -columnas(x)| -(3<x)|bomba(1,4).
+** KEPT (pick-wt=10): 253 [binary,51.1,36.5,demod,propositional] -filas(1)| -columnas(x)| -(3<x)|bomba(1,2).
+** KEPT (pick-wt=8): 254 [binary,51.1,35.4,demod,propositional] -columnas(x)| -(3<x)|bomba(2,3).
+** KEPT (pick-wt=8): 255 [binary,51.1,34.4,demod,propositional] -columnas(x)| -(3<x)|bomba(1,4).
+** KEPT (pick-wt=8): 256 [binary,51.1,33.4,demod,propositional] -columnas(x)| -(3<x)|bomba(1,2).
+255 back subsumes 252.
+256 back subsumes 253.
 
-given clause #12: (wt=4) 10 [] sensor(4,1,1).
+given clause #12: (wt=4) 52 [] sensor(2,4,2).
+** KEPT (pick-wt=7): 257 [binary,52.1,32.3,demod] -filas(2)| -columnas(4)|bomba(1,4).
+** KEPT (pick-wt=7): 258 [binary,52.1,31.3,demod] -filas(2)| -columnas(4)|bomba(2,3).
 
-given clause #13: (wt=4) 11 [] sensor(4,3,2).
+given clause #13: (wt=4) 53 [] sensor(3,2,0).
+** KEPT (pick-wt=7): 259 [binary,53.1,24.3,demod] -filas(3)| -columnas(2)|vacio(2,2).
+** KEPT (pick-wt=7): 260 [binary,53.1,23.3,demod] -filas(3)| -columnas(2)|vacio(3,1).
+** KEPT (pick-wt=10): 261 [binary,53.1,16.5,demod,propositional] -filas(x)| -columnas(2)| -(3<x)|vacio(3,1).
+** KEPT (pick-wt=10): 262 [binary,53.1,15.5,demod,propositional] -filas(x)| -columnas(2)| -(3<x)|vacio(4,2).
+** KEPT (pick-wt=10): 263 [binary,53.1,14.5,demod,propositional] -filas(x)| -columnas(2)| -(3<x)|vacio(2,2).
+** KEPT (pick-wt=10): 264 [binary,53.1,10.5,demod,propositional] -filas(3)| -columnas(x)| -(2<x)|vacio(2,2).
+** KEPT (pick-wt=10): 265 [binary,53.1,9.5,demod,propositional] -filas(3)| -columnas(x)| -(2<x)|vacio(3,3).
+** KEPT (pick-wt=10): 266 [binary,53.1,8.5,demod,propositional] -filas(3)| -columnas(x)| -(2<x)|vacio(3,1).
+** KEPT (pick-wt=13): 267 [binary,53.1,4.7,demod,propositional] -filas(x)| -columnas(y)| -(3<x)| -(2<y)|vacio(3,3).
+** KEPT (pick-wt=13): 268 [binary,53.1,3.7,demod,propositional] -filas(x)| -columnas(y)| -(3<x)| -(2<y)|vacio(3,1).
+** KEPT (pick-wt=13): 269 [binary,53.1,2.7,demod,propositional] -filas(x)| -columnas(y)| -(3<x)| -(2<y)|vacio(4,2).
+** KEPT (pick-wt=13): 270 [binary,53.1,1.7,demod,propositional] -filas(x)| -columnas(y)| -(3<x)| -(2<y)|vacio(2,2).
 
-given clause #14: (wt=4) 12 [] sensor(4,5,2).
+given clause #14: (wt=4) 54 [] sensor(4,1,1).
 
-given clause #15: (wt=4) 13 [] sensor(5,4,2).
+given clause #15: (wt=4) 55 [] sensor(4,3,2).
+** KEPT (pick-wt=7): 271 [binary,55.1,32.3,demod] -filas(4)| -columnas(3)|bomba(3,3).
+** KEPT (pick-wt=7): 272 [binary,55.1,31.3,demod] -filas(4)| -columnas(3)|bomba(4,2).
 
-given clause #16: (wt=4) 16 [] -sensor($c2,$c1,z).
+given clause #16: (wt=4) 56 [] sensor(4,5,2).
+** KEPT (pick-wt=5): 273 [binary,56.1,32.3,demod,unit_del,50] -filas(4)|bomba(3,5).
+** KEPT (pick-wt=5): 274 [binary,56.1,31.3,demod,unit_del,50] -filas(4)|bomba(4,4).
+
+given clause #17: (wt=4) 57 [] sensor(5,4,2).
+** KEPT (pick-wt=5): 275 [binary,57.1,32.3,demod,unit_del,49] -columnas(4)|bomba(4,4).
+** KEPT (pick-wt=5): 276 [binary,57.1,31.3,demod,unit_del,49] -columnas(4)|bomba(5,3).
+
+given clause #18: (wt=4) 66 [] -sensor($c4,$c3,z).
+
+given clause #19: (wt=5) 273 [binary,56.1,32.3,demod,unit_del,50] -filas(4)|bomba(3,5).
+
+given clause #20: (wt=5) 274 [binary,56.1,31.3,demod,unit_del,50] -filas(4)|bomba(4,4).
+
+given clause #21: (wt=5) 275 [binary,57.1,32.3,demod,unit_del,49] -columnas(4)|bomba(4,4).
+
+given clause #22: (wt=5) 276 [binary,57.1,31.3,demod,unit_del,49] -columnas(4)|bomba(5,3).
+
+given clause #23: (wt=7) 82 [binary,49.1,28.1] -sensor(5,1,2)|bomba(5,2).
+
+given clause #24: (wt=7) 83 [binary,49.1,27.1,demod] -sensor(5,1,2)|bomba(4,1).
+
+given clause #25: (wt=7) 86 [binary,49.1,20.1] -sensor(5,1,0)|vacio(5,2).
+
+given clause #26: (wt=7) 87 [binary,49.1,19.1,demod] -sensor(5,1,0)|vacio(4,1).
+
+given clause #27: (wt=7) 132 [binary,50.1,30.1] -sensor(1,5,2)|bomba(2,5).
+
+given clause #28: (wt=7) 133 [binary,50.1,29.1,demod] -sensor(1,5,2)|bomba(1,4).
+
+given clause #29: (wt=7) 136 [binary,50.1,22.1] -sensor(1,5,0)|vacio(2,5).
+
+given clause #30: (wt=7) 137 [binary,50.1,21.1,demod] -sensor(1,5,0)|vacio(1,4).
+
+given clause #31: (wt=7) 166 [binary,58.1,28.1] -sensor($c2,1,2)|bomba($c2,2).
+
+given clause #32: (wt=7) 170 [binary,58.1,20.1] -sensor($c2,1,0)|vacio($c2,2).
+
+given clause #33: (wt=7) 216 [binary,59.1,30.1] -sensor(1,$c1,2)|bomba(2,$c1).
+
+given clause #34: (wt=7) 220 [binary,59.1,22.1] -sensor(1,$c1,0)|vacio(2,$c1).
+
+given clause #35: (wt=7) 257 [binary,52.1,32.3,demod] -filas(2)| -columnas(4)|bomba(1,4).
+
+given clause #36: (wt=7) 258 [binary,52.1,31.3,demod] -filas(2)| -columnas(4)|bomba(2,3).
+
+given clause #37: (wt=7) 259 [binary,53.1,24.3,demod] -filas(3)| -columnas(2)|vacio(2,2).
+
+given clause #38: (wt=7) 260 [binary,53.1,23.3,demod] -filas(3)| -columnas(2)|vacio(3,1).
+
+given clause #39: (wt=7) 271 [binary,55.1,32.3,demod] -filas(4)| -columnas(3)|bomba(3,3).
+
+given clause #40: (wt=7) 272 [binary,55.1,31.3,demod] -filas(4)| -columnas(3)|bomba(4,2).
+
+given clause #41: (wt=8) 254 [binary,51.1,35.4,demod,propositional] -columnas(x)| -(3<x)|bomba(2,3).
+** KEPT (pick-wt=6): 277 [binary,254.1,59.1] -(3<$c1)|bomba(2,3).
+** KEPT (pick-wt=3): 278 [binary,254.1,50.1,demod,propositional] bomba(2,3).
+278 back subsumes 277.
+278 back subsumes 258.
+278 back subsumes 254.
+
+given clause #42: (wt=3) 278 [binary,254.1,50.1,demod,propositional] bomba(2,3).
+
+given clause #43: (wt=8) 255 [binary,51.1,34.4,demod,propositional] -columnas(x)| -(3<x)|bomba(1,4).
+** KEPT (pick-wt=6): 279 [binary,255.1,59.1] -(3<$c1)|bomba(1,4).
+** KEPT (pick-wt=3): 280 [binary,255.1,50.1,demod,propositional] bomba(1,4).
+280 back subsumes 279.
+280 back subsumes 257.
+280 back subsumes 255.
+280 back subsumes 133.
+
+given clause #44: (wt=3) 280 [binary,255.1,50.1,demod,propositional] bomba(1,4).
+
+given clause #45: (wt=8) 256 [binary,51.1,33.4,demod,propositional] -columnas(x)| -(3<x)|bomba(1,2).
+** KEPT (pick-wt=6): 281 [binary,256.1,59.1] -(3<$c1)|bomba(1,2).
+** KEPT (pick-wt=3): 282 [binary,256.1,50.1,demod,propositional] bomba(1,2).
+282 back subsumes 281.
+282 back subsumes 256.
+282 back subsumes 25.
+
+given clause #46: (wt=3) 282 [binary,256.1,50.1,demod,propositional] bomba(1,2).
+
+given clause #47: (wt=9) 80 [binary,49.1,32.1,demod] -columnas(x)| -sensor(5,x,2)|bomba(4,x).
+** KEPT (pick-wt=7): 283 [binary,80.1,59.1] -sensor(5,$c1,2)|bomba(4,$c1).
+** KEPT (pick-wt=7): 284 [binary,80.1,50.1] -sensor(5,5,2)|bomba(4,5).
+
+given clause #48: (wt=7) 283 [binary,80.1,59.1] -sensor(5,$c1,2)|bomba(4,$c1).
+
+given clause #49: (wt=7) 284 [binary,80.1,50.1] -sensor(5,5,2)|bomba(4,5).
+
+given clause #50: (wt=9) 84 [binary,49.1,24.1,demod] -columnas(x)| -sensor(5,x,0)|vacio(4,x).
+** KEPT (pick-wt=7): 285 [binary,84.1,59.1] -sensor(5,$c1,0)|vacio(4,$c1).
+** KEPT (pick-wt=7): 286 [binary,84.1,50.1] -sensor(5,5,0)|vacio(4,5).
+
+given clause #51: (wt=7) 285 [binary,84.1,59.1] -sensor(5,$c1,0)|vacio(4,$c1).
+
+given clause #52: (wt=7) 286 [binary,84.1,50.1] -sensor(5,5,0)|vacio(4,5).
+
+given clause #53: (wt=9) 131 [binary,50.1,31.2,demod] -filas(x)| -sensor(x,5,2)|bomba(x,4).
+** KEPT (pick-wt=7): 287 [binary,131.1,58.1] -sensor($c2,5,2)|bomba($c2,4).
+** KEPT (pick-wt=7): 288 [binary,131.1,49.1] -sensor(5,5,2)|bomba(5,4).
+
+given clause #54: (wt=7) 287 [binary,131.1,58.1] -sensor($c2,5,2)|bomba($c2,4).
+
+given clause #55: (wt=7) 288 [binary,131.1,49.1] -sensor(5,5,2)|bomba(5,4).
+
+given clause #56: (wt=9) 135 [binary,50.1,23.2,demod] -filas(x)| -sensor(x,5,0)|vacio(x,4).
+** KEPT (pick-wt=7): 289 [binary,135.1,58.1] -sensor($c2,5,0)|vacio($c2,4).
+** KEPT (pick-wt=7): 290 [binary,135.1,49.1] -sensor(5,5,0)|vacio(5,4).
+
+given clause #57: (wt=7) 289 [binary,135.1,58.1] -sensor($c2,5,0)|vacio($c2,4).
+
+given clause #58: (wt=7) 290 [binary,135.1,49.1] -sensor(5,5,0)|vacio(5,4).
+
+given clause #59: (wt=9) 167 [binary,58.1,27.1] -sensor($c2,1,2)|bomba($c2-1,1).
+
+given clause #60: (wt=9) 171 [binary,58.1,19.1] -sensor($c2,1,0)|vacio($c2-1,1).
+
+given clause #61: (wt=9) 217 [binary,59.1,29.1] -sensor(1,$c1,2)|bomba(1,$c1-1).
+
+given clause #62: (wt=9) 221 [binary,59.1,21.1] -sensor(1,$c1,0)|vacio(1,$c1-1).
+
+given clause #63: (wt=10) 251 [binary,51.1,38.5,demod,propositional] -filas(1)| -columnas(x)| -(3<x)|bomba(0,3).
+** KEPT (pick-wt=8): 291 [binary,251.2,59.1] -filas(1)| -(3<$c1)|bomba(0,3).
+** KEPT (pick-wt=5): 292 [binary,251.2,50.1,demod,propositional] -filas(1)|bomba(0,3).
+292 back subsumes 291.
+292 back subsumes 251.
+
+given clause #64: (wt=5) 292 [binary,251.2,50.1,demod,propositional] -filas(1)|bomba(0,3).
+
+given clause #65: (wt=10) 261 [binary,53.1,16.5,demod,propositional] -filas(x)| -columnas(2)| -(3<x)|vacio(3,1).
+** KEPT (pick-wt=8): 293 [binary,261.1,58.1] -columnas(2)| -(3<$c2)|vacio(3,1).
+** KEPT (pick-wt=5): 294 [binary,261.1,49.1,demod,propositional] -columnas(2)|vacio(3,1).
+294 back subsumes 293.
+294 back subsumes 261.
+294 back subsumes 260.
+
+given clause #66: (wt=5) 294 [binary,261.1,49.1,demod,propositional] -columnas(2)|vacio(3,1).
+
+given clause #67: (wt=10) 262 [binary,53.1,15.5,demod,propositional] -filas(x)| -columnas(2)| -(3<x)|vacio(4,2).
+** KEPT (pick-wt=8): 295 [binary,262.1,58.1] -columnas(2)| -(3<$c2)|vacio(4,2).
+** KEPT (pick-wt=5): 296 [binary,262.1,49.1,demod,propositional] -columnas(2)|vacio(4,2).
+296 back subsumes 295.
+296 back subsumes 262.
+
+given clause #68: (wt=5) 296 [binary,262.1,49.1,demod,propositional] -columnas(2)|vacio(4,2).
+
+given clause #69: (wt=10) 263 [binary,53.1,14.5,demod,propositional] -filas(x)| -columnas(2)| -(3<x)|vacio(2,2).
+** KEPT (pick-wt=8): 297 [binary,263.1,58.1] -columnas(2)| -(3<$c2)|vacio(2,2).
+** KEPT (pick-wt=5): 298 [binary,263.1,49.1,demod,propositional] -columnas(2)|vacio(2,2).
+298 back subsumes 297.
+298 back subsumes 263.
+298 back subsumes 259.
+
+given clause #70: (wt=5) 298 [binary,263.1,49.1,demod,propositional] -columnas(2)|vacio(2,2).
+
+given clause #71: (wt=10) 264 [binary,53.1,10.5,demod,propositional] -filas(3)| -columnas(x)| -(2<x)|vacio(2,2).
+** KEPT (pick-wt=8): 299 [binary,264.2,59.1] -filas(3)| -(2<$c1)|vacio(2,2).
+** KEPT (pick-wt=5): 300 [binary,264.2,50.1,demod,propositional] -filas(3)|vacio(2,2).
+300 back subsumes 299.
+300 back subsumes 264.
+
+given clause #72: (wt=5) 300 [binary,264.2,50.1,demod,propositional] -filas(3)|vacio(2,2).
+
+given clause #73: (wt=10) 265 [binary,53.1,9.5,demod,propositional] -filas(3)| -columnas(x)| -(2<x)|vacio(3,3).
+** KEPT (pick-wt=8): 301 [binary,265.2,59.1] -filas(3)| -(2<$c1)|vacio(3,3).
+** KEPT (pick-wt=5): 302 [binary,265.2,50.1,demod,propositional] -filas(3)|vacio(3,3).
+302 back subsumes 301.
+302 back subsumes 265.
+
+given clause #74: (wt=5) 302 [binary,265.2,50.1,demod,propositional] -filas(3)|vacio(3,3).
+
+given clause #75: (wt=10) 266 [binary,53.1,8.5,demod,propositional] -filas(3)| -columnas(x)| -(2<x)|vacio(3,1).
+** KEPT (pick-wt=8): 303 [binary,266.2,59.1] -filas(3)| -(2<$c1)|vacio(3,1).
+** KEPT (pick-wt=5): 304 [binary,266.2,50.1,demod,propositional] -filas(3)|vacio(3,1).
+304 back subsumes 303.
+304 back subsumes 266.
+
+given clause #76: (wt=5) 304 [binary,266.2,50.1,demod,propositional] -filas(3)|vacio(3,1).
+
+given clause #77: (wt=11) 81 [binary,49.1,31.1] -columnas(x)| -sensor(5,x,2)|bomba(5,x-1).
+** KEPT (pick-wt=9): 305 [binary,81.1,59.1] -sensor(5,$c1,2)|bomba(5,$c1-1).
+
+given clause #78: (wt=9) 305 [binary,81.1,59.1] -sensor(5,$c1,2)|bomba(5,$c1-1).
+
+given clause #79: (wt=11) 85 [binary,49.1,23.1] -columnas(x)| -sensor(5,x,0)|vacio(5,x-1).
+** KEPT (pick-wt=9): 306 [binary,85.1,59.1] -sensor(5,$c1,0)|vacio(5,$c1-1).
+
+given clause #80: (wt=9) 306 [binary,85.1,59.1] -sensor(5,$c1,0)|vacio(5,$c1-1).
+
+given clause #81: (wt=11) 130 [binary,50.1,32.2] -filas(x)| -sensor(x,5,2)|bomba(x-1,5).
+** KEPT (pick-wt=9): 307 [binary,130.1,58.1] -sensor($c2,5,2)|bomba($c2-1,5).
+
+given clause #82: (wt=9) 307 [binary,130.1,58.1] -sensor($c2,5,2)|bomba($c2-1,5).
+
+given clause #83: (wt=11) 134 [binary,50.1,24.2] -filas(x)| -sensor(x,5,0)|vacio(x-1,5).
+** KEPT (pick-wt=9): 308 [binary,134.1,58.1] -sensor($c2,5,0)|vacio($c2-1,5).
+
+given clause #84: (wt=9) 308 [binary,134.1,58.1] -sensor($c2,5,0)|vacio($c2-1,5).
+
+given clause #85: (wt=11) 164 [binary,58.1,32.1] -columnas(x)| -sensor($c2,x,2)|bomba($c2-1,x).
+** KEPT (pick-wt=9): 309 [binary,164.1,59.1] -sensor($c2,$c1,2)|bomba($c2-1,$c1).
+
+given clause #86: (wt=9) 309 [binary,164.1,59.1] -sensor($c2,$c1,2)|bomba($c2-1,$c1).
+
+given clause #87: (wt=11) 165 [binary,58.1,31.1] -columnas(x)| -sensor($c2,x,2)|bomba($c2,x-1).
+** KEPT (pick-wt=9): 310 [binary,165.1,59.1] -sensor($c2,$c1,2)|bomba($c2,$c1-1).
+
+given clause #88: (wt=9) 310 [binary,165.1,59.1] -sensor($c2,$c1,2)|bomba($c2,$c1-1).
+
+given clause #89: (wt=11) 168 [binary,58.1,24.1] -columnas(x)| -sensor($c2,x,0)|vacio($c2-1,x).
+** KEPT (pick-wt=9): 311 [binary,168.1,59.1] -sensor($c2,$c1,0)|vacio($c2-1,$c1).
+
+given clause #90: (wt=9) 311 [binary,168.1,59.1] -sensor($c2,$c1,0)|vacio($c2-1,$c1).
+
+given clause #91: (wt=11) 169 [binary,58.1,23.1] -columnas(x)| -sensor($c2,x,0)|vacio($c2,x-1).
+** KEPT (pick-wt=9): 312 [binary,169.1,59.1] -sensor($c2,$c1,0)|vacio($c2,$c1-1).
+
+given clause #92: (wt=9) 312 [binary,169.1,59.1] -sensor($c2,$c1,0)|vacio($c2,$c1-1).
+
+given clause #93: (wt=11) 214 [binary,59.1,32.2] -filas(x)| -sensor(x,$c1,2)|bomba(x-1,$c1).
+
+given clause #94: (wt=11) 215 [binary,59.1,31.2] -filas(x)| -sensor(x,$c1,2)|bomba(x,$c1-1).
+
+given clause #95: (wt=11) 218 [binary,59.1,24.2] -filas(x)| -sensor(x,$c1,0)|vacio(x-1,$c1).
+
+given clause #96: (wt=11) 219 [binary,59.1,23.2] -filas(x)| -sensor(x,$c1,0)|vacio(x,$c1-1).
+
+given clause #97: (wt=13) 74 [binary,49.1,41.1] -(x>1)| -(x<5)| -sensor(x,1,3)|bomba(x,2).
+
+given clause #98: (wt=13) 91 [binary,49.1,13.1] -(x>1)| -(x<5)| -sensor(x,1,0)|vacio(x,2).
+
+given clause #99: (wt=13) 127 [binary,50.1,35.1] -(x>1)| -(x<5)| -sensor(1,x,3)|bomba(2,x).
+
+given clause #100: (wt=13) 144 [binary,50.1,7.1] -(x>1)| -(x<5)| -sensor(1,x,0)|vacio(2,x).
+
+given clause #101: (wt=13) 158 [binary,58.1,41.1] -(x>1)| -(x<$c2)| -sensor(x,1,3)|bomba(x,2).
+
+given clause #102: (wt=13) 175 [binary,58.1,13.1] -(x>1)| -(x<$c2)| -sensor(x,1,0)|vacio(x,2).
+
+given clause #103: (wt=13) 211 [binary,59.1,35.1] -(x>1)| -(x<$c1)| -sensor(1,x,3)|bomba(2,x).
+
+given clause #104: (wt=13) 228 [binary,59.1,7.1] -(x>1)| -(x<$c1)| -sensor(1,x,0)|vacio(2,x).
+
+given clause #105: (wt=13) 267 [binary,53.1,4.7,demod,propositional] -filas(x)| -columnas(y)| -(3<x)| -(2<y)|vacio(3,3).
+** KEPT (pick-wt=11): 313 [binary,267.1,58.1] -columnas(x)| -(3<$c2)| -(2<x)|vacio(3,3).
+** KEPT (pick-wt=8): 314 [binary,267.1,49.1,demod,propositional] -columnas(x)| -(2<x)|vacio(3,3).
+** KEPT (pick-wt=11): 315 [binary,267.2,59.1] -filas(x)| -(3<x)| -(2<$c1)|vacio(3,3).
+** KEPT (pick-wt=8): 316 [binary,267.2,50.1,demod,propositional] -filas(x)| -(3<x)|vacio(3,3).
+314 back subsumes 313.
+314 back subsumes 267.
+316 back subsumes 315.
+
+given clause #106: (wt=8) 314 [binary,267.1,49.1,demod,propositional] -columnas(x)| -(2<x)|vacio(3,3).
+** KEPT (pick-wt=6): 317 [binary,314.1,59.1] -(2<$c1)|vacio(3,3).
+** KEPT (pick-wt=3): 318 [binary,314.1,50.1,demod,propositional] vacio(3,3).
+318 back subsumes 317.
+318 back subsumes 316.
+318 back subsumes 314.
+318 back subsumes 302.
+
+given clause #107: (wt=3) 318 [binary,314.1,50.1,demod,propositional] vacio(3,3).
+
+given clause #108: (wt=13) 268 [binary,53.1,3.7,demod,propositional] -filas(x)| -columnas(y)| -(3<x)| -(2<y)|vacio(3,1).
+** KEPT (pick-wt=11): 319 [binary,268.1,58.1] -columnas(x)| -(3<$c2)| -(2<x)|vacio(3,1).
+** KEPT (pick-wt=8): 320 [binary,268.1,49.1,demod,propositional] -columnas(x)| -(2<x)|vacio(3,1).
+** KEPT (pick-wt=11): 321 [binary,268.2,59.1] -filas(x)| -(3<x)| -(2<$c1)|vacio(3,1).
+** KEPT (pick-wt=8): 322 [binary,268.2,50.1,demod,propositional] -filas(x)| -(3<x)|vacio(3,1).
+320 back subsumes 319.
+320 back subsumes 268.
+322 back subsumes 321.
+
+given clause #109: (wt=8) 320 [binary,268.1,49.1,demod,propositional] -columnas(x)| -(2<x)|vacio(3,1).
+** KEPT (pick-wt=6): 323 [binary,320.1,59.1] -(2<$c1)|vacio(3,1).
+** KEPT (pick-wt=3): 324 [binary,320.1,50.1,demod,propositional] vacio(3,1).
+324 back subsumes 323.
+324 back subsumes 322.
+324 back subsumes 320.
+324 back subsumes 304.
+324 back subsumes 294.
+
+given clause #110: (wt=3) 324 [binary,320.1,50.1,demod,propositional] vacio(3,1).
+
+given clause #111: (wt=13) 269 [binary,53.1,2.7,demod,propositional] -filas(x)| -columnas(y)| -(3<x)| -(2<y)|vacio(4,2).
+** KEPT (pick-wt=11): 325 [binary,269.1,58.1] -columnas(x)| -(3<$c2)| -(2<x)|vacio(4,2).
+** KEPT (pick-wt=8): 326 [binary,269.1,49.1,demod,propositional] -columnas(x)| -(2<x)|vacio(4,2).
+** KEPT (pick-wt=11): 327 [binary,269.2,59.1] -filas(x)| -(3<x)| -(2<$c1)|vacio(4,2).
+** KEPT (pick-wt=8): 328 [binary,269.2,50.1,demod,propositional] -filas(x)| -(3<x)|vacio(4,2).
+326 back subsumes 325.
+326 back subsumes 269.
+328 back subsumes 327.
+
+given clause #112: (wt=8) 326 [binary,269.1,49.1,demod,propositional] -columnas(x)| -(2<x)|vacio(4,2).
+** KEPT (pick-wt=6): 329 [binary,326.1,59.1] -(2<$c1)|vacio(4,2).
+** KEPT (pick-wt=3): 330 [binary,326.1,50.1,demod,propositional] vacio(4,2).
+330 back subsumes 329.
+330 back subsumes 328.
+330 back subsumes 326.
+330 back subsumes 296.
+
+given clause #113: (wt=3) 330 [binary,326.1,50.1,demod,propositional] vacio(4,2).
+
+given clause #114: (wt=13) 270 [binary,53.1,1.7,demod,propositional] -filas(x)| -columnas(y)| -(3<x)| -(2<y)|vacio(2,2).
+** KEPT (pick-wt=11): 331 [binary,270.1,58.1] -columnas(x)| -(3<$c2)| -(2<x)|vacio(2,2).
+** KEPT (pick-wt=8): 332 [binary,270.1,49.1,demod,propositional] -columnas(x)| -(2<x)|vacio(2,2).
+** KEPT (pick-wt=11): 333 [binary,270.2,59.1] -filas(x)| -(3<x)| -(2<$c1)|vacio(2,2).
+** KEPT (pick-wt=8): 334 [binary,270.2,50.1,demod,propositional] -filas(x)| -(3<x)|vacio(2,2).
+332 back subsumes 331.
+332 back subsumes 270.
+334 back subsumes 333.
+
+given clause #115: (wt=8) 332 [binary,270.1,49.1,demod,propositional] -columnas(x)| -(2<x)|vacio(2,2).
+** KEPT (pick-wt=6): 335 [binary,332.1,59.1] -(2<$c1)|vacio(2,2).
+** KEPT (pick-wt=3): 336 [binary,332.1,50.1,demod,propositional] vacio(2,2).
+336 back subsumes 335.
+336 back subsumes 334.
+336 back subsumes 332.
+336 back subsumes 300.
+336 back subsumes 298.
+
+given clause #116: (wt=3) 336 [binary,332.1,50.1,demod,propositional] vacio(2,2).
+
+given clause #117: (wt=15) 75 [binary,49.1,40.1] -(x>1)| -(x<5)| -sensor(x,1,3)|bomba(x+1,1).
+
+given clause #118: (wt=15) 76 [binary,49.1,39.1] -(x>1)| -(x<5)| -sensor(x,1,3)|bomba(x-1,1).
+
+given clause #119: (wt=15) 77 [binary,49.1,38.1,demod] -columnas(x)| -(y>1)| -(y<x)| -sensor(5,y,3)|bomba(4,y).
+** KEPT (pick-wt=13): 337 [binary,77.1,59.1] -(x>1)| -(x<$c1)| -sensor(5,x,3)|bomba(4,x).
+** KEPT (pick-wt=13): 338 [binary,77.1,50.1] -(x>1)| -(x<5)| -sensor(5,x,3)|bomba(4,x).
+
+given clause #120: (wt=13) 337 [binary,77.1,59.1] -(x>1)| -(x<$c1)| -sensor(5,x,3)|bomba(4,x).
+
+given clause #121: (wt=13) 338 [binary,77.1,50.1] -(x>1)| -(x<5)| -sensor(5,x,3)|bomba(4,x).
+
+given clause #122: (wt=15) 92 [binary,49.1,12.1] -(x>1)| -(x<5)| -sensor(x,1,0)|vacio(x+1,1).
+
+given clause #123: (wt=15) 93 [binary,49.1,11.1] -(x>1)| -(x<5)| -sensor(x,1,0)|vacio(x-1,1).
+
+given clause #124: (wt=15) 94 [binary,49.1,10.1,demod] -columnas(x)| -(y>1)| -(y<x)| -sensor(5,y,0)|vacio(4,y).
+** KEPT (pick-wt=13): 339 [binary,94.1,59.1] -(x>1)| -(x<$c1)| -sensor(5,x,0)|vacio(4,x).
+** KEPT (pick-wt=13): 340 [binary,94.1,50.1] -(x>1)| -(x<5)| -sensor(5,x,0)|vacio(4,x).
+
+given clause #125: (wt=13) 339 [binary,94.1,59.1] -(x>1)| -(x<$c1)| -sensor(5,x,0)|vacio(4,x).
+
+given clause #126: (wt=13) 340 [binary,94.1,50.1] -(x>1)| -(x<5)| -sensor(5,x,0)|vacio(4,x).
+
+given clause #127: (wt=15) 102 [factor,67.3.5,unit_del,50,factor_simp] -(x>1)| -(x<5)| -sensor(x,x,4)|bomba(x,x+1).
+
+given clause #128: (wt=15) 104 [factor,68.3.5,unit_del,50,factor_simp] -(x>1)| -(x<5)| -sensor(x,x,4)|bomba(x,x-1).
+
+given clause #129: (wt=15) 106 [factor,69.3.5,unit_del,50,factor_simp] -(x>1)| -(x<5)| -sensor(x,x,4)|bomba(x+1,x).
+
+given clause #130: (wt=15) 108 [factor,70.3.5,unit_del,50,factor_simp] -(x>1)| -(x<5)| -sensor(x,x,4)|bomba(x-1,x).
+
+given clause #131: (wt=15) 110 [factor,97.3.5,unit_del,50,factor_simp] -(x>1)| -(x<5)| -sensor(x,x,0)|vacio(x,x+1).
+
+given clause #132: (wt=15) 112 [factor,98.3.5,unit_del,50,factor_simp] -(x>1)| -(x<5)| -sensor(x,x,0)|vacio(x,x-1).
+
+given clause #133: (wt=15) 114 [factor,99.3.5,unit_del,50,factor_simp] -(x>1)| -(x<5)| -sensor(x,x,0)|vacio(x+1,x).
+
+given clause #134: (wt=15) 116 [factor,100.3.5,unit_del,50,factor_simp] -(x>1)| -(x<5)| -sensor(x,x,0)|vacio(x-1,x).
+
+given clause #135: (wt=15) 121 [binary,50.1,44.2,demod] -filas(x)| -(y>1)| -(y<x)| -sensor(y,5,3)|bomba(y,4).
+** KEPT (pick-wt=13): 341 [binary,121.1,58.1] -(x>1)| -(x<$c2)| -sensor(x,5,3)|bomba(x,4).
+** KEPT (pick-wt=13): 342 [binary,121.1,49.1] -(x>1)| -(x<5)| -sensor(x,5,3)|bomba(x,4).
+
+given clause #136: (wt=13) 341 [binary,121.1,58.1] -(x>1)| -(x<$c2)| -sensor(x,5,3)|bomba(x,4).
+
+given clause #137: (wt=13) 342 [binary,121.1,49.1] -(x>1)| -(x<5)| -sensor(x,5,3)|bomba(x,4).
+
+given clause #138: (wt=15) 128 [binary,50.1,34.1] -(x>1)| -(x<5)| -sensor(1,x,3)|bomba(1,x+1).
+
+given clause #139: (wt=15) 129 [binary,50.1,33.1] -(x>1)| -(x<5)| -sensor(1,x,3)|bomba(1,x-1).
+
+given clause #140: (wt=15) 138 [binary,50.1,16.2,demod] -filas(x)| -(y>1)| -(y<x)| -sensor(y,5,0)|vacio(y,4).
+** KEPT (pick-wt=13): 343 [binary,138.1,58.1] -(x>1)| -(x<$c2)| -sensor(x,5,0)|vacio(x,4).
+** KEPT (pick-wt=13): 344 [binary,138.1,49.1] -(x>1)| -(x<5)| -sensor(x,5,0)|vacio(x,4).
+
+given clause #141: (wt=13) 343 [binary,138.1,58.1] -(x>1)| -(x<$c2)| -sensor(x,5,0)|vacio(x,4).
+
+given clause #142: (wt=13) 344 [binary,138.1,49.1] -(x>1)| -(x<5)| -sensor(x,5,0)|vacio(x,4).
+
+given clause #143: (wt=15) 145 [binary,50.1,6.1] -(x>1)| -(x<5)| -sensor(1,x,0)|vacio(1,x+1).
+
+given clause #144: (wt=15) 146 [binary,50.1,5.1] -(x>1)| -(x<5)| -sensor(1,x,0)|vacio(1,x-1).
+
+given clause #145: (wt=15) 159 [binary,58.1,40.1] -(x>1)| -(x<$c2)| -sensor(x,1,3)|bomba(x+1,1).
+
+given clause #146: (wt=15) 160 [binary,58.1,39.1] -(x>1)| -(x<$c2)| -sensor(x,1,3)|bomba(x-1,1).
+
+given clause #147: (wt=15) 176 [binary,58.1,12.1] -(x>1)| -(x<$c2)| -sensor(x,1,0)|vacio(x+1,1).
+
+given clause #148: (wt=15) 177 [binary,58.1,11.1] -(x>1)| -(x<$c2)| -sensor(x,1,0)|vacio(x-1,1).
+
+given clause #149: (wt=15) 212 [binary,59.1,34.1] -(x>1)| -(x<$c1)| -sensor(1,x,3)|bomba(1,x+1).
+
+given clause #150: (wt=15) 213 [binary,59.1,33.1] -(x>1)| -(x<$c1)| -sensor(1,x,3)|bomba(1,x-1).
+
+given clause #151: (wt=15) 229 [binary,59.1,6.1] -(x>1)| -(x<$c1)| -sensor(1,x,0)|vacio(1,x+1).
+
+given clause #152: (wt=15) 230 [binary,59.1,5.1] -(x>1)| -(x<$c1)| -sensor(1,x,0)|vacio(1,x-1).
+
+given clause #153: (wt=17) 71 [binary,49.1,44.1] -columnas(x)| -(y>1)| -(y<5)| -sensor(y,x,3)|bomba(y,x-1).
+** KEPT (pick-wt=15): 345 [binary,71.1,59.1] -(x>1)| -(x<5)| -sensor(x,$c1,3)|bomba(x,$c1-1).
+
+given clause #154: (wt=15) 345 [binary,71.1,59.1] -(x>1)| -(x<5)| -sensor(x,$c1,3)|bomba(x,$c1-1).
+
+given clause #155: (wt=17) 72 [binary,49.1,43.1] -columnas(x)| -(y>1)| -(y<5)| -sensor(y,x,3)|bomba(y+1,x).
+** KEPT (pick-wt=15): 346 [binary,72.1,59.1] -(x>1)| -(x<5)| -sensor(x,$c1,3)|bomba(x+1,$c1).
+** KEPT (pick-wt=15): 347 [binary,72.1,50.1] -(x>1)| -(x<5)| -sensor(x,5,3)|bomba(x+1,5).
+
+given clause #156: (wt=15) 346 [binary,72.1,59.1] -(x>1)| -(x<5)| -sensor(x,$c1,3)|bomba(x+1,$c1).
+
+given clause #157: (wt=15) 347 [binary,72.1,50.1] -(x>1)| -(x<5)| -sensor(x,5,3)|bomba(x+1,5).
+
+given clause #158: (wt=17) 73 [binary,49.1,42.1] -columnas(x)| -(y>1)| -(y<5)| -sensor(y,x,3)|bomba(y-1,x).
+** KEPT (pick-wt=15): 348 [binary,73.1,59.1] -(x>1)| -(x<5)| -sensor(x,$c1,3)|bomba(x-1,$c1).
+** KEPT (pick-wt=15): 349 [binary,73.1,50.1] -(x>1)| -(x<5)| -sensor(x,5,3)|bomba(x-1,5).
+
+given clause #159: (wt=15) 348 [binary,73.1,59.1] -(x>1)| -(x<5)| -sensor(x,$c1,3)|bomba(x-1,$c1).
+
+given clause #160: (wt=15) 349 [binary,73.1,50.1] -(x>1)| -(x<5)| -sensor(x,5,3)|bomba(x-1,5).
+
+given clause #161: (wt=17) 78 [binary,49.1,37.1] -columnas(x)| -(y>1)| -(y<x)| -sensor(5,y,3)|bomba(5,y+1).
+** KEPT (pick-wt=15): 350 [binary,78.1,59.1] -(x>1)| -(x<$c1)| -sensor(5,x,3)|bomba(5,x+1).
+** KEPT (pick-wt=15): 351 [binary,78.1,50.1] -(x>1)| -(x<5)| -sensor(5,x,3)|bomba(5,x+1).
+
+given clause #162: (wt=15) 350 [binary,78.1,59.1] -(x>1)| -(x<$c1)| -sensor(5,x,3)|bomba(5,x+1).
+
+given clause #163: (wt=15) 351 [binary,78.1,50.1] -(x>1)| -(x<5)| -sensor(5,x,3)|bomba(5,x+1).
+
+given clause #164: (wt=17) 79 [binary,49.1,36.1] -columnas(x)| -(y>1)| -(y<x)| -sensor(5,y,3)|bomba(5,y-1).
+** KEPT (pick-wt=15): 352 [binary,79.1,59.1] -(x>1)| -(x<$c1)| -sensor(5,x,3)|bomba(5,x-1).
+** KEPT (pick-wt=15): 353 [binary,79.1,50.1] -(x>1)| -(x<5)| -sensor(5,x,3)|bomba(5,x-1).
+
+given clause #165: (wt=15) 352 [binary,79.1,59.1] -(x>1)| -(x<$c1)| -sensor(5,x,3)|bomba(5,x-1).
+
+given clause #166: (wt=15) 353 [binary,79.1,50.1] -(x>1)| -(x<5)| -sensor(5,x,3)|bomba(5,x-1).
+
+given clause #167: (wt=17) 88 [binary,49.1,16.1] -columnas(x)| -(y>1)| -(y<5)| -sensor(y,x,0)|vacio(y,x-1).
+** KEPT (pick-wt=15): 354 [binary,88.1,59.1] -(x>1)| -(x<5)| -sensor(x,$c1,0)|vacio(x,$c1-1).
+
+given clause #168: (wt=15) 354 [binary,88.1,59.1] -(x>1)| -(x<5)| -sensor(x,$c1,0)|vacio(x,$c1-1).
+
+given clause #169: (wt=17) 89 [binary,49.1,15.1] -columnas(x)| -(y>1)| -(y<5)| -sensor(y,x,0)|vacio(y+1,x).
+** KEPT (pick-wt=15): 355 [binary,89.1,59.1] -(x>1)| -(x<5)| -sensor(x,$c1,0)|vacio(x+1,$c1).
+** KEPT (pick-wt=15): 356 [binary,89.1,50.1] -(x>1)| -(x<5)| -sensor(x,5,0)|vacio(x+1,5).
+
+given clause #170: (wt=15) 355 [binary,89.1,59.1] -(x>1)| -(x<5)| -sensor(x,$c1,0)|vacio(x+1,$c1).
+
+given clause #171: (wt=15) 356 [binary,89.1,50.1] -(x>1)| -(x<5)| -sensor(x,5,0)|vacio(x+1,5).
+
+given clause #172: (wt=17) 90 [binary,49.1,14.1] -columnas(x)| -(y>1)| -(y<5)| -sensor(y,x,0)|vacio(y-1,x).
+** KEPT (pick-wt=15): 357 [binary,90.1,59.1] -(x>1)| -(x<5)| -sensor(x,$c1,0)|vacio(x-1,$c1).
+** KEPT (pick-wt=15): 358 [binary,90.1,50.1] -(x>1)| -(x<5)| -sensor(x,5,0)|vacio(x-1,5).
+
+given clause #173: (wt=15) 357 [binary,90.1,59.1] -(x>1)| -(x<5)| -sensor(x,$c1,0)|vacio(x-1,$c1).
+
+given clause #174: (wt=15) 358 [binary,90.1,50.1] -(x>1)| -(x<5)| -sensor(x,5,0)|vacio(x-1,5).
+
+given clause #175: (wt=17) 95 [binary,49.1,9.1] -columnas(x)| -(y>1)| -(y<x)| -sensor(5,y,0)|vacio(5,y+1).
+** KEPT (pick-wt=15): 359 [binary,95.1,59.1] -(x>1)| -(x<$c1)| -sensor(5,x,0)|vacio(5,x+1).
+** KEPT (pick-wt=15): 360 [binary,95.1,50.1] -(x>1)| -(x<5)| -sensor(5,x,0)|vacio(5,x+1).
+
+given clause #176: (wt=15) 359 [binary,95.1,59.1] -(x>1)| -(x<$c1)| -sensor(5,x,0)|vacio(5,x+1).
+
+given clause #177: (wt=15) 360 [binary,95.1,50.1] -(x>1)| -(x<5)| -sensor(5,x,0)|vacio(5,x+1).
+
+given clause #178: (wt=17) 96 [binary,49.1,8.1] -columnas(x)| -(y>1)| -(y<x)| -sensor(5,y,0)|vacio(5,y-1).
+** KEPT (pick-wt=15): 361 [binary,96.1,59.1] -(x>1)| -(x<$c1)| -sensor(5,x,0)|vacio(5,x-1).
+** KEPT (pick-wt=15): 362 [binary,96.1,50.1] -(x>1)| -(x<5)| -sensor(5,x,0)|vacio(5,x-1).
+
+given clause #179: (wt=15) 361 [binary,96.1,59.1] -(x>1)| -(x<$c1)| -sensor(5,x,0)|vacio(5,x-1).
+
+given clause #180: (wt=15) 362 [binary,96.1,50.1] -(x>1)| -(x<5)| -sensor(5,x,0)|vacio(5,x-1).
+
+given clause #181: (wt=17) 122 [binary,50.1,43.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,5,3)|bomba(y+1,5).
+** KEPT (pick-wt=15): 363 [binary,122.1,58.1] -(x>1)| -(x<$c2)| -sensor(x,5,3)|bomba(x+1,5).
+
+given clause #182: (wt=15) 363 [binary,122.1,58.1] -(x>1)| -(x<$c2)| -sensor(x,5,3)|bomba(x+1,5).
+
+given clause #183: (wt=17) 123 [binary,50.1,42.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,5,3)|bomba(y-1,5).
+** KEPT (pick-wt=15): 364 [binary,123.1,58.1] -(x>1)| -(x<$c2)| -sensor(x,5,3)|bomba(x-1,5).
+
+given clause #184: (wt=15) 364 [binary,123.1,58.1] -(x>1)| -(x<$c2)| -sensor(x,5,3)|bomba(x-1,5).
+
+given clause #185: (wt=17) 124 [binary,50.1,38.2] -filas(x)| -(y>1)| -(y<5)| -sensor(x,y,3)|bomba(x-1,y).
+** KEPT (pick-wt=15): 365 [binary,124.1,58.1] -(x>1)| -(x<5)| -sensor($c2,x,3)|bomba($c2-1,x).
+
+given clause #186: (wt=15) 365 [binary,124.1,58.1] -(x>1)| -(x<5)| -sensor($c2,x,3)|bomba($c2-1,x).
+
+given clause #187: (wt=17) 125 [binary,50.1,37.2] -filas(x)| -(y>1)| -(y<5)| -sensor(x,y,3)|bomba(x,y+1).
+** KEPT (pick-wt=15): 366 [binary,125.1,58.1] -(x>1)| -(x<5)| -sensor($c2,x,3)|bomba($c2,x+1).
+
+given clause #188: (wt=15) 366 [binary,125.1,58.1] -(x>1)| -(x<5)| -sensor($c2,x,3)|bomba($c2,x+1).
+
+given clause #189: (wt=17) 126 [binary,50.1,36.2] -filas(x)| -(y>1)| -(y<5)| -sensor(x,y,3)|bomba(x,y-1).
+** KEPT (pick-wt=15): 367 [binary,126.1,58.1] -(x>1)| -(x<5)| -sensor($c2,x,3)|bomba($c2,x-1).
+
+given clause #190: (wt=15) 367 [binary,126.1,58.1] -(x>1)| -(x<5)| -sensor($c2,x,3)|bomba($c2,x-1).
+
+given clause #191: (wt=17) 139 [binary,50.1,15.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,5,0)|vacio(y+1,5).
+** KEPT (pick-wt=15): 368 [binary,139.1,58.1] -(x>1)| -(x<$c2)| -sensor(x,5,0)|vacio(x+1,5).
+
+given clause #192: (wt=15) 368 [binary,139.1,58.1] -(x>1)| -(x<$c2)| -sensor(x,5,0)|vacio(x+1,5).
+
+given clause #193: (wt=17) 140 [binary,50.1,14.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,5,0)|vacio(y-1,5).
+** KEPT (pick-wt=15): 369 [binary,140.1,58.1] -(x>1)| -(x<$c2)| -sensor(x,5,0)|vacio(x-1,5).
+
+given clause #194: (wt=15) 369 [binary,140.1,58.1] -(x>1)| -(x<$c2)| -sensor(x,5,0)|vacio(x-1,5).
+
+given clause #195: (wt=17) 141 [binary,50.1,10.2] -filas(x)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x-1,y).
+** KEPT (pick-wt=15): 370 [binary,141.1,58.1] -(x>1)| -(x<5)| -sensor($c2,x,0)|vacio($c2-1,x).
+
+given clause #196: (wt=15) 370 [binary,141.1,58.1] -(x>1)| -(x<5)| -sensor($c2,x,0)|vacio($c2-1,x).
+
+given clause #197: (wt=17) 142 [binary,50.1,9.2] -filas(x)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x,y+1).
+** KEPT (pick-wt=15): 371 [binary,142.1,58.1] -(x>1)| -(x<5)| -sensor($c2,x,0)|vacio($c2,x+1).
+
+given clause #198: (wt=15) 371 [binary,142.1,58.1] -(x>1)| -(x<5)| -sensor($c2,x,0)|vacio($c2,x+1).
+
+given clause #199: (wt=17) 143 [binary,50.1,8.2] -filas(x)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x,y-1).
+** KEPT (pick-wt=15): 372 [binary,143.1,58.1] -(x>1)| -(x<5)| -sensor($c2,x,0)|vacio($c2,x-1).
+
+given clause #200: (wt=15) 372 [binary,143.1,58.1] -(x>1)| -(x<5)| -sensor($c2,x,0)|vacio($c2,x-1).
+
+given clause #201: (wt=17) 155 [binary,58.1,44.1] -columnas(x)| -(y>1)| -(y<$c2)| -sensor(y,x,3)|bomba(y,x-1).
+** KEPT (pick-wt=15): 373 [binary,155.1,59.1] -(x>1)| -(x<$c2)| -sensor(x,$c1,3)|bomba(x,$c1-1).
+
+given clause #202: (wt=15) 373 [binary,155.1,59.1] -(x>1)| -(x<$c2)| -sensor(x,$c1,3)|bomba(x,$c1-1).
+
+given clause #203: (wt=17) 156 [binary,58.1,43.1] -columnas(x)| -(y>1)| -(y<$c2)| -sensor(y,x,3)|bomba(y+1,x).
+** KEPT (pick-wt=15): 374 [binary,156.1,59.1] -(x>1)| -(x<$c2)| -sensor(x,$c1,3)|bomba(x+1,$c1).
+
+given clause #204: (wt=15) 374 [binary,156.1,59.1] -(x>1)| -(x<$c2)| -sensor(x,$c1,3)|bomba(x+1,$c1).
+
+given clause #205: (wt=17) 157 [binary,58.1,42.1] -columnas(x)| -(y>1)| -(y<$c2)| -sensor(y,x,3)|bomba(y-1,x).
+** KEPT (pick-wt=15): 375 [binary,157.1,59.1] -(x>1)| -(x<$c2)| -sensor(x,$c1,3)|bomba(x-1,$c1).
+
+given clause #206: (wt=15) 375 [binary,157.1,59.1] -(x>1)| -(x<$c2)| -sensor(x,$c1,3)|bomba(x-1,$c1).
+
+given clause #207: (wt=17) 161 [binary,58.1,38.1] -columnas(x)| -(y>1)| -(y<x)| -sensor($c2,y,3)|bomba($c2-1,y).
+** KEPT (pick-wt=15): 376 [binary,161.1,59.1] -(x>1)| -(x<$c1)| -sensor($c2,x,3)|bomba($c2-1,x).
+
+given clause #208: (wt=15) 376 [binary,161.1,59.1] -(x>1)| -(x<$c1)| -sensor($c2,x,3)|bomba($c2-1,x).
+
+given clause #209: (wt=17) 162 [binary,58.1,37.1] -columnas(x)| -(y>1)| -(y<x)| -sensor($c2,y,3)|bomba($c2,y+1).
+** KEPT (pick-wt=15): 377 [binary,162.1,59.1] -(x>1)| -(x<$c1)| -sensor($c2,x,3)|bomba($c2,x+1).
+
+given clause #210: (wt=15) 377 [binary,162.1,59.1] -(x>1)| -(x<$c1)| -sensor($c2,x,3)|bomba($c2,x+1).
+
+given clause #211: (wt=17) 163 [binary,58.1,36.1] -columnas(x)| -(y>1)| -(y<x)| -sensor($c2,y,3)|bomba($c2,y-1).
+** KEPT (pick-wt=15): 378 [binary,163.1,59.1] -(x>1)| -(x<$c1)| -sensor($c2,x,3)|bomba($c2,x-1).
+
+given clause #212: (wt=15) 378 [binary,163.1,59.1] -(x>1)| -(x<$c1)| -sensor($c2,x,3)|bomba($c2,x-1).
+
+given clause #213: (wt=17) 172 [binary,58.1,16.1] -columnas(x)| -(y>1)| -(y<$c2)| -sensor(y,x,0)|vacio(y,x-1).
+** KEPT (pick-wt=15): 379 [binary,172.1,59.1] -(x>1)| -(x<$c2)| -sensor(x,$c1,0)|vacio(x,$c1-1).
+
+given clause #214: (wt=15) 379 [binary,172.1,59.1] -(x>1)| -(x<$c2)| -sensor(x,$c1,0)|vacio(x,$c1-1).
+
+given clause #215: (wt=17) 173 [binary,58.1,15.1] -columnas(x)| -(y>1)| -(y<$c2)| -sensor(y,x,0)|vacio(y+1,x).
+** KEPT (pick-wt=15): 380 [binary,173.1,59.1] -(x>1)| -(x<$c2)| -sensor(x,$c1,0)|vacio(x+1,$c1).
+
+given clause #216: (wt=15) 380 [binary,173.1,59.1] -(x>1)| -(x<$c2)| -sensor(x,$c1,0)|vacio(x+1,$c1).
+
+given clause #217: (wt=17) 174 [binary,58.1,14.1] -columnas(x)| -(y>1)| -(y<$c2)| -sensor(y,x,0)|vacio(y-1,x).
+** KEPT (pick-wt=15): 381 [binary,174.1,59.1] -(x>1)| -(x<$c2)| -sensor(x,$c1,0)|vacio(x-1,$c1).
+
+given clause #218: (wt=15) 381 [binary,174.1,59.1] -(x>1)| -(x<$c2)| -sensor(x,$c1,0)|vacio(x-1,$c1).
+
+given clause #219: (wt=17) 178 [binary,58.1,10.1] -columnas(x)| -(y>1)| -(y<x)| -sensor($c2,y,0)|vacio($c2-1,y).
+** KEPT (pick-wt=15): 382 [binary,178.1,59.1] -(x>1)| -(x<$c1)| -sensor($c2,x,0)|vacio($c2-1,x).
+
+given clause #220: (wt=15) 382 [binary,178.1,59.1] -(x>1)| -(x<$c1)| -sensor($c2,x,0)|vacio($c2-1,x).
+
+given clause #221: (wt=17) 179 [binary,58.1,9.1] -columnas(x)| -(y>1)| -(y<x)| -sensor($c2,y,0)|vacio($c2,y+1).
+** KEPT (pick-wt=15): 383 [binary,179.1,59.1] -(x>1)| -(x<$c1)| -sensor($c2,x,0)|vacio($c2,x+1).
+
+given clause #222: (wt=15) 383 [binary,179.1,59.1] -(x>1)| -(x<$c1)| -sensor($c2,x,0)|vacio($c2,x+1).
+
+given clause #223: (wt=17) 180 [binary,58.1,8.1] -columnas(x)| -(y>1)| -(y<x)| -sensor($c2,y,0)|vacio($c2,y-1).
+** KEPT (pick-wt=15): 384 [binary,180.1,59.1] -(x>1)| -(x<$c1)| -sensor($c2,x,0)|vacio($c2,x-1).
+
+given clause #224: (wt=15) 384 [binary,180.1,59.1] -(x>1)| -(x<$c1)| -sensor($c2,x,0)|vacio($c2,x-1).
+
+given clause #225: (wt=17) 186 [factor,151.3.5,factor_simp] -columnas($c2)| -(x>1)| -(x<$c2)| -sensor(x,x,4)|bomba(x,x+1).
+
+given clause #226: (wt=17) 188 [factor,152.3.5,factor_simp] -columnas($c2)| -(x>1)| -(x<$c2)| -sensor(x,x,4)|bomba(x,x-1).
+
+given clause #227: (wt=17) 190 [factor,153.3.5,factor_simp] -columnas($c2)| -(x>1)| -(x<$c2)| -sensor(x,x,4)|bomba(x+1,x).
+
+given clause #228: (wt=17) 192 [factor,154.3.5,factor_simp] -columnas($c2)| -(x>1)| -(x<$c2)| -sensor(x,x,4)|bomba(x-1,x).
+
+given clause #229: (wt=17) 194 [factor,181.3.5,factor_simp] -columnas($c2)| -(x>1)| -(x<$c2)| -sensor(x,x,0)|vacio(x,x+1).
+
+given clause #230: (wt=17) 196 [factor,182.3.5,factor_simp] -columnas($c2)| -(x>1)| -(x<$c2)| -sensor(x,x,0)|vacio(x,x-1).
+
+given clause #231: (wt=17) 198 [factor,183.3.5,factor_simp] -columnas($c2)| -(x>1)| -(x<$c2)| -sensor(x,x,0)|vacio(x+1,x).
+
+given clause #232: (wt=17) 200 [factor,184.3.5,factor_simp] -columnas($c2)| -(x>1)| -(x<$c2)| -sensor(x,x,0)|vacio(x-1,x).
+
+given clause #233: (wt=17) 205 [binary,59.1,44.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,$c1,3)|bomba(y,$c1-1).
+
+given clause #234: (wt=17) 206 [binary,59.1,43.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,$c1,3)|bomba(y+1,$c1).
+
+given clause #235: (wt=17) 207 [binary,59.1,42.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,$c1,3)|bomba(y-1,$c1).
+
+given clause #236: (wt=17) 208 [binary,59.1,38.2] -filas(x)| -(y>1)| -(y<$c1)| -sensor(x,y,3)|bomba(x-1,y).
+
+given clause #237: (wt=17) 209 [binary,59.1,37.2] -filas(x)| -(y>1)| -(y<$c1)| -sensor(x,y,3)|bomba(x,y+1).
+
+given clause #238: (wt=17) 210 [binary,59.1,36.2] -filas(x)| -(y>1)| -(y<$c1)| -sensor(x,y,3)|bomba(x,y-1).
+
+given clause #239: (wt=17) 222 [binary,59.1,16.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,$c1,0)|vacio(y,$c1-1).
+
+given clause #240: (wt=17) 223 [binary,59.1,15.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,$c1,0)|vacio(y+1,$c1).
+
+given clause #241: (wt=17) 224 [binary,59.1,14.2] -filas(x)| -(y>1)| -(y<x)| -sensor(y,$c1,0)|vacio(y-1,$c1).
+
+given clause #242: (wt=17) 225 [binary,59.1,10.2] -filas(x)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x-1,y).
+
+given clause #243: (wt=17) 226 [binary,59.1,9.2] -filas(x)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x,y+1).
+
+given clause #244: (wt=17) 227 [binary,59.1,8.2] -filas(x)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x,y-1).
+
+given clause #245: (wt=17) 236 [factor,201.3.5,factor_simp] -filas($c1)| -(x>1)| -(x<$c1)| -sensor(x,x,4)|bomba(x,x+1).
+
+given clause #246: (wt=17) 238 [factor,202.3.5,factor_simp] -filas($c1)| -(x>1)| -(x<$c1)| -sensor(x,x,4)|bomba(x,x-1).
+
+given clause #247: (wt=17) 240 [factor,203.3.5,factor_simp] -filas($c1)| -(x>1)| -(x<$c1)| -sensor(x,x,4)|bomba(x+1,x).
+
+given clause #248: (wt=17) 242 [factor,204.3.5,factor_simp] -filas($c1)| -(x>1)| -(x<$c1)| -sensor(x,x,4)|bomba(x-1,x).
+
+given clause #249: (wt=17) 244 [factor,231.3.5,factor_simp] -filas($c1)| -(x>1)| -(x<$c1)| -sensor(x,x,0)|vacio(x,x+1).
+
+given clause #250: (wt=17) 246 [factor,232.3.5,factor_simp] -filas($c1)| -(x>1)| -(x<$c1)| -sensor(x,x,0)|vacio(x,x-1).
+
+given clause #251: (wt=17) 248 [factor,233.3.5,factor_simp] -filas($c1)| -(x>1)| -(x<$c1)| -sensor(x,x,0)|vacio(x+1,x).
+
+given clause #252: (wt=17) 250 [factor,234.3.5,factor_simp] -filas($c1)| -(x>1)| -(x<$c1)| -sensor(x,x,0)|vacio(x-1,x).
+
+given clause #253: (wt=20) 185 [factor,151.2.4] -columnas(x)| -(y>1)| -(y<$c2)| -(y<x)| -sensor(y,y,4)|bomba(y,y+1).
+** KEPT (pick-wt=18): 385 [binary,185.1,59.1] -(x>1)| -(x<$c2)| -(x<$c1)| -sensor(x,x,4)|bomba(x,x+1).
+
+given clause #254: (wt=18) 385 [binary,185.1,59.1] -(x>1)| -(x<$c2)| -(x<$c1)| -sensor(x,x,4)|bomba(x,x+1).
+
+given clause #255: (wt=20) 187 [factor,152.2.4] -columnas(x)| -(y>1)| -(y<$c2)| -(y<x)| -sensor(y,y,4)|bomba(y,y-1).
+** KEPT (pick-wt=18): 386 [binary,187.1,59.1] -(x>1)| -(x<$c2)| -(x<$c1)| -sensor(x,x,4)|bomba(x,x-1).
+
+given clause #256: (wt=18) 386 [binary,187.1,59.1] -(x>1)| -(x<$c2)| -(x<$c1)| -sensor(x,x,4)|bomba(x,x-1).
+
+given clause #257: (wt=20) 189 [factor,153.2.4] -columnas(x)| -(y>1)| -(y<$c2)| -(y<x)| -sensor(y,y,4)|bomba(y+1,y).
+** KEPT (pick-wt=18): 387 [binary,189.1,59.1] -(x>1)| -(x<$c2)| -(x<$c1)| -sensor(x,x,4)|bomba(x+1,x).
+
+given clause #258: (wt=18) 387 [binary,189.1,59.1] -(x>1)| -(x<$c2)| -(x<$c1)| -sensor(x,x,4)|bomba(x+1,x).
+
+given clause #259: (wt=20) 191 [factor,154.2.4] -columnas(x)| -(y>1)| -(y<$c2)| -(y<x)| -sensor(y,y,4)|bomba(y-1,y).
+** KEPT (pick-wt=18): 388 [binary,191.1,59.1] -(x>1)| -(x<$c2)| -(x<$c1)| -sensor(x,x,4)|bomba(x-1,x).
+
+given clause #260: (wt=18) 388 [binary,191.1,59.1] -(x>1)| -(x<$c2)| -(x<$c1)| -sensor(x,x,4)|bomba(x-1,x).
+
+given clause #261: (wt=20) 193 [factor,181.2.4] -columnas(x)| -(y>1)| -(y<$c2)| -(y<x)| -sensor(y,y,0)|vacio(y,y+1).
+** KEPT (pick-wt=18): 389 [binary,193.1,59.1] -(x>1)| -(x<$c2)| -(x<$c1)| -sensor(x,x,0)|vacio(x,x+1).
+
+given clause #262: (wt=18) 389 [binary,193.1,59.1] -(x>1)| -(x<$c2)| -(x<$c1)| -sensor(x,x,0)|vacio(x,x+1).
+
+given clause #263: (wt=20) 195 [factor,182.2.4] -columnas(x)| -(y>1)| -(y<$c2)| -(y<x)| -sensor(y,y,0)|vacio(y,y-1).
+** KEPT (pick-wt=18): 390 [binary,195.1,59.1] -(x>1)| -(x<$c2)| -(x<$c1)| -sensor(x,x,0)|vacio(x,x-1).
+
+given clause #264: (wt=18) 390 [binary,195.1,59.1] -(x>1)| -(x<$c2)| -(x<$c1)| -sensor(x,x,0)|vacio(x,x-1).
+
+given clause #265: (wt=20) 197 [factor,183.2.4] -columnas(x)| -(y>1)| -(y<$c2)| -(y<x)| -sensor(y,y,0)|vacio(y+1,y).
+** KEPT (pick-wt=18): 391 [binary,197.1,59.1] -(x>1)| -(x<$c2)| -(x<$c1)| -sensor(x,x,0)|vacio(x+1,x).
+
+given clause #266: (wt=18) 391 [binary,197.1,59.1] -(x>1)| -(x<$c2)| -(x<$c1)| -sensor(x,x,0)|vacio(x+1,x).
+
+given clause #267: (wt=20) 199 [factor,184.2.4] -columnas(x)| -(y>1)| -(y<$c2)| -(y<x)| -sensor(y,y,0)|vacio(y-1,y).
+** KEPT (pick-wt=18): 392 [binary,199.1,59.1] -(x>1)| -(x<$c2)| -(x<$c1)| -sensor(x,x,0)|vacio(x-1,x).
+
+given clause #268: (wt=18) 392 [binary,199.1,59.1] -(x>1)| -(x<$c2)| -(x<$c1)| -sensor(x,x,0)|vacio(x-1,x).
+
+given clause #269: (wt=20) 235 [factor,201.2.4] -filas(x)| -(y>1)| -(y<x)| -(y<$c1)| -sensor(y,y,4)|bomba(y,y+1).
+
+given clause #270: (wt=20) 237 [factor,202.2.4] -filas(x)| -(y>1)| -(y<x)| -(y<$c1)| -sensor(y,y,4)|bomba(y,y-1).
+
+given clause #271: (wt=20) 239 [factor,203.2.4] -filas(x)| -(y>1)| -(y<x)| -(y<$c1)| -sensor(y,y,4)|bomba(y+1,y).
+
+given clause #272: (wt=20) 241 [factor,204.2.4] -filas(x)| -(y>1)| -(y<x)| -(y<$c1)| -sensor(y,y,4)|bomba(y-1,y).
+
+given clause #273: (wt=20) 243 [factor,231.2.4] -filas(x)| -(y>1)| -(y<x)| -(y<$c1)| -sensor(y,y,0)|vacio(y,y+1).
+
+given clause #274: (wt=20) 245 [factor,232.2.4] -filas(x)| -(y>1)| -(y<x)| -(y<$c1)| -sensor(y,y,0)|vacio(y,y-1).
+
+given clause #275: (wt=20) 247 [factor,233.2.4] -filas(x)| -(y>1)| -(y<x)| -(y<$c1)| -sensor(y,y,0)|vacio(y+1,y).
+
+given clause #276: (wt=20) 249 [factor,234.2.4] -filas(x)| -(y>1)| -(y<x)| -(y<$c1)| -sensor(y,y,0)|vacio(y-1,y).
+
+given clause #277: (wt=23) 67 [binary,49.1,48.1] -columnas(x)| -(y>1)| -(y<5)| -(z>1)| -(z<x)| -sensor(y,z,4)|bomba(y,z+1).
+** KEPT (pick-wt=21): 393 [binary,67.1,59.1] -(x>1)| -(x<5)| -(y>1)| -(y<$c1)| -sensor(x,y,4)|bomba(x,y+1).
+** KEPT (pick-wt=21): 394 [binary,67.1,50.1] -(x>1)| -(x<5)| -(y>1)| -(y<5)| -sensor(x,y,4)|bomba(x,y+1).
+
+given clause #278: (wt=21) 393 [binary,67.1,59.1] -(x>1)| -(x<5)| -(y>1)| -(y<$c1)| -sensor(x,y,4)|bomba(x,y+1).
+
+given clause #279: (wt=21) 394 [binary,67.1,50.1] -(x>1)| -(x<5)| -(y>1)| -(y<5)| -sensor(x,y,4)|bomba(x,y+1).
+
+given clause #280: (wt=23) 68 [binary,49.1,47.1] -columnas(x)| -(y>1)| -(y<5)| -(z>1)| -(z<x)| -sensor(y,z,4)|bomba(y,z-1).
+** KEPT (pick-wt=21): 395 [binary,68.1,59.1] -(x>1)| -(x<5)| -(y>1)| -(y<$c1)| -sensor(x,y,4)|bomba(x,y-1).
+** KEPT (pick-wt=21): 396 [binary,68.1,50.1] -(x>1)| -(x<5)| -(y>1)| -(y<5)| -sensor(x,y,4)|bomba(x,y-1).
+
+given clause #281: (wt=21) 395 [binary,68.1,59.1] -(x>1)| -(x<5)| -(y>1)| -(y<$c1)| -sensor(x,y,4)|bomba(x,y-1).
+
+given clause #282: (wt=21) 396 [binary,68.1,50.1] -(x>1)| -(x<5)| -(y>1)| -(y<5)| -sensor(x,y,4)|bomba(x,y-1).
+
+given clause #283: (wt=23) 69 [binary,49.1,46.1] -columnas(x)| -(y>1)| -(y<5)| -(z>1)| -(z<x)| -sensor(y,z,4)|bomba(y+1,z).
+** KEPT (pick-wt=21): 397 [binary,69.1,59.1] -(x>1)| -(x<5)| -(y>1)| -(y<$c1)| -sensor(x,y,4)|bomba(x+1,y).
+** KEPT (pick-wt=21): 398 [binary,69.1,50.1] -(x>1)| -(x<5)| -(y>1)| -(y<5)| -sensor(x,y,4)|bomba(x+1,y).
+
+given clause #284: (wt=21) 397 [binary,69.1,59.1] -(x>1)| -(x<5)| -(y>1)| -(y<$c1)| -sensor(x,y,4)|bomba(x+1,y).
+
+given clause #285: (wt=21) 398 [binary,69.1,50.1] -(x>1)| -(x<5)| -(y>1)| -(y<5)| -sensor(x,y,4)|bomba(x+1,y).
+
+given clause #286: (wt=23) 70 [binary,49.1,45.1] -columnas(x)| -(y>1)| -(y<5)| -(z>1)| -(z<x)| -sensor(y,z,4)|bomba(y-1,z).
+** KEPT (pick-wt=21): 399 [binary,70.1,59.1] -(x>1)| -(x<5)| -(y>1)| -(y<$c1)| -sensor(x,y,4)|bomba(x-1,y).
+** KEPT (pick-wt=21): 400 [binary,70.1,50.1] -(x>1)| -(x<5)| -(y>1)| -(y<5)| -sensor(x,y,4)|bomba(x-1,y).
+
+given clause #287: (wt=21) 399 [binary,70.1,59.1] -(x>1)| -(x<5)| -(y>1)| -(y<$c1)| -sensor(x,y,4)|bomba(x-1,y).
+
+given clause #288: (wt=21) 400 [binary,70.1,50.1] -(x>1)| -(x<5)| -(y>1)| -(y<5)| -sensor(x,y,4)|bomba(x-1,y).
+
+given clause #289: (wt=23) 97 [binary,49.1,4.1] -columnas(x)| -(y>1)| -(y<5)| -(z>1)| -(z<x)| -sensor(y,z,0)|vacio(y,z+1).
+** KEPT (pick-wt=21): 401 [binary,97.1,59.1] -(x>1)| -(x<5)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x,y+1).
+** KEPT (pick-wt=21): 402 [binary,97.1,50.1] -(x>1)| -(x<5)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x,y+1).
+
+given clause #290: (wt=21) 401 [binary,97.1,59.1] -(x>1)| -(x<5)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x,y+1).
+
+given clause #291: (wt=21) 402 [binary,97.1,50.1] -(x>1)| -(x<5)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x,y+1).
+
+given clause #292: (wt=23) 98 [binary,49.1,3.1] -columnas(x)| -(y>1)| -(y<5)| -(z>1)| -(z<x)| -sensor(y,z,0)|vacio(y,z-1).
+** KEPT (pick-wt=21): 403 [binary,98.1,59.1] -(x>1)| -(x<5)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x,y-1).
+** KEPT (pick-wt=21): 404 [binary,98.1,50.1] -(x>1)| -(x<5)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x,y-1).
+
+given clause #293: (wt=21) 403 [binary,98.1,59.1] -(x>1)| -(x<5)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x,y-1).
+
+given clause #294: (wt=21) 404 [binary,98.1,50.1] -(x>1)| -(x<5)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x,y-1).
+
+given clause #295: (wt=23) 99 [binary,49.1,2.1] -columnas(x)| -(y>1)| -(y<5)| -(z>1)| -(z<x)| -sensor(y,z,0)|vacio(y+1,z).
+** KEPT (pick-wt=21): 405 [binary,99.1,59.1] -(x>1)| -(x<5)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x+1,y).
+** KEPT (pick-wt=21): 406 [binary,99.1,50.1] -(x>1)| -(x<5)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x+1,y).
+
+given clause #296: (wt=21) 405 [binary,99.1,59.1] -(x>1)| -(x<5)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x+1,y).
+
+given clause #297: (wt=21) 406 [binary,99.1,50.1] -(x>1)| -(x<5)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x+1,y).
+
+given clause #298: (wt=23) 100 [binary,49.1,1.1] -columnas(x)| -(y>1)| -(y<5)| -(z>1)| -(z<x)| -sensor(y,z,0)|vacio(y-1,z).
+** KEPT (pick-wt=21): 407 [binary,100.1,59.1] -(x>1)| -(x<5)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x-1,y).
+** KEPT (pick-wt=21): 408 [binary,100.1,50.1] -(x>1)| -(x<5)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x-1,y).
+
+given clause #299: (wt=21) 407 [binary,100.1,59.1] -(x>1)| -(x<5)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x-1,y).
+
+given clause #300: (wt=21) 408 [binary,100.1,50.1] -(x>1)| -(x<5)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x-1,y).
+
+given clause #301: (wt=23) 117 [binary,50.1,48.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<5)| -sensor(y,z,4)|bomba(y,z+1).
+** KEPT (pick-wt=21): 409 [binary,117.1,58.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<5)| -sensor(x,y,4)|bomba(x,y+1).
+
+given clause #302: (wt=21) 409 [binary,117.1,58.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<5)| -sensor(x,y,4)|bomba(x,y+1).
+
+given clause #303: (wt=23) 118 [binary,50.1,47.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<5)| -sensor(y,z,4)|bomba(y,z-1).
+** KEPT (pick-wt=21): 410 [binary,118.1,58.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<5)| -sensor(x,y,4)|bomba(x,y-1).
+
+given clause #304: (wt=21) 410 [binary,118.1,58.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<5)| -sensor(x,y,4)|bomba(x,y-1).
+
+given clause #305: (wt=23) 119 [binary,50.1,46.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<5)| -sensor(y,z,4)|bomba(y+1,z).
+** KEPT (pick-wt=21): 411 [binary,119.1,58.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<5)| -sensor(x,y,4)|bomba(x+1,y).
+
+given clause #306: (wt=21) 411 [binary,119.1,58.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<5)| -sensor(x,y,4)|bomba(x+1,y).
+
+given clause #307: (wt=23) 120 [binary,50.1,45.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<5)| -sensor(y,z,4)|bomba(y-1,z).
+** KEPT (pick-wt=21): 412 [binary,120.1,58.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<5)| -sensor(x,y,4)|bomba(x-1,y).
+
+given clause #308: (wt=21) 412 [binary,120.1,58.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<5)| -sensor(x,y,4)|bomba(x-1,y).
+
+given clause #309: (wt=23) 147 [binary,50.1,4.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<5)| -sensor(y,z,0)|vacio(y,z+1).
+** KEPT (pick-wt=21): 413 [binary,147.1,58.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x,y+1).
+
+given clause #310: (wt=21) 413 [binary,147.1,58.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x,y+1).
+
+given clause #311: (wt=23) 148 [binary,50.1,3.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<5)| -sensor(y,z,0)|vacio(y,z-1).
+** KEPT (pick-wt=21): 414 [binary,148.1,58.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x,y-1).
+
+given clause #312: (wt=21) 414 [binary,148.1,58.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x,y-1).
+
+given clause #313: (wt=23) 149 [binary,50.1,2.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<5)| -sensor(y,z,0)|vacio(y+1,z).
+** KEPT (pick-wt=21): 415 [binary,149.1,58.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x+1,y).
+
+given clause #314: (wt=21) 415 [binary,149.1,58.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x+1,y).
+
+given clause #315: (wt=23) 150 [binary,50.1,1.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<5)| -sensor(y,z,0)|vacio(y-1,z).
+** KEPT (pick-wt=21): 416 [binary,150.1,58.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x-1,y).
+
+given clause #316: (wt=21) 416 [binary,150.1,58.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<5)| -sensor(x,y,0)|vacio(x-1,y).
+
+given clause #317: (wt=23) 151 [binary,58.1,48.1] -columnas(x)| -(y>1)| -(y<$c2)| -(z>1)| -(z<x)| -sensor(y,z,4)|bomba(y,z+1).
+** KEPT (pick-wt=21): 417 [binary,151.1,59.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<$c1)| -sensor(x,y,4)|bomba(x,y+1).
+
+given clause #318: (wt=21) 417 [binary,151.1,59.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<$c1)| -sensor(x,y,4)|bomba(x,y+1).
+
+given clause #319: (wt=23) 152 [binary,58.1,47.1] -columnas(x)| -(y>1)| -(y<$c2)| -(z>1)| -(z<x)| -sensor(y,z,4)|bomba(y,z-1).
+** KEPT (pick-wt=21): 418 [binary,152.1,59.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<$c1)| -sensor(x,y,4)|bomba(x,y-1).
+
+given clause #320: (wt=21) 418 [binary,152.1,59.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<$c1)| -sensor(x,y,4)|bomba(x,y-1).
+
+given clause #321: (wt=23) 153 [binary,58.1,46.1] -columnas(x)| -(y>1)| -(y<$c2)| -(z>1)| -(z<x)| -sensor(y,z,4)|bomba(y+1,z).
+** KEPT (pick-wt=21): 419 [binary,153.1,59.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<$c1)| -sensor(x,y,4)|bomba(x+1,y).
+
+given clause #322: (wt=21) 419 [binary,153.1,59.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<$c1)| -sensor(x,y,4)|bomba(x+1,y).
+
+given clause #323: (wt=23) 154 [binary,58.1,45.1] -columnas(x)| -(y>1)| -(y<$c2)| -(z>1)| -(z<x)| -sensor(y,z,4)|bomba(y-1,z).
+** KEPT (pick-wt=21): 420 [binary,154.1,59.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<$c1)| -sensor(x,y,4)|bomba(x-1,y).
+
+given clause #324: (wt=21) 420 [binary,154.1,59.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<$c1)| -sensor(x,y,4)|bomba(x-1,y).
+
+given clause #325: (wt=23) 181 [binary,58.1,4.1] -columnas(x)| -(y>1)| -(y<$c2)| -(z>1)| -(z<x)| -sensor(y,z,0)|vacio(y,z+1).
+** KEPT (pick-wt=21): 421 [binary,181.1,59.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x,y+1).
+
+given clause #326: (wt=21) 421 [binary,181.1,59.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x,y+1).
+
+given clause #327: (wt=23) 182 [binary,58.1,3.1] -columnas(x)| -(y>1)| -(y<$c2)| -(z>1)| -(z<x)| -sensor(y,z,0)|vacio(y,z-1).
+** KEPT (pick-wt=21): 422 [binary,182.1,59.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x,y-1).
+
+given clause #328: (wt=21) 422 [binary,182.1,59.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x,y-1).
+
+given clause #329: (wt=23) 183 [binary,58.1,2.1] -columnas(x)| -(y>1)| -(y<$c2)| -(z>1)| -(z<x)| -sensor(y,z,0)|vacio(y+1,z).
+** KEPT (pick-wt=21): 423 [binary,183.1,59.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x+1,y).
+
+given clause #330: (wt=21) 423 [binary,183.1,59.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x+1,y).
+
+given clause #331: (wt=23) 184 [binary,58.1,1.1] -columnas(x)| -(y>1)| -(y<$c2)| -(z>1)| -(z<x)| -sensor(y,z,0)|vacio(y-1,z).
+** KEPT (pick-wt=21): 424 [binary,184.1,59.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x-1,y).
+
+given clause #332: (wt=21) 424 [binary,184.1,59.1] -(x>1)| -(x<$c2)| -(y>1)| -(y<$c1)| -sensor(x,y,0)|vacio(x-1,y).
+
+given clause #333: (wt=23) 201 [binary,59.1,48.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<$c1)| -sensor(y,z,4)|bomba(y,z+1).
+
+given clause #334: (wt=23) 202 [binary,59.1,47.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<$c1)| -sensor(y,z,4)|bomba(y,z-1).
+
+given clause #335: (wt=23) 203 [binary,59.1,46.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<$c1)| -sensor(y,z,4)|bomba(y+1,z).
+
+given clause #336: (wt=23) 204 [binary,59.1,45.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<$c1)| -sensor(y,z,4)|bomba(y-1,z).
+
+given clause #337: (wt=23) 231 [binary,59.1,4.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<$c1)| -sensor(y,z,0)|vacio(y,z+1).
+
+given clause #338: (wt=23) 232 [binary,59.1,3.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<$c1)| -sensor(y,z,0)|vacio(y,z-1).
+
+given clause #339: (wt=23) 233 [binary,59.1,2.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<$c1)| -sensor(y,z,0)|vacio(y+1,z).
+
+given clause #340: (wt=23) 234 [binary,59.1,1.2] -filas(x)| -(y>1)| -(y<x)| -(z>1)| -(z<$c1)| -sensor(y,z,0)|vacio(y-1,z).
 
 Search stopped because sos empty.
 
 ============ end of search ============
 
 -------------- statistics -------------
-clauses given                 16
-clauses generated              4
-  binary_res generated         4
-  factors generated            0
-demod & eval rewrites          4
+clauses given                340
+clauses generated            627
+  binary_res generated       499
+  factors generated          128
+demod & eval rewrites        296
 clauses wt,lit,sk delete       0
-tautologies deleted            0
-clauses forward subsumed       0
-  (subsumed by sos)            0
-unit deletions                 0
-factor simplifications         0
-clauses kept                   4
+tautologies deleted            9
+clauses forward subsumed     260
+  (subsumed by sos)           40
+unit deletions                28
+factor simplifications        48
+clauses kept                 358
 new demodulators               0
 empty clauses                  0
 clauses back demodulated       0
-clauses back subsumed          0
-usable size                   20
+clauses back subsumed         66
+usable size                  358
 sos size                       0
 demodulators size              0
 passive size                   0
 hot size                       0
-Kbytes malloced              976
+Kbytes malloced             1953
 
 ----------- times (seconds) -----------
-user CPU time          0.00          (0 hr, 0 min, 0 sec)
+user CPU time          0.02          (0 hr, 0 min, 0 sec)
 system CPU time        0.00          (0 hr, 0 min, 0 sec)
 wall-clock time        0             (0 hr, 0 min, 0 sec)
 
-Process 86581 finished Sun Dec  4 19:46:45 2022
+Process 88197 finished Tue Dec  6 09:49:45 2022
