@@ -4,9 +4,6 @@ set(binary_res).
 
 % Lenguaje del Problema
 %
-% Funciones:
-% vecinos(x,y): El nombre de casillas vecinas que tiene la casilla de coordenadas (x,y).
-%
 % Propiedades:
 % - filas(x): Hay x filas en la cuadricúla
 % - columnas(x): Hay x columnas en la cuadricúla
