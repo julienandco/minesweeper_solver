@@ -27,7 +27,7 @@ formula_list(usable).
     %% Sensores que no detectan nada...
 
     % En las esquinas del tablero
-    sensor(1,1,0) -> vacio(1,2) & vacio(2,1) & completado(1,1).
+    sensor(1,1,0) -> (vacio(1,2) & vacio(2,1) & completado(1,1)).
     all f ((filas(f) & sensor(f,1,0)) -> (vacio(f-1,1) & vacio(f,2) & completado(f,1))).
     all c ((columnas(c) & sensor(1,c,0)) -> (vacio(1,c-1) & vacio(2,c) & completado(1,c))).
     all f c ((filas(f) & columnas(c) & sensor(f,c,0)) -> (vacio(f,c-1) & vacio(f-1,c) & completado(f,c))).
