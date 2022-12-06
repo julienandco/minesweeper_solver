@@ -106,7 +106,7 @@ formula_list(usable).
     all y f c (filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,1) & vacio(f,y-1) & vacio(f-1,y) -> bomba(f,y+1) & completado(f,y)).
     all y f c (filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,1) & vacio(f,y+1) & vacio(f,y-1) -> bomba(f-1,y) & completado(f,y)).
 
-    % lado derecho
+    % lado izquierdo
     % bomba conocida
     all x f (filas(f) & x>1 & x<f & sensor(x,1,1) & bomba(x-1,1) -> vacio(x+1,1) & vacio(x,2) & completado(x,1)).
     all x f (filas(f) & x>1 & x<f & sensor(x,1,1) & bomba(x+1,1) -> vacio(x-1,1) & vacio(x,2) & completado(x,1)).
@@ -117,7 +117,7 @@ formula_list(usable).
     all x f (filas(f) & x>1 & x<f & sensor(x,1,1) & vacio(x-1,1) & vacio(x,2) -> bomba(x+1,1) & completado(x,1)).
     all x f (filas(f) & x>1 & x<f & sensor(x,1,1) & vacio(x+1,1) & vacio(x-1,1) -> bomba(x,2) & completado(x,1)).
 
-    % lado izquierdo
+    % lado derecho
     % bomba conocida
     all x f c (filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,1) & bomba(x-1,c) -> vacio(x+1,c) & vacio(x,c-1) & completado(x,c)).
     all x f c (filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,1) & bomba(x+1,c) -> vacio(x-1,c) & vacio(x,c-1) & completado(x,c)).
@@ -153,7 +153,7 @@ formula_list(usable).
     all y f c (filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,2) & vacio(f,y+1) -> bomba(f,y-1) & bomba(f-1,y) & completado(f,y)).
     all y f c (filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,2) & vacio(f,y-1) -> bomba(f,y+1) & bomba(f-1,y) & completado(f,y)).
 
-    % lado derecho
+    % lado izquierdo
     % bombas conocidas
     all x f (filas(f) & x>1 & x<f & sensor(x,1,2) & bomba(x-1,1) & bomba(x+1,1) -> vacio(x,2) & completado(x,1)).
     all x f (filas(f) & x>1 & x<f & sensor(x,1,2) & bomba(x+1,1) & bomba(x,2) -> vacio(x-1,1) & completado(x,1)).
@@ -164,7 +164,7 @@ formula_list(usable).
     all x f (filas(f) & x>1 & x<f & sensor(x,1,2) & vacio(x+1,1) -> bomba(x,2) & bomba(x-1,1) & completado(x,1)).
     all x f (filas(f) & x>1 & x<f & sensor(x,1,2) & vacio(x,2) -> bomba(x-1,1) & bomba(x+1,1) & completado(x,1)).
 
-    % lado izquierdo
+    % lado derecho
     % bombas conocidas
     all x f c (filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,2) & bomba(x-1,c) & vacio(x+1,c) -> vacio(x,c-1) & completado(x,c)).
     all x f c (filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,2) & bomba(x+1,c) & vacio(x,c-1) -> vacio(x-1,c) & completado(x,c)).
