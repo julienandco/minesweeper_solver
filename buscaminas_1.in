@@ -68,6 +68,49 @@ formula_list(usable).
     all y f c (filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,3) -> bomba(f, y-1) & bomba(f,y+1) & bomba(f-1,y)).
     all x f (filas(f) & x>1 & x<f & sensor(x,1,3) -> bomba(x-1, 1) & bomba(x+1,1) & bomba(x,2)).
     all x f c (filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,3) -> bomba(x-1, c) & bomba(x+1,c) & bomba(x,c-1)).
+
+    %% Sensores que detectan algo...
+
+    % En las esquinas del tablero (solo 1 bomba posible)
+
+    % 1 bomba detectada y ya conocida
+    sensor(1,1,1) & bomba(1,2) -> vacio(2,1).
+    sensor(1,1,1) & bomba(2,1) -> vacio(1,2).
+    all f (filas(f) & sensor(f,1,1) & bomba(f-1, 1) -> vacio(f,2)).
+    all f (filas(f) & sensor(f,1,1) & bomba(f, 2) -> vacio(f-1,1)).
+    all c (columnas(c) & sensor(1,c,1) & bomba(1, c-1) -> vacio(2,c)).
+    all c (columnas(c) & sensor(1,c,1) & bomba(2, c) -> vacio(1,c-1)).
+    all f c (filas(f) & columnas(c) & sensor(f,c,1) & bomba(f, c-1) -> vacio(f-1,c)).
+    all f c (filas(f) & columnas(c) & sensor(f,c,1) & bomba(f-1, c) -> vacio(f,c-1)).
+
+    % 1 bomba detectada y no conocida
+    sensor(1,1,1) & vacio(1,2) -> bomba(2,1).
+    sensor(1,1,1) & vacio(2,1) -> bomba(1,2).
+    all f (filas(f) & sensor(f,1,1) & vacio(f-1, 1) -> bomba(f,2)).
+    all f (filas(f) & sensor(f,1,1) & vacio(f, 2) -> bomba(f-1,1)).
+    all c (columnas(c) & sensor(1,c,1) & vacio(1, c-1) -> bomba(2,c)).
+    all c (columnas(c) & sensor(1,c,1) & vacio(2, c) -> bomba(1,c-1)).
+    all f c (filas(f) & columnas(c) & sensor(f,c,1) & vacio(f, c-1) -> bomba(f-1,c)).
+    all f c (filas(f) & columnas(c) & sensor(f,c,1) & vacio(f-1, c) -> bomba(f,c-1)).
+
+
+    % En el medio del tablero (1 bomba)
+
+    % bomba ya conocida
+    all x y f c (filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & bomba(x-1, y) -> vacio(x+1,y) & vacio(x,y-1) & vacio(x,y+1)).
+    all x y f c (filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & bomba(x+1, y) -> vacio(x-1,y) & vacio(x,y-1) & vacio(x,y+1)).
+    all x y f c (filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & bomba(x, y-1) -> vacio(x-1,y) & vacio(x+1,y) & vacio(x,y+1)).
+    all x y f c (filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & bomba(x, y+1) -> vacio(x-1,y) & vacio(x+1,y) & vacio(x,y-1)).
+
+    % bomba no conocida
+    all x y f c (filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & vacio(x+1,y) & vacio(x,y-1) & vacio(x,y+1) -> bomba(x-1, y)).
+    all x y f c (filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & vacio(x-1,y) & vacio(x,y-1) & vacio(x,y+1) -> bomba(x+1, y)).
+    all x y f c (filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & vacio(x-1,y) & vacio(x+1,y) & vacio(x,y+1) -> bomba(x, y-1)).
+    all x y f c (filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & vacio(x-1,y) & vacio(x+1,y) & vacio(x,y-1) -> bomba(x, y+1)).
+
+    % En el medio del tablero (2 bombas)
+    % En el medio del tablero (3 bombas)
+
    
 end_of_list.
 
