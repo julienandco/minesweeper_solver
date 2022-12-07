@@ -1,7 +1,7 @@
 ----- Otter 3.3f, August 2004 -----
 The process was started by julien on Juliens-MacBook-Pro.local,
-Wed Dec  7 14:11:43 2022
-The command was "../../../otter-3.3f/bin/otter".  The process ID is 94321.
+Wed Dec  7 14:14:14 2022
+The command was "../../../otter-3.3f/bin/otter".  The process ID is 94456.
 
 set(hyper_res).
 make_evaluable(_>_,$GT(_,_)).
@@ -257,7 +257,7 @@ sensor(4,1,1).
 sensor(4,3,2).
 sensor(4,5,2).
 sensor(5,4,2).
--(bomba(1,2)&bomba(1,4)&bomba(2,3)&bomba(3,5)&bomba(4,4)&bomba(5,1)&bomba(5,3)).
+-(completado(1,3)&completado(2,4)&completado(3,2)&completado(4,1)&completado(4,3)&completado(4,5)&completado(5,4)).
 end_of_list.
 
 -------> sos clausifies to:
@@ -272,7 +272,7 @@ list(sos).
 200 [] sensor(4,3,2).
 201 [] sensor(4,5,2).
 202 [] sensor(5,4,2).
-203 [] -bomba(1,2)| -bomba(1,4)| -bomba(2,3)| -bomba(3,5)| -bomba(4,4)| -bomba(5,1)| -bomba(5,3).
+203 [] -completado(1,3)| -completado(2,4)| -completado(3,2)| -completado(4,1)| -completado(4,3)| -completado(4,5)| -completado(5,4).
 end_of_list.
 
 ======= end of input processing =======
@@ -497,57 +497,39 @@ given clause #57: (wt=3) 262 [hyper,258,3,256] vacio(5,5).
 
 given clause #58: (wt=3) 263 [hyper,262,3,235] bomba(3,5).
 
-given clause #59: (wt=21) 203 [] -bomba(1,2)| -bomba(1,4)| -bomba(2,3)| -bomba(3,5)| -bomba(4,4)| -bomba(5,1)| -bomba(5,3).
-** KEPT (pick-wt=0): 264 [hyper,203,207,206,205,263,253,250,256] $F.
+given clause #59: (wt=21) 203 [] -completado(1,3)| -completado(2,4)| -completado(3,2)| -completado(4,1)| -completado(4,3)| -completado(4,5)| -completado(5,4).
+** KEPT (pick-wt=0): 264 [hyper,203,204,208,215,220,223,230,237] $F.
 
------> EMPTY CLAUSE at   0.01 sec ----> 264 [hyper,203,207,206,205,263,253,250,256] $F.
+-----> EMPTY CLAUSE at   0.01 sec ----> 264 [hyper,203,204,208,215,220,223,230,237] $F.
 
-Length of proof is 20.  Level of proof is 6.
+Length of proof is 7.  Level of proof is 1.
 
 ---------------- PROOF ----------------
 
-3 [] -bomba(x,y)| -vacio(x,y).
-36 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x+1,y).
-37 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x,y-1).
-38 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x,y+1).
-52 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|bomba(1,y-1).
-53 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|bomba(1,y+1).
-54 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|bomba(2,y).
-110 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|bomba(x-1,1)|bomba(x+1,1)|bomba(x,2).
-138 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|vacio(x36-1,y)|vacio(x36,y+1)|vacio(x36,y-1).
-150 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|bomba(x-1,x40)|bomba(x+1,x40).
-170 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x-1,y)|bomba(x+1,y)|bomba(x,y-1).
-172 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x-1,y)|bomba(x,y-1)|bomba(x,y+1).
+39 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|completado(x,y).
+55 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|completado(1,y).
+116 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|completado(x,1).
+140 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|completado(x36,y).
+156 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|completado(x,x40).
+181 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|completado(x,y).
 194 [] filas(5).
 195 [] columnas(5).
 196 [] sensor(1,3,3).
+197 [] sensor(2,4,2).
 198 [] sensor(3,2,0).
 199 [] sensor(4,1,1).
 200 [] sensor(4,3,2).
 201 [] sensor(4,5,2).
 202 [] sensor(5,4,2).
-203 [] -bomba(1,2)| -bomba(1,4)| -bomba(2,3)| -bomba(3,5)| -bomba(4,4)| -bomba(5,1)| -bomba(5,3).
-205 [hyper,196,54,195,eval,eval] bomba(2,3).
-206 [hyper,196,53,195,eval,eval,demod] bomba(1,4).
-207 [hyper,196,52,195,eval,eval,demod] bomba(1,2).
-216 [hyper,198,38,194,195,eval,eval,eval,eval,demod] vacio(3,3).
-217 [hyper,198,37,194,195,eval,eval,eval,eval,demod] vacio(3,1).
-218 [hyper,198,36,194,195,eval,eval,eval,eval,demod] vacio(4,2).
-222 [hyper,199,110,194,eval,eval,demod] bomba(3,1)|bomba(5,1)|bomba(4,2).
-227 [hyper,200,172,194,195,eval,eval,eval,eval,demod] bomba(3,3)|bomba(4,2)|bomba(4,4).
-229 [hyper,200,170,194,195,eval,eval,eval,eval,demod] bomba(3,3)|bomba(5,3)|bomba(4,2).
-235 [hyper,201,150,194,195,eval,eval,demod] bomba(3,5)|bomba(5,5).
-238 [hyper,202,138,194,195,eval,eval,demod] vacio(4,4)|vacio(5,5)|vacio(5,3).
-248 [hyper,222,3,217] bomba(5,1)|bomba(4,2).
-250 [hyper,248,3,218] bomba(5,1).
-251 [hyper,227,3,216] bomba(4,2)|bomba(4,4).
-253 [hyper,251,3,218] bomba(4,4).
-254 [hyper,229,3,216] bomba(5,3)|bomba(4,2).
-256 [hyper,254,3,218] bomba(5,3).
-258 [hyper,238,3,253] vacio(5,5)|vacio(5,3).
-262 [hyper,258,3,256] vacio(5,5).
-263 [hyper,262,3,235] bomba(3,5).
-264 [hyper,203,207,206,205,263,253,250,256] $F.
+203 [] -completado(1,3)| -completado(2,4)| -completado(3,2)| -completado(4,1)| -completado(4,3)| -completado(4,5)| -completado(5,4).
+204 [hyper,196,55,195,eval,eval] completado(1,3).
+208 [hyper,197,181,194,195,eval,eval,eval,eval] completado(2,4).
+215 [hyper,198,39,194,195,eval,eval,eval,eval] completado(3,2).
+220 [hyper,199,116,194,eval,eval] completado(4,1).
+223 [hyper,200,181,194,195,eval,eval,eval,eval] completado(4,3).
+230 [hyper,201,156,194,195,eval,eval] completado(4,5).
+237 [hyper,202,140,194,195,eval,eval] completado(5,4).
+264 [hyper,203,204,208,215,220,223,230,237] $F.
 
 ------------ end of proof -------------
 
@@ -586,4 +568,4 @@ wall-clock time        0             (0 hr, 0 min, 0 sec)
 
 That finishes the proof of the theorem.
 
-Process 94321 finished Wed Dec  7 14:11:43 2022
+Process 94456 finished Wed Dec  7 14:14:14 2022
