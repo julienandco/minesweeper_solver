@@ -1,4 +1,4 @@
-set(binary_res).
+set(hyper_res).
 
 % Lenguaje del Problema
 %
@@ -280,6 +280,11 @@ formula_list(sos).
     sensor(4,3,2).
     sensor(4,5,2).
     sensor(5,4,2).
+
+    % Cada celda solo puede tener un estado
+    all x y z (vacio(x,y) -> (-bomba(x,y) & -sensor(x,y,z))).
+    all x y z (bomba(x,y) -> (-vacio(x,y) & -sensor(x,y,z))).
+    all x y z (sensor(x,y,z) -> (-vacio(x,y) & -bomba(x,y))).
 
     % Situación final.
     -(all x y z (sensor(x,y,z) -> completado(x,y))).
