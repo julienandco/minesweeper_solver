@@ -71,24 +71,24 @@ formula_list(usable).
     all f c ((filas(f) & columnas(c) & sensor(f,c,1)) -> (((bomba(f,c-1) & vacio(f-1,c)) | (vacio(f,c-1) & bomba(f-1,c))) & completado(f,c))).
 
     % 1 bomba detectada y ya conocida
-    (sensor(1,1,1) & bomba(1,2)) -> (vacio(2,1) & completado(1,1)).
-    (sensor(1,1,1) & bomba(2,1)) -> (vacio(1,2) & completado(1,1)).
-    all f ((filas(f) & sensor(f,1,1) & bomba(f-1,1)) -> (vacio(f,2) & completado(f,1))).
-    all f ((filas(f) & sensor(f,1,1) & bomba(f,2)) -> (vacio(f-1,1) & completado(f,1))).
-    all c ((columnas(c) & sensor(1,c,1) & bomba(1,c-1)) -> (vacio(2,c) & completado(1,c))).
-    all c ((columnas(c) & sensor(1,c,1) & bomba(2,c)) -> (vacio(1,c-1) & completado(1,c))).
-    all f c ((filas(f) & columnas(c) & sensor(f,c,1) & bomba(f,c-1)) -> (vacio(f-1,c) & completado(f,c))).
-    all f c ((filas(f) & columnas(c) & sensor(f,c,1) & bomba(f-1,c)) -> (vacio(f,c-1) & completado(f,c))).
+    %(sensor(1,1,1) & bomba(1,2)) -> (vacio(2,1) & completado(1,1)).
+    %(sensor(1,1,1) & bomba(2,1)) -> (vacio(1,2) & completado(1,1)).
+    %all f ((filas(f) & sensor(f,1,1) & bomba(f-1,1)) -> (vacio(f,2) & completado(f,1))).
+    %all f ((filas(f) & sensor(f,1,1) & bomba(f,2)) -> (vacio(f-1,1) & completado(f,1))).
+    %all c ((columnas(c) & sensor(1,c,1) & bomba(1,c-1)) -> (vacio(2,c) & completado(1,c))).
+    %all c ((columnas(c) & sensor(1,c,1) & bomba(2,c)) -> (vacio(1,c-1) & completado(1,c))).
+    %all f c ((filas(f) & columnas(c) & sensor(f,c,1) & bomba(f,c-1)) -> (vacio(f-1,c) & completado(f,c))).
+    %all f c ((filas(f) & columnas(c) & sensor(f,c,1) & bomba(f-1,c)) -> (vacio(f,c-1) & completado(f,c))).
 
     % 1 bomba detectada y no conocida
-    (sensor(1,1,1) & vacio(1,2)) -> (bomba(2,1) & completado(1,1)).
-    (sensor(1,1,1) & vacio(2,1)) -> (bomba(1,2) & completado(1,1)).
-    all f ((filas(f) & sensor(f,1,1) & vacio(f-1,1)) -> (bomba(f,2) & completado(f,1))).
-    all f ((filas(f) & sensor(f,1,1) & vacio(f,2)) -> (bomba(f-1,1) & completado(f,1))).
-    all c ((columnas(c) & sensor(1,c,1) & vacio(1,c-1)) -> (bomba(2,c) & completado(1,c))).
-    all c ((columnas(c) & sensor(1,c,1) & vacio(2,c)) -> (bomba(1,c-1) & completado(1,c))).
-    all f c ((filas(f) & columnas(c) & sensor(f,c,1) & vacio(f,c-1)) -> (bomba(f-1,c) & completado(f,c))).
-    all f c ((filas(f) & columnas(c) & sensor(f,c,1) & vacio(f-1,c)) -> (bomba(f,c-1) & completado(f,c))).
+    %(sensor(1,1,1) & vacio(1,2)) -> (bomba(2,1) & completado(1,1)).
+    %(sensor(1,1,1) & vacio(2,1)) -> (bomba(1,2) & completado(1,1)).
+    %all f ((filas(f) & sensor(f,1,1) & vacio(f-1,1)) -> (bomba(f,2) & completado(f,1))).
+    %all f ((filas(f) & sensor(f,1,1) & vacio(f,2)) -> (bomba(f-1,1) & completado(f,1))).
+    %all c ((columnas(c) & sensor(1,c,1) & vacio(1,c-1)) -> (bomba(2,c) & completado(1,c))).
+    %all c ((columnas(c) & sensor(1,c,1) & vacio(2,c)) -> (bomba(1,c-1) & completado(1,c))).
+    %all f c ((filas(f) & columnas(c) & sensor(f,c,1) & vacio(f,c-1)) -> (bomba(f-1,c) & completado(f,c))).
+    %all f c ((filas(f) & columnas(c) & sensor(f,c,1) & vacio(f-1,c)) -> (bomba(f,c-1) & completado(f,c))).
 
     % En los lados del tablero (1 bomba)
 
@@ -98,14 +98,14 @@ formula_list(usable).
     all y c ((columnas(c) & y>1 & y<c & sensor(1,y,1)) -> (((bomba(1,y-1) & vacio(1,y+1) & vacio(2,y)) | (vacio(1,y-1) & bomba(1,y+1) & vacio(2,y)) | (vacio(1,y-1) & vacio(1,y+1) & bomba(2,y))) & completado(1,y))).
 
     % bomba conocida
-    all y c ((columnas(c) & y>1 & y<c & sensor(1,y,1) & bomba(1,y-1)) -> (vacio(1,y+1) & vacio(2,y) & completado(1,y))).
-    all y c ((columnas(c) & y>1 & y<c & sensor(1,y,1) & bomba(1,y+1)) -> (vacio(1,y-1) & vacio(2,y) & completado(1,y))).
-    all y c ((columnas(c) & y>1 & y<c & sensor(1,y,1) & bomba(2,y)) -> (vacio(1,y-1) & vacio(1,y+1) & completado(1,y))).
+    %all y c ((columnas(c) & y>1 & y<c & sensor(1,y,1) & bomba(1,y-1)) -> (vacio(1,y+1) & vacio(2,y) & completado(1,y))).
+    %all y c ((columnas(c) & y>1 & y<c & sensor(1,y,1) & bomba(1,y+1)) -> (vacio(1,y-1) & vacio(2,y) & completado(1,y))).
+    %all y c ((columnas(c) & y>1 & y<c & sensor(1,y,1) & bomba(2,y)) -> (vacio(1,y-1) & vacio(1,y+1) & completado(1,y))).
 
     % bomba no conocida
-    all y c ((columnas(c) & y>1 & y<c & sensor(1,y,1) & vacio(1,y+1) & vacio(2,y)) -> (bomba(1,y-1) & completado(1,y))).
-    all y c ((columnas(c) & y>1 & y<c & sensor(1,y,1) & vacio(1,y-1) & vacio(2,y)) -> (bomba(1,y+1) & completado(1,y))).
-    all y c ((columnas(c) & y>1 & y<c & sensor(1,y,1) & vacio(1,y-1) & vacio(1,y+1)) -> (bomba(2,y) & completado(1,y))).
+    %all y c ((columnas(c) & y>1 & y<c & sensor(1,y,1) & vacio(1,y+1) & vacio(2,y)) -> (bomba(1,y-1) & completado(1,y))).
+    %all y c ((columnas(c) & y>1 & y<c & sensor(1,y,1) & vacio(1,y-1) & vacio(2,y)) -> (bomba(1,y+1) & completado(1,y))).
+    %all y c ((columnas(c) & y>1 & y<c & sensor(1,y,1) & vacio(1,y-1) & vacio(1,y+1)) -> (bomba(2,y) & completado(1,y))).
 
     % lado abajo
 
@@ -113,14 +113,14 @@ formula_list(usable).
     all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,1)) -> (((bomba(f,y-1) & vacio(f,y+1) & vacio(f-1,y)) | (vacio(f,y-1) & bomba(f,y+1) & vacio(f-1,y)) | (vacio(f,y-1) & vacio(f,y+1) & bomba(f-1,y))) & completado(f,y))).
   
     % bomba conocida
-    all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,1) & bomba(f,y-1)) -> (vacio(f,y+1) & vacio(f-1,y) & completado(f,y))).
-    all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,1) & bomba(f,y+1)) -> (vacio(f,y-1) & vacio(f-1,y) & completado(f,y))).
-    all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,1) & bomba(f-1,y)) -> (vacio(f,y+1) & vacio(f,y-1) & completado(f,y))).
+    %all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,1) & bomba(f,y-1)) -> (vacio(f,y+1) & vacio(f-1,y) & completado(f,y))).
+    %all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,1) & bomba(f,y+1)) -> (vacio(f,y-1) & vacio(f-1,y) & completado(f,y))).
+    %all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,1) & bomba(f-1,y)) -> (vacio(f,y+1) & vacio(f,y-1) & completado(f,y))).
 
     % bomba no conocida
-    all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,1) & vacio(f,y+1) & vacio(f-1,y)) -> (bomba(f,y-1) & completado(f,y))).
-    all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,1) & vacio(f,y-1) & vacio(f-1,y)) -> (bomba(f,y+1) & completado(f,y))).
-    all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,1) & vacio(f,y+1) & vacio(f,y-1)) -> (bomba(f-1,y) & completado(f,y))).
+    %all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,1) & vacio(f,y+1) & vacio(f-1,y)) -> (bomba(f,y-1) & completado(f,y))).
+    %all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,1) & vacio(f,y-1) & vacio(f-1,y)) -> (bomba(f,y+1) & completado(f,y))).
+    %all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,1) & vacio(f,y+1) & vacio(f,y-1)) -> (bomba(f-1,y) & completado(f,y))).
 
     % lado izquierdo
 
@@ -128,14 +128,14 @@ formula_list(usable).
     all x f ((filas(f) & x>1 & x<f & sensor(x,1,1)) -> (((bomba(x-1,1) & vacio(x+1,1) & vacio(x,2)) | (vacio(x-1,1) & bomba(x+1,1) & vacio(x,2)) | (vacio(x-1,1) & vacio(x+1,1) & bomba(x,2))) & completado(x,1))).
 
     % bomba conocida
-    all x f ((filas(f) & x>1 & x<f & sensor(x,1,1) & bomba(x-1,1)) -> (vacio(x+1,1) & vacio(x,2) & completado(x,1))).
-    all x f ((filas(f) & x>1 & x<f & sensor(x,1,1) & bomba(x+1,1)) -> (vacio(x-1,1) & vacio(x,2) & completado(x,1))).
-    all x f ((filas(f) & x>1 & x<f & sensor(x,1,1) & bomba(x,2)) -> (vacio(x+1,1) & vacio(x-1,1) & completado(x,1))).
+    %all x f ((filas(f) & x>1 & x<f & sensor(x,1,1) & bomba(x-1,1)) -> (vacio(x+1,1) & vacio(x,2) & completado(x,1))).
+    %all x f ((filas(f) & x>1 & x<f & sensor(x,1,1) & bomba(x+1,1)) -> (vacio(x-1,1) & vacio(x,2) & completado(x,1))).
+    %all x f ((filas(f) & x>1 & x<f & sensor(x,1,1) & bomba(x,2)) -> (vacio(x+1,1) & vacio(x-1,1) & completado(x,1))).
 
     % bomba no conocida
-    all x f ((filas(f) & x>1 & x<f & sensor(x,1,1) & vacio(x+1,1) & vacio(x,2)) -> (bomba(x-1,1) & completado(x,1))).
-    all x f ((filas(f) & x>1 & x<f & sensor(x,1,1) & vacio(x-1,1) & vacio(x,2)) -> (bomba(x+1,1) & completado(x,1))).
-    all x f ((filas(f) & x>1 & x<f & sensor(x,1,1) & vacio(x+1,1) & vacio(x-1,1)) -> (bomba(x,2) & completado(x,1))).
+    %all x f ((filas(f) & x>1 & x<f & sensor(x,1,1) & vacio(x+1,1) & vacio(x,2)) -> (bomba(x-1,1) & completado(x,1))).
+    %all x f ((filas(f) & x>1 & x<f & sensor(x,1,1) & vacio(x-1,1) & vacio(x,2)) -> (bomba(x+1,1) & completado(x,1))).
+    %all x f ((filas(f) & x>1 & x<f & sensor(x,1,1) & vacio(x+1,1) & vacio(x-1,1)) -> (bomba(x,2) & completado(x,1))).
 
     % lado derecho
 
@@ -143,14 +143,14 @@ formula_list(usable).
     all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,1)) -> (((bomba(x-1,c) & vacio(x+1,c) & vacio(x,c-1)) | (vacio(x-1,c) & bomba(x+1,c) & vacio(x,c-1)) | (vacio(x-1,c) & vacio(x+1,c) & bomba(x,c-1))) & completado(x,c))).
 
     % bomba conocida
-    all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,1) & bomba(x-1,c)) -> (vacio(x+1,c) & vacio(x,c-1) & completado(x,c))).
-    all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,1) & bomba(x+1,c)) -> (vacio(x-1,c) & vacio(x,c-1) & completado(x,c))).
-    all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,1) & bomba(x,c-1)) -> (vacio(x+1,c) & vacio(x-1,c) & completado(x,c))).
+    %all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,1) & bomba(x-1,c)) -> (vacio(x+1,c) & vacio(x,c-1) & completado(x,c))).
+    %all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,1) & bomba(x+1,c)) -> (vacio(x-1,c) & vacio(x,c-1) & completado(x,c))).
+    %all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,1) & bomba(x,c-1)) -> (vacio(x+1,c) & vacio(x-1,c) & completado(x,c))).
 
     % bomba no conocida
-    all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,1) & vacio(x+1,c) & vacio(x,c-1)) -> (bomba(x-1,c) & completado(x,c))).
-    all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,1) & vacio(x-1,c) & vacio(x,c-1)) -> (bomba(x+1,c) & completado(x,c))).
-    all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,1) & vacio(x+1,c) & vacio(x-1,c)) -> (bomba(x,c-1) & completado(x,c))).
+    %all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,1) & vacio(x+1,c) & vacio(x,c-1)) -> (bomba(x-1,c) & completado(x,c))).
+    %all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,1) & vacio(x-1,c) & vacio(x,c-1)) -> (bomba(x+1,c) & completado(x,c))).
+    %all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,1) & vacio(x+1,c) & vacio(x-1,c)) -> (bomba(x,c-1) & completado(x,c))).
 
 
     % En los lados del tablero (2 bombas)
@@ -161,14 +161,14 @@ formula_list(usable).
     all y c ((columnas(c) & y>1 & y<c & sensor(1,y,2)) -> (((bomba(1,y-1) & bomba(1,y+1) & vacio(2,y)) | (bomba(1,y-1) & vacio(1,y+1) & bomba(2,y)) | (vacio(1,y-1) & bomba(1,y+1) & bomba(2,y))) & completado(1,y))).
 
     % bombas conocidas
-    all y c ((columnas(c) & y>1 & y<c & sensor(1,y,2) & bomba(1,y-1) & bomba(1,y+1)) -> (vacio(2,y) & completado(1,y))).
-    all y c ((columnas(c) & y>1 & y<c & sensor(1,y,2) & bomba(1,y-1) & bomba(2,y)) -> (vacio(1,y+1) & completado(1,y))).
-    all y c ((columnas(c) & y>1 & y<c & sensor(1,y,2) & bomba(1,y+1) & bomba(2,y)) -> (vacio(1,y-1) & completado(1,y))).
+    %all y c ((columnas(c) & y>1 & y<c & sensor(1,y,2) & bomba(1,y-1) & bomba(1,y+1)) -> (vacio(2,y) & completado(1,y))).
+    %all y c ((columnas(c) & y>1 & y<c & sensor(1,y,2) & bomba(1,y-1) & bomba(2,y)) -> (vacio(1,y+1) & completado(1,y))).
+    %all y c ((columnas(c) & y>1 & y<c & sensor(1,y,2) & bomba(1,y+1) & bomba(2,y)) -> (vacio(1,y-1) & completado(1,y))).
 
     % bombas no conocidas
-    all y c ((columnas(c) & y>1 & y<c & sensor(1,y,2) & vacio(1,y+1)) -> (bomba(2,y) & bomba(1,y-1) & completado(1,y))).
-    all y c ((columnas(c) & y>1 & y<c & sensor(1,y,2) & vacio(1,y-1)) -> (bomba(2,y) & bomba(1,y+1) & completado(1,y))).
-    all y c ((columnas(c) & y>1 & y<c & sensor(1,y,2) & vacio(2,y)) -> (bomba(1,y+1) & bomba(1,y-1) & completado(1,y))).
+    %all y c ((columnas(c) & y>1 & y<c & sensor(1,y,2) & vacio(1,y+1)) -> (bomba(2,y) & bomba(1,y-1) & completado(1,y))).
+    %all y c ((columnas(c) & y>1 & y<c & sensor(1,y,2) & vacio(1,y-1)) -> (bomba(2,y) & bomba(1,y+1) & completado(1,y))).
+    %all y c ((columnas(c) & y>1 & y<c & sensor(1,y,2) & vacio(2,y)) -> (bomba(1,y+1) & bomba(1,y-1) & completado(1,y))).
 
     % lado abajo
 
@@ -176,14 +176,14 @@ formula_list(usable).
     all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,2)) -> (((bomba(f,y-1) & bomba(f,y+1) & vacio(f-1,y)) | (bomba(f,y-1) & vacio(f,y+1) & bomba(f-1,y)) | (vacio(f,y-1) & bomba(f,y+1) & bomba(f-1,y))) & completado(f,y))).
 
     % bombas conocidas
-    all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,2) & bomba(f,y-1) & bomba(f,y+1)) -> (vacio(f-1,y) & completado(f,y))).
-    all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,2) & bomba(f,y-1) & bomba(f-1,y)) -> (vacio(f,y+1) & completado(f,y))).
-    all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,2) & bomba(f,y+1) & bomba(f-1,y)) -> (vacio(f,y-1) & completado(f,y))).
+    %all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,2) & bomba(f,y-1) & bomba(f,y+1)) -> (vacio(f-1,y) & completado(f,y))).
+    %all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,2) & bomba(f,y-1) & bomba(f-1,y)) -> (vacio(f,y+1) & completado(f,y))).
+    %all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,2) & bomba(f,y+1) & bomba(f-1,y)) -> (vacio(f,y-1) & completado(f,y))).
 
     % bombas no conocidas
-    all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,2) & vacio(f-1,y)) -> (bomba(f,y-1) & bomba(f,y+1) & completado(f,y))).
-    all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,2) & vacio(f,y+1)) -> (bomba(f,y-1) & bomba(f-1,y) & completado(f,y))).
-    all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,2) & vacio(f,y-1)) -> (bomba(f,y+1) & bomba(f-1,y) & completado(f,y))).
+    %all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,2) & vacio(f-1,y)) -> (bomba(f,y-1) & bomba(f,y+1) & completado(f,y))).
+    %all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,2) & vacio(f,y+1)) -> (bomba(f,y-1) & bomba(f-1,y) & completado(f,y))).
+    %all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,2) & vacio(f,y-1)) -> (bomba(f,y+1) & bomba(f-1,y) & completado(f,y))).
 
     % lado izquierdo
 
@@ -191,14 +191,14 @@ formula_list(usable).
     all x f ((filas(f) & x>1 & x<f & sensor(x,1,2)) -> (((bomba(x-1,1) & bomba(x+1,1) & vacio(x,2)) | (bomba(x-1,1) & vacio(x+1,1) & bomba(x,2)) | (vacio(x-1,1) & bomba(x+1,1) & bomba(x,2))) & completado(x,1))).
 
     % bombas conocidas
-    all x f ((filas(f) & x>1 & x<f & sensor(x,1,2) & bomba(x-1,1) & bomba(x+1,1)) -> (vacio(x,2) & completado(x,1))).
-    all x f ((filas(f) & x>1 & x<f & sensor(x,1,2) & bomba(x+1,1) & bomba(x,2)) -> (vacio(x-1,1) & completado(x,1))).
-    all x f ((filas(f) & x>1 & x<f & sensor(x,1,2) & bomba(x,2) & bomba(x-1,1)) -> (vacio(x+1,1) & completado(x,1))).
+    %all x f ((filas(f) & x>1 & x<f & sensor(x,1,2) & bomba(x-1,1) & bomba(x+1,1)) -> (vacio(x,2) & completado(x,1))).
+    %all x f ((filas(f) & x>1 & x<f & sensor(x,1,2) & bomba(x+1,1) & bomba(x,2)) -> (vacio(x-1,1) & completado(x,1))).
+    %all x f ((filas(f) & x>1 & x<f & sensor(x,1,2) & bomba(x,2) & bomba(x-1,1)) -> (vacio(x+1,1) & completado(x,1))).
 
     % bombas no conocidas
-    all x f ((filas(f) & x>1 & x<f & sensor(x,1,2) & vacio(x-1,1)) -> (bomba(x+1,1) & bomba(x,2) & completado(x,1))).
-    all x f ((filas(f) & x>1 & x<f & sensor(x,1,2) & vacio(x+1,1)) -> (bomba(x,2) & bomba(x-1,1) & completado(x,1))).
-    all x f ((filas(f) & x>1 & x<f & sensor(x,1,2) & vacio(x,2)) -> (bomba(x-1,1) & bomba(x+1,1) & completado(x,1))).
+    %all x f ((filas(f) & x>1 & x<f & sensor(x,1,2) & vacio(x-1,1)) -> (bomba(x+1,1) & bomba(x,2) & completado(x,1))).
+    %all x f ((filas(f) & x>1 & x<f & sensor(x,1,2) & vacio(x+1,1)) -> (bomba(x,2) & bomba(x-1,1) & completado(x,1))).
+    %all x f ((filas(f) & x>1 & x<f & sensor(x,1,2) & vacio(x,2)) -> (bomba(x-1,1) & bomba(x+1,1) & completado(x,1))).
 
     % lado derecho
 
@@ -206,14 +206,14 @@ formula_list(usable).
     all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,2)) -> (((bomba(x-1,c) & bomba(x+1,c) & vacio(x,c-1)) | (bomba(x-1,c) & vacio(x+1,c) & bomba(x,c-1)) | (vacio(x-1,c) & bomba(x+1,c) & bomba(x,c-1))) & completado(x,c))).
 
     % bombas conocidas
-    all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,2) & bomba(x-1,c) & bomba(x+1,c)) -> (vacio(x,c-1) & completado(x,c))).
-    all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,2) & bomba(x+1,c) & bomba(x,c-1)) -> (vacio(x-1,c) & completado(x,c))).
-    all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,2) & bomba(x,c-1) & bomba(x-1,c)) -> (vacio(x+1,c) & completado(x,c))).
+    %all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,2) & bomba(x-1,c) & bomba(x+1,c)) -> (vacio(x,c-1) & completado(x,c))).
+    %all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,2) & bomba(x+1,c) & bomba(x,c-1)) -> (vacio(x-1,c) & completado(x,c))).
+    %all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,2) & bomba(x,c-1) & bomba(x-1,c)) -> (vacio(x+1,c) & completado(x,c))).
 
     % bombas no conocidas
-    all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,2) & vacio(x-1,c)) -> (bomba(x+1,c) & bomba(x,c-1) & completado(x,c))).
-    all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,2) & vacio(x+1,c)) -> (bomba(x,c-1) & bomba(x-1,c) & completado(x,c))).
-    all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,2) & vacio(x,c-1)) -> (bomba(x-1,c) & bomba(x+1,c) & completado(x,c))).
+    %all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,2) & vacio(x-1,c)) -> (bomba(x+1,c) & bomba(x,c-1) & completado(x,c))).
+    %all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,2) & vacio(x+1,c)) -> (bomba(x,c-1) & bomba(x-1,c) & completado(x,c))).
+    %all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,2) & vacio(x,c-1)) -> (bomba(x-1,c) & bomba(x+1,c) & completado(x,c))).
 
     % En el medio del tablero (1 bomba)
 
@@ -221,16 +221,16 @@ formula_list(usable).
     all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1)) -> (((bomba(x-1,y) & vacio(x+1,y) & vacio(x,y-1) & vacio(x,y+1)) | (vacio(x-1,y) & bomba(x+1,y) & vacio(x,y-1) & vacio(x,y+1)) | (vacio(x-1,y) & vacio(x+1,y) & bomba(x,y-1) & vacio(x,y+1)) | (vacio(x-1,y) & vacio(x+1,y) & vacio(x,y-1) & bomba(x,y+1))) & completado(x,y))).
 
     % bomba ya conocida
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & bomba(x-1,y)) -> (vacio(x+1,y) & vacio(x,y-1) & vacio(x,y+1) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & bomba(x+1,y)) -> (vacio(x-1,y) & vacio(x,y-1) & vacio(x,y+1) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & bomba(x,y-1)) -> (vacio(x-1,y) & vacio(x+1,y) & vacio(x,y+1) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & bomba(x,y+1)) -> (vacio(x-1,y) & vacio(x+1,y) & vacio(x,y-1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & bomba(x-1,y)) -> (vacio(x+1,y) & vacio(x,y-1) & vacio(x,y+1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & bomba(x+1,y)) -> (vacio(x-1,y) & vacio(x,y-1) & vacio(x,y+1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & bomba(x,y-1)) -> (vacio(x-1,y) & vacio(x+1,y) & vacio(x,y+1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & bomba(x,y+1)) -> (vacio(x-1,y) & vacio(x+1,y) & vacio(x,y-1) & completado(x,y))).
 
     % bomba no conocida
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & vacio(x+1,y) & vacio(x,y-1) & vacio(x,y+1)) -> (bomba(x-1, y) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & vacio(x-1,y) & vacio(x,y-1) & vacio(x,y+1)) -> (bomba(x+1, y) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & vacio(x-1,y) & vacio(x+1,y) & vacio(x,y+1)) -> (bomba(x, y-1) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & vacio(x-1,y) & vacio(x+1,y) & vacio(x,y-1)) -> (bomba(x, y+1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & vacio(x+1,y) & vacio(x,y-1) & vacio(x,y+1)) -> (bomba(x-1, y) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & vacio(x-1,y) & vacio(x,y-1) & vacio(x,y+1)) -> (bomba(x+1, y) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & vacio(x-1,y) & vacio(x+1,y) & vacio(x,y+1)) -> (bomba(x, y-1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & vacio(x-1,y) & vacio(x+1,y) & vacio(x,y-1)) -> (bomba(x, y+1) & completado(x,y))).
 
     % En el medio del tablero (2 bombas)
 
@@ -238,20 +238,20 @@ formula_list(usable).
     all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2)) -> (((bomba(x-1,y) & bomba(x+1,y) & vacio(x,y-1) & vacio(x,y+1)) | (vacio(x-1,y) & bomba(x+1,y) & bomba(x,y-1) & vacio(x,y+1)) | (vacio(x-1,y) & vacio(x+1,y) & bomba(x,y-1) & bomba(x,y+1)) | (bomba(x-1,y) & vacio(x+1,y) & vacio(x,y-1) & bomba(x,y+1)) | (bomba(x-1,y) & vacio(x+1,y) & bomba(x,y-1) & vacio(x,y+1)) | (vacio(x-1,y) & bomba(x+1,y) & vacio(x,y-1) & bomba(x,y+1))) & completado(x,y))).
 
     % ambas conocidas
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & bomba(x-1,y) & bomba(x+1,y)) -> (vacio(x,y-1) & vacio(x,y+1) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & bomba(x-1,y) & bomba(x,y-1)) -> (vacio(x+1,y) & vacio(x,y+1) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & bomba(x-1,y) & bomba(x,y+1)) -> (vacio(x,y-1) & vacio(x+1,y) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & bomba(x+1,y) & bomba(x,y-1)) -> (vacio(x-1,y) & vacio(x,y+1) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & bomba(x+1,y) & bomba(x,y+1)) -> (vacio(x-1,y) & vacio(x,y-1) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & bomba(x,y-1) & bomba(x,y+1)) -> (vacio(x-1,y) & vacio(x+1,y) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & bomba(x-1,y) & bomba(x+1,y)) -> (vacio(x,y-1) & vacio(x,y+1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & bomba(x-1,y) & bomba(x,y-1)) -> (vacio(x+1,y) & vacio(x,y+1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & bomba(x-1,y) & bomba(x,y+1)) -> (vacio(x,y-1) & vacio(x+1,y) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & bomba(x+1,y) & bomba(x,y-1)) -> (vacio(x-1,y) & vacio(x,y+1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & bomba(x+1,y) & bomba(x,y+1)) -> (vacio(x-1,y) & vacio(x,y-1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & bomba(x,y-1) & bomba(x,y+1)) -> (vacio(x-1,y) & vacio(x+1,y) & completado(x,y))).
     
     % ninguna conocida
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & vacio(x-1,y) & vacio(x+1,y)) -> (bomba(x,y-1) & bomba(x,y+1) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & vacio(x-1,y) & vacio(x,y-1)) -> (bomba(x+1,y) & bomba(x,y+1) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & vacio(x-1,y) & vacio(x,y+1)) -> (bomba(x,y-1) & bomba(x+1,y) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & vacio(x+1,y) & vacio(x,y-1)) -> (bomba(x-1,y) & bomba(x,y+1) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & vacio(x+1,y) & vacio(x,y+1)) -> (bomba(x-1,y) & bomba(x,y-1) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & vacio(x,y-1) & vacio(x,y+1)) -> (bomba(x-1,y) & bomba(x+1,y) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & vacio(x-1,y) & vacio(x+1,y)) -> (bomba(x,y-1) & bomba(x,y+1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & vacio(x-1,y) & vacio(x,y-1)) -> (bomba(x+1,y) & bomba(x,y+1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & vacio(x-1,y) & vacio(x,y+1)) -> (bomba(x,y-1) & bomba(x+1,y) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & vacio(x+1,y) & vacio(x,y-1)) -> (bomba(x-1,y) & bomba(x,y+1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & vacio(x+1,y) & vacio(x,y+1)) -> (bomba(x-1,y) & bomba(x,y-1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & vacio(x,y-1) & vacio(x,y+1)) -> (bomba(x-1,y) & bomba(x+1,y) & completado(x,y))).
 
     % En el medio del tablero (3 bombas)
 
@@ -259,16 +259,16 @@ formula_list(usable).
     all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3)) -> (((bomba(x-1,y) & bomba(x+1,y) & bomba(x,y-1) & vacio(x,y+1)) | (bomba(x-1,y) & bomba(x+1,y) & vacio(x,y-1) & bomba(x,y+1)) | (bomba(x-1,y) & vacio(x+1,y) & bomba(x,y-1) & bomba(x,y+1)) | (vacio(x-1,y) & bomba(x+1,y) & bomba(x,y-1) & bomba(x,y+1))) & completado(x,y))).
 
     % todas tres conocidas
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3) & bomba(x-1,y) & bomba(x+1,y) & bomba(x,y-1)) -> (vacio(x,y+1) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3) & bomba(x,y+1) & bomba(x+1,y) & bomba(x,y-1)) -> (vacio(x-1,y) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3) & bomba(x,y+1) & bomba(x-1,y) & bomba(x,y-1)) -> (vacio(x+1,y) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3) & bomba(x,y+1) & bomba(x-1,y) & bomba(x+1,y)) -> (vacio(x,y-1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3) & bomba(x-1,y) & bomba(x+1,y) & bomba(x,y-1)) -> (vacio(x,y+1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3) & bomba(x,y+1) & bomba(x+1,y) & bomba(x,y-1)) -> (vacio(x-1,y) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3) & bomba(x,y+1) & bomba(x-1,y) & bomba(x,y-1)) -> (vacio(x+1,y) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3) & bomba(x,y+1) & bomba(x-1,y) & bomba(x+1,y)) -> (vacio(x,y-1) & completado(x,y))).
 
     % ninguna conocida
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3) & vacio(x,y+1)) -> (bomba(x-1,y) & bomba(x+1,y) & bomba(x,y-1) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3) & vacio(x-1,y)) -> (bomba(x,y+1) & bomba(x+1,y) & bomba(x,y-1) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3) & vacio(x+1,y)) -> (bomba(x,y+1) & bomba(x-1,y) & bomba(x,y-1) & completado(x,y))).
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3) & vacio(x,y-1)) -> (bomba(x,y+1) & bomba(x-1,y) & bomba(x+1,y) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3) & vacio(x,y+1)) -> (bomba(x-1,y) & bomba(x+1,y) & bomba(x,y-1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3) & vacio(x-1,y)) -> (bomba(x,y+1) & bomba(x+1,y) & bomba(x,y-1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3) & vacio(x+1,y)) -> (bomba(x,y+1) & bomba(x-1,y) & bomba(x,y-1) & completado(x,y))).
+    %all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3) & vacio(x,y-1)) -> (bomba(x,y+1) & bomba(x-1,y) & bomba(x+1,y) & completado(x,y))).
 end_of_list.
 
 formula_list(sos).
