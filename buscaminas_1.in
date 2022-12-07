@@ -1,4 +1,6 @@
 set(hyper_res).
+%set(para_into).
+%set(para_from).
 
 % Lenguaje del Problema
 %
@@ -18,12 +20,12 @@ make_evaluable(_<=_, $LE(_,_)).
 make_evaluable(_+_, $SUM(_,_)).
 make_evaluable(_-_, $DIFF(_,_)).
 
-%TODO: was jetzt noch fehlt: falls ein sensor durch die "en general" regeln vervollständigt wird, wird er noch nicht in 
-% completado gepackt. das muss noch gemacht werden.
-
-% dazu neue regel: sensor() & bomba & vacio wie sein soll -> completado(sensor)
-
 formula_list(usable).
+    % Cada celda solo puede tener un estado
+    all x y z (vacio(x,y) -> (-bomba(x,y) & -sensor(x,y,z))).
+    all x y z (bomba(x,y) -> (-vacio(x,y) & -sensor(x,y,z))).
+    all x y z (sensor(x,y,z) -> (-vacio(x,y) & -bomba(x,y))).
+
     %% Sensores que no detectan nada...
 
     % En las esquinas del tablero
@@ -63,10 +65,10 @@ formula_list(usable).
     % En las esquinas del tablero (solo 1 bomba posible)
 
     % En general, hay que una celda sea vacia y la otra con una bomba  
-    sensor(1,1,1) -> ((bomba(1,2) & vacio(2,1)) | (vacio(1,2) & bomba(2,1))).
-    all f ((filas(f) & sensor(f,1,1)) -> ((bomba(f-1,1) & vacio(f,2)) | (vacio(f-1,1) & bomba(f,2)))).
-    all c ((columnas(c) & sensor(1,c,1)) -> ((bomba(2,c) & vacio(1,c-1)) | (vacio(2,c) & bomba(1,c-1)))).
-    all f c ((filas(f) & columnas(c) & sensor(f,c,1)) -> ((bomba(f,c-1) & vacio(f-1,c)) | (vacio(f,c-1) & bomba(f-1,c)))).
+    sensor(1,1,1) -> (((bomba(1,2) & vacio(2,1)) | (vacio(1,2) & bomba(2,1))) & completado(1,1)).
+    all f ((filas(f) & sensor(f,1,1)) -> (((bomba(f-1,1) & vacio(f,2)) | (vacio(f-1,1) & bomba(f,2))) & completado(f,1))).
+    all c ((columnas(c) & sensor(1,c,1)) -> (((bomba(2,c) & vacio(1,c-1)) | (vacio(2,c) & bomba(1,c-1))) & completado(1,c))).
+    all f c ((filas(f) & columnas(c) & sensor(f,c,1)) -> (((bomba(f,c-1) & vacio(f-1,c)) | (vacio(f,c-1) & bomba(f-1,c))) & completado(f,c))).
 
     % 1 bomba detectada y ya conocida
     (sensor(1,1,1) & bomba(1,2)) -> (vacio(2,1) & completado(1,1)).
@@ -93,7 +95,7 @@ formula_list(usable).
     % lado arriba
 
     % En general, hay que dos celdas sean vacias y la otra con una bomba  
-    all y c ((columnas(c) & y>1 & y<c & sensor(1,y,1)) -> ((bomba(1,y-1) & vacio(1,y+1) & vacio(2,y)) | (vacio(1,y-1) & bomba(1,y+1) & vacio(2,y)) | (vacio(1,y-1) & vacio(1,y+1) & bomba(2,y)))).
+    all y c ((columnas(c) & y>1 & y<c & sensor(1,y,1)) -> (((bomba(1,y-1) & vacio(1,y+1) & vacio(2,y)) | (vacio(1,y-1) & bomba(1,y+1) & vacio(2,y)) | (vacio(1,y-1) & vacio(1,y+1) & bomba(2,y))) & completado(1,y))).
 
     % bomba conocida
     all y c ((columnas(c) & y>1 & y<c & sensor(1,y,1) & bomba(1,y-1)) -> (vacio(1,y+1) & vacio(2,y) & completado(1,y))).
@@ -108,7 +110,7 @@ formula_list(usable).
     % lado abajo
 
     % En general, hay que dos celdas sean vacias y la otra con una bomba
-    all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,1)) -> ((bomba(f,y-1) & vacio(f,y+1) & vacio(f-1,y)) | (vacio(f,y-1) & bomba(f,y+1) & vacio(f-1,y)) | (vacio(f,y-1) & vacio(f,y+1) & bomba(f-1,y)))).
+    all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,1)) -> (((bomba(f,y-1) & vacio(f,y+1) & vacio(f-1,y)) | (vacio(f,y-1) & bomba(f,y+1) & vacio(f-1,y)) | (vacio(f,y-1) & vacio(f,y+1) & bomba(f-1,y))) & completado(f,y))).
   
     % bomba conocida
     all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,1) & bomba(f,y-1)) -> (vacio(f,y+1) & vacio(f-1,y) & completado(f,y))).
@@ -123,7 +125,7 @@ formula_list(usable).
     % lado izquierdo
 
     % En general, hay que dos celdas sean vacias y la otra con una bomba
-    all x f ((filas(f) & x>1 & x<f & sensor(x,1,1)) -> ((bomba(x-1,1) & vacio(x+1,1) & vacio(x,2)) | (vacio(x-1,1) & bomba(x+1,1) & vacio(x,2)) | (vacio(x-1,1) & vacio(x+1,1) & bomba(x,2)))).
+    all x f ((filas(f) & x>1 & x<f & sensor(x,1,1)) -> (((bomba(x-1,1) & vacio(x+1,1) & vacio(x,2)) | (vacio(x-1,1) & bomba(x+1,1) & vacio(x,2)) | (vacio(x-1,1) & vacio(x+1,1) & bomba(x,2))) & completado(x,1))).
 
     % bomba conocida
     all x f ((filas(f) & x>1 & x<f & sensor(x,1,1) & bomba(x-1,1)) -> (vacio(x+1,1) & vacio(x,2) & completado(x,1))).
@@ -138,7 +140,7 @@ formula_list(usable).
     % lado derecho
 
     % En general, hay que dos celdas sean vacias y la otra con una bomba
-    all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,1)) -> ((bomba(x-1,c) & vacio(x+1,c) & vacio(x,c-1)) | (vacio(x-1,c) & bomba(x+1,c) & vacio(x,c-1)) | (vacio(x-1,c) & vacio(x+1,c) & bomba(x,c-1)))).
+    all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,1)) -> (((bomba(x-1,c) & vacio(x+1,c) & vacio(x,c-1)) | (vacio(x-1,c) & bomba(x+1,c) & vacio(x,c-1)) | (vacio(x-1,c) & vacio(x+1,c) & bomba(x,c-1))) & completado(x,c))).
 
     % bomba conocida
     all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,1) & bomba(x-1,c)) -> (vacio(x+1,c) & vacio(x,c-1) & completado(x,c))).
@@ -156,7 +158,7 @@ formula_list(usable).
     % lado arriba
 
     % En general, hay que dos celdas sean con bomba y la otra vacía
-    all y c ((columnas(c) & y>1 & y<c & sensor(1,y,2)) -> ((bomba(1,y-1) & bomba(1,y+1) & vacio(2,y)) | (bomba(1,y-1) & vacio(1,y+1) & bomba(2,y)) | (vacio(1,y-1) & bomba(1,y+1) & bomba(2,y)))).
+    all y c ((columnas(c) & y>1 & y<c & sensor(1,y,2)) -> (((bomba(1,y-1) & bomba(1,y+1) & vacio(2,y)) | (bomba(1,y-1) & vacio(1,y+1) & bomba(2,y)) | (vacio(1,y-1) & bomba(1,y+1) & bomba(2,y))) & completado(1,y))).
 
     % bombas conocidas
     all y c ((columnas(c) & y>1 & y<c & sensor(1,y,2) & bomba(1,y-1) & bomba(1,y+1)) -> (vacio(2,y) & completado(1,y))).
@@ -171,7 +173,7 @@ formula_list(usable).
     % lado abajo
 
     % En general, hay que dos celdas sean con bomba y la otra vacía
-    all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,2)) -> ((bomba(f,y-1) & bomba(f,y+1) & vacio(f-1,y)) | (bomba(f,y-1) & vacio(f,y+1) & bomba(f-1,y)) | (vacio(f,y-1) & bomba(f,y+1) & bomba(f-1,y)))).
+    all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,2)) -> (((bomba(f,y-1) & bomba(f,y+1) & vacio(f-1,y)) | (bomba(f,y-1) & vacio(f,y+1) & bomba(f-1,y)) | (vacio(f,y-1) & bomba(f,y+1) & bomba(f-1,y))) & completado(f,y))).
 
     % bombas conocidas
     all y f c ((filas(f) & columnas(c) & y>1 & y<c & sensor(f,y,2) & bomba(f,y-1) & bomba(f,y+1)) -> (vacio(f-1,y) & completado(f,y))).
@@ -186,7 +188,7 @@ formula_list(usable).
     % lado izquierdo
 
     % En general, hay que dos celdas sean con bomba y la otra vacía
-    all x f ((filas(f) & x>1 & x<f & sensor(x,1,2)) -> ((bomba(x-1,1) & bomba(x+1,1) & vacio(x,2)) | (bomba(x-1,1) & vacio(x+1,1) & bomba(x,2)) | (vacio(x-1,1) & bomba(x+1,1) & bomba(x,2)))).
+    all x f ((filas(f) & x>1 & x<f & sensor(x,1,2)) -> (((bomba(x-1,1) & bomba(x+1,1) & vacio(x,2)) | (bomba(x-1,1) & vacio(x+1,1) & bomba(x,2)) | (vacio(x-1,1) & bomba(x+1,1) & bomba(x,2))) & completado(x,1))).
 
     % bombas conocidas
     all x f ((filas(f) & x>1 & x<f & sensor(x,1,2) & bomba(x-1,1) & bomba(x+1,1)) -> (vacio(x,2) & completado(x,1))).
@@ -201,7 +203,7 @@ formula_list(usable).
     % lado derecho
 
     % En general, hay que dos celdas sean con bomba y la otra vacía
-    all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,2)) -> ((bomba(x-1,c) & bomba(x+1,c) & vacio(x,c-1)) | (bomba(x-1,c) & vacio(x+1,c) & bomba(x,c-1)) | (vacio(x-1,c) & bomba(x+1,c) & bomba(x,c-1)))).
+    all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,2)) -> (((bomba(x-1,c) & bomba(x+1,c) & vacio(x,c-1)) | (bomba(x-1,c) & vacio(x+1,c) & bomba(x,c-1)) | (vacio(x-1,c) & bomba(x+1,c) & bomba(x,c-1))) & completado(x,c))).
 
     % bombas conocidas
     all x f c ((filas(f) & columnas(c) & x>1 & x<f & sensor(x,c,2) & bomba(x-1,c) & bomba(x+1,c)) -> (vacio(x,c-1) & completado(x,c))).
@@ -216,7 +218,7 @@ formula_list(usable).
     % En el medio del tablero (1 bomba)
 
     % En general, hay que tres celdas sean vacías y la otra con bomba
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1)) -> ((bomba(x-1,y) & vacio(x+1,y) & vacio(x,y-1) & vacio(x,y+1)) | (vacio(x-1,y) & bomba(x+1,y) & vacio(x,y-1) & vacio(x,y+1)) | (vacio(x-1,y) & vacio(x+1,y) & bomba(x,y-1) & vacio(x,y+1)) | (vacio(x-1,y) & vacio(x+1,y) & vacio(x,y-1) & bomba(x,y+1)))).
+    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1)) -> (((bomba(x-1,y) & vacio(x+1,y) & vacio(x,y-1) & vacio(x,y+1)) | (vacio(x-1,y) & bomba(x+1,y) & vacio(x,y-1) & vacio(x,y+1)) | (vacio(x-1,y) & vacio(x+1,y) & bomba(x,y-1) & vacio(x,y+1)) | (vacio(x-1,y) & vacio(x+1,y) & vacio(x,y-1) & bomba(x,y+1))) & completado(x,y))).
 
     % bomba ya conocida
     all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1) & bomba(x-1,y)) -> (vacio(x+1,y) & vacio(x,y-1) & vacio(x,y+1) & completado(x,y))).
@@ -233,7 +235,7 @@ formula_list(usable).
     % En el medio del tablero (2 bombas)
 
     % En general, hay que dos celdas sean vacías y las dos otras con bomba
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2)) -> ((bomba(x-1,y) & bomba(x+1,y) & vacio(x,y-1) & vacio(x,y+1)) | (vacio(x-1,y) & bomba(x+1,y) & bomba(x,y-1) & vacio(x,y+1)) | (vacio(x-1,y) & vacio(x+1,y) & bomba(x,y-1) & bomba(x,y+1)) | (bomba(x-1,y) & vacio(x+1,y) & vacio(x,y-1) & bomba(x,y+1)) | (bomba(x-1,y) & vacio(x+1,y) & bomba(x,y-1) & vacio(x,y+1)) | (vacio(x-1,y) & bomba(x+1,y) & vacio(x,y-1) & bomba(x,y+1)))).
+    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2)) -> (((bomba(x-1,y) & bomba(x+1,y) & vacio(x,y-1) & vacio(x,y+1)) | (vacio(x-1,y) & bomba(x+1,y) & bomba(x,y-1) & vacio(x,y+1)) | (vacio(x-1,y) & vacio(x+1,y) & bomba(x,y-1) & bomba(x,y+1)) | (bomba(x-1,y) & vacio(x+1,y) & vacio(x,y-1) & bomba(x,y+1)) | (bomba(x-1,y) & vacio(x+1,y) & bomba(x,y-1) & vacio(x,y+1)) | (vacio(x-1,y) & bomba(x+1,y) & vacio(x,y-1) & bomba(x,y+1))) & completado(x,y))).
 
     % ambas conocidas
     all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2) & bomba(x-1,y) & bomba(x+1,y)) -> (vacio(x,y-1) & vacio(x,y+1) & completado(x,y))).
@@ -254,7 +256,7 @@ formula_list(usable).
     % En el medio del tablero (3 bombas)
 
     % En general, hay que tres celdas sean con bomba y la otra vacía
-    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3)) -> ((bomba(x-1,y) & bomba(x+1,y) & bomba(x,y-1) & vacio(x,y+1)) | (bomba(x-1,y) & bomba(x+1,y) & vacio(x,y-1) & bomba(x,y+1)) | (bomba(x-1,y) & vacio(x+1,y) & bomba(x,y-1) & bomba(x,y+1)) | (vacio(x-1,y) & bomba(x+1,y) & bomba(x,y-1) & bomba(x,y+1)))).
+    all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3)) -> (((bomba(x-1,y) & bomba(x+1,y) & bomba(x,y-1) & vacio(x,y+1)) | (bomba(x-1,y) & bomba(x+1,y) & vacio(x,y-1) & bomba(x,y+1)) | (bomba(x-1,y) & vacio(x+1,y) & bomba(x,y-1) & bomba(x,y+1)) | (vacio(x-1,y) & bomba(x+1,y) & bomba(x,y-1) & bomba(x,y+1))) & completado(x,y))).
 
     % todas tres conocidas
     all x y f c ((filas(f) & columnas(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3) & bomba(x-1,y) & bomba(x+1,y) & bomba(x,y-1)) -> (vacio(x,y+1) & completado(x,y))).
@@ -281,11 +283,23 @@ formula_list(sos).
     sensor(4,5,2).
     sensor(5,4,2).
 
-    % Cada celda solo puede tener un estado
-    all x y z (vacio(x,y) -> (-bomba(x,y) & -sensor(x,y,z))).
-    all x y z (bomba(x,y) -> (-vacio(x,y) & -sensor(x,y,z))).
-    all x y z (sensor(x,y,z) -> (-vacio(x,y) & -bomba(x,y))).
+    %bombas([init]).
+    %all x y p q (bomba(x,y) & bombas([p|q]) & -pertenece(bomba(x,y), [p|q]) -> bombas([bomba(x,y), p|q])).
 
     % Situación final.
-    -(all x y z (sensor(x,y,z) -> completado(x,y))).
+    %-(all x y z (sensor(x,y,z) -> completado(x,y))).
+    -(all x y z (sensor(x,y,z) & completado(x,y))).
+    %exists x y z (sensor(x,y,z) & -completado(x,y)).
+    % proof läuft!
+    %-(bomba(1,2) & bomba(1,4) & bomba(2,3) & bomba(3,5) & bomba(4,4) & bomba(5,1) & bomba(5,3)).
 end_of_list.
+
+%list(demodulators).
+%    pertenece(x,[]) = $F.
+%    pertenece(x,[y|w]) = $IF($ID(x,y), $T, pertenece(x,w)).
+%end_of_list.
+
+%formula_list(passive).
+%    all x y p q (pertenece(bomba(x,y), bombas([p|q])) -> $ANS(bombas([p|q]))).
+%    %all p q (bombas([p|q]) & (all x y (bomba(x,y) -> pertenece(bomba(x,y), [p|q]))) -> $ANS(bombas([p|q]))).
+%end_of_list.
