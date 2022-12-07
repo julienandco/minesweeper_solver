@@ -141,11 +141,6 @@ formula_list(sos).
     sensor(4,5,2).
     sensor(5,4,2).
 
-    % Situación final.
-    %-(all x y z (sensor(x,y,z) -> completado(x,y))).
-    %-(all x y z (sensor(x,y,z) & completado(x,y))).
-    %exists x y z (sensor(x,y,z) & -completado(x,y)).
-    % proof läuft! (durch schummeln mit bomben)
-    %-(bomba(1,2) & bomba(1,4) & bomba(2,3) & bomba(3,5) & bomba(4,4) & bomba(5,1) & bomba(5,3)).
+    % Situación final. %TODO: wie bekomme ich das hier generisch hin???
     -(completado(1,3) & completado(2,4) & completado(3,2) & completado(4,1) & completado(4,3) & completado(4,5) & completado(5,4)).
 end_of_list.

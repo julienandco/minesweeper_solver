@@ -1,7 +1,7 @@
 ----- Otter 3.3f, August 2004 -----
 The process was started by julien on Juliens-MacBook-Pro.local,
-Wed Dec  7 14:14:14 2022
-The command was "../../../otter-3.3f/bin/otter".  The process ID is 94456.
+Wed Dec  7 14:21:49 2022
+The command was "../../../otter-3.3f/bin/otter".  The process ID is 94779.
 
 set(hyper_res).
 make_evaluable(_>_,$GT(_,_)).
@@ -568,4 +568,4 @@ wall-clock time        0             (0 hr, 0 min, 0 sec)
 
 That finishes the proof of the theorem.
 
-Process 94456 finished Wed Dec  7 14:14:14 2022
+Process 94779 finished Wed Dec  7 14:21:49 2022
