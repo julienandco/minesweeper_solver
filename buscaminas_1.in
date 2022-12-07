@@ -1,6 +1,4 @@
 set(hyper_res).
-%set(para_into).
-%set(para_from).
 
 % Lenguaje del Problema
 %
@@ -143,9 +141,6 @@ formula_list(sos).
     sensor(4,5,2).
     sensor(5,4,2).
 
-    %bombas([init]).
-    %all x y p q (bomba(x,y) & bombas([p|q]) & -pertenece(bomba(x,y), [p|q]) -> bombas([bomba(x,y), p|q])).
-
     % Situación final.
     %-(all x y z (sensor(x,y,z) -> completado(x,y))).
     %-(all x y z (sensor(x,y,z) & completado(x,y))).
@@ -153,13 +148,3 @@ formula_list(sos).
     % proof läuft!
     -(bomba(1,2) & bomba(1,4) & bomba(2,3) & bomba(3,5) & bomba(4,4) & bomba(5,1) & bomba(5,3)).
 end_of_list.
-
-%list(demodulators).
-%    pertenece(x,[]) = $F.
-%    pertenece(x,[y|w]) = $IF($ID(x,y), $T, pertenece(x,w)).
-%end_of_list.
-
-%formula_list(passive).
-%    all x y p q (pertenece(bomba(x,y), bombas([p|q])) -> $ANS(bombas([p|q]))).
-%    %all p q (bombas([p|q]) & (all x y (bomba(x,y) -> pertenece(bomba(x,y), [p|q]))) -> $ANS(bombas([p|q]))).
-%end_of_list.
