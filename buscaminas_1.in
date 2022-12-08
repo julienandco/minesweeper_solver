@@ -149,7 +149,8 @@ formula_list(sos).
     % TODO: DAS HIER MUSS VIEL GENERISCHER SEIN
     bomba(1,2) & bomba(1,4) & bomba(2,3) & bomba(3,5) & bomba(4,4) & bomba(5,1) & bomba(5,3) -> $ANS([bomba(1,2) & bomba(1,4) & bomba(2,3) & bomba(3,5) & bomba(4,4) & bomba(5,1) & bomba(5,3)]).
 
-
     %WARUM ZUM FICK ERKENNT ER DAS NICHT
     %-(exists a b (bombas([a|b]) & pertenece(bomba(1,2), [a|b]) & pertenece(bomba(1,4), [a|b]) & pertenece(bomba(2,3), [a|b]) & pertenece(bomba(3,5), [a|b]) & pertenece(bomba(4,4), [a|b]) & pertenece(bomba(5,1), [a|b]) & pertenece(bomba(5,3), [a|b]))).
 end_of_list.
+
+%IDEE: all a b (bombas([a|b]) & -(exists p q (bombas([p|q]) & len([p|q])>len([a|b]))) -> $ANS([a|b])).
