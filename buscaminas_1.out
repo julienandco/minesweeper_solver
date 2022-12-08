@@ -1,7 +1,7 @@
 ----- Otter 3.3f, August 2004 -----
 The process was started by julien on Juliens-MacBook-Pro.local,
-Thu Dec  8 15:03:23 2022
-The command was "../../../otter-3.3f/bin/otter".  The process ID is 99628.
+Thu Dec  8 15:04:13 2022
+The command was "../../../otter-3.3f/bin/otter".  The process ID is 99701.
 
 set(hyper_res).
 make_evaluable(_>_,$GT(_,_)).
@@ -257,7 +257,7 @@ sensor(4,1,1).
 sensor(4,3,2).
 sensor(4,5,2).
 sensor(5,4,2).
-bomba(1,2)&bomba(1,4)&bomba(2,3)&bomba(3,5)&bomba(4,4)&bomba(5,1)&bomba(5,3)->$ANS([bomba(1,2)&bomba(1,4)&bomba(2,3)&bomba(3,5)&bomba(4,4)&bomba(5,1)&bomba(5,3)]).
+bomba(1,2)&bomba(1,4)&bomba(2,3)&bomba(3,5)&bomba(4,4)&bomba(5,1)&bomba(5,3)->$ANS([bomba(1,2),bomba(1,4),bomba(2,3),bomba(3,5),bomba(4,4),bomba(5,1),bomba(5,3)]).
 end_of_list.
 
 -------> sos clausifies to:
@@ -272,7 +272,7 @@ list(sos).
 200 [] sensor(4,3,2).
 201 [] sensor(4,5,2).
 202 [] sensor(5,4,2).
-203 [] -bomba(1,2)| -bomba(1,4)| -bomba(2,3)| -bomba(3,5)| -bomba(4,4)| -bomba(5,1)| -bomba(5,3)|$ANS([bomba(1,2)&bomba(1,4)&bomba(2,3)&bomba(3,5)&bomba(4,4)&bomba(5,1)&bomba(5,3)]).
+203 [] -bomba(1,2)| -bomba(1,4)| -bomba(2,3)| -bomba(3,5)| -bomba(4,4)| -bomba(5,1)| -bomba(5,3)|$ANS([bomba(1,2),bomba(1,4),bomba(2,3),bomba(3,5),bomba(4,4),bomba(5,1),bomba(5,3)]).
 end_of_list.
 
 ======= end of input processing =======
@@ -497,10 +497,10 @@ given clause #57: (wt=3) 262 [hyper,258,3,256] vacio(5,5).
 
 given clause #58: (wt=3) 263 [hyper,262,3,235] bomba(3,5).
 
-given clause #59: (wt=21) 203 [] -bomba(1,2)| -bomba(1,4)| -bomba(2,3)| -bomba(3,5)| -bomba(4,4)| -bomba(5,1)| -bomba(5,3)|$ANS([bomba(1,2)&bomba(1,4)&bomba(2,3)&bomba(3,5)&bomba(4,4)&bomba(5,1)&bomba(5,3)]).
-** KEPT (pick-wt=0): 264 [hyper,203,207,206,205,263,253,250,256] $ANS([bomba(1,2)&bomba(1,4)&bomba(2,3)&bomba(3,5)&bomba(4,4)&bomba(5,1)&bomba(5,3)]).
+given clause #59: (wt=21) 203 [] -bomba(1,2)| -bomba(1,4)| -bomba(2,3)| -bomba(3,5)| -bomba(4,4)| -bomba(5,1)| -bomba(5,3)|$ANS([bomba(1,2),bomba(1,4),bomba(2,3),bomba(3,5),bomba(4,4),bomba(5,1),bomba(5,3)]).
+** KEPT (pick-wt=0): 264 [hyper,203,207,206,205,263,253,250,256] $ANS([bomba(1,2),bomba(1,4),bomba(2,3),bomba(3,5),bomba(4,4),bomba(5,1),bomba(5,3)]).
 
------> EMPTY CLAUSE at   0.01 sec ----> 264 [hyper,203,207,206,205,263,253,250,256] $ANS([bomba(1,2)&bomba(1,4)&bomba(2,3)&bomba(3,5)&bomba(4,4)&bomba(5,1)&bomba(5,3)]).
+-----> EMPTY CLAUSE at   0.01 sec ----> 264 [hyper,203,207,206,205,263,253,250,256] $ANS([bomba(1,2),bomba(1,4),bomba(2,3),bomba(3,5),bomba(4,4),bomba(5,1),bomba(5,3)]).
 
 Length of proof is 20.  Level of proof is 6.
 
@@ -526,7 +526,7 @@ Length of proof is 20.  Level of proof is 6.
 200 [] sensor(4,3,2).
 201 [] sensor(4,5,2).
 202 [] sensor(5,4,2).
-203 [] -bomba(1,2)| -bomba(1,4)| -bomba(2,3)| -bomba(3,5)| -bomba(4,4)| -bomba(5,1)| -bomba(5,3)|$ANS([bomba(1,2)&bomba(1,4)&bomba(2,3)&bomba(3,5)&bomba(4,4)&bomba(5,1)&bomba(5,3)]).
+203 [] -bomba(1,2)| -bomba(1,4)| -bomba(2,3)| -bomba(3,5)| -bomba(4,4)| -bomba(5,1)| -bomba(5,3)|$ANS([bomba(1,2),bomba(1,4),bomba(2,3),bomba(3,5),bomba(4,4),bomba(5,1),bomba(5,3)]).
 205 [hyper,196,54,195,eval,eval] bomba(2,3).
 206 [hyper,196,53,195,eval,eval,demod] bomba(1,4).
 207 [hyper,196,52,195,eval,eval,demod] bomba(1,2).
@@ -547,7 +547,7 @@ Length of proof is 20.  Level of proof is 6.
 258 [hyper,238,3,253] vacio(5,5)|vacio(5,3).
 262 [hyper,258,3,256] vacio(5,5).
 263 [hyper,262,3,235] bomba(3,5).
-264 [hyper,203,207,206,205,263,253,250,256] $ANS([bomba(1,2)&bomba(1,4)&bomba(2,3)&bomba(3,5)&bomba(4,4)&bomba(5,1)&bomba(5,3)]).
+264 [hyper,203,207,206,205,263,253,250,256] $ANS([bomba(1,2),bomba(1,4),bomba(2,3),bomba(3,5),bomba(4,4),bomba(5,1),bomba(5,3)]).
 
 ------------ end of proof -------------
 
@@ -586,4 +586,4 @@ wall-clock time        0             (0 hr, 0 min, 0 sec)
 
 That finishes the proof of the theorem.
 
-Process 99628 finished Thu Dec  8 15:03:23 2022
+Process 99701 finished Thu Dec  8 15:04:13 2022
