@@ -19,6 +19,7 @@ make_evaluable(_+_, $SUM(_,_)).
 make_evaluable(_-_, $DIFF(_,_)).
 
 formula_list(usable).
+
     % Cada celda solo puede tener un estado
     all x y z (vacio(x,y) -> (-bomba(x,y) & -sensor(x,y,z))).
     all x y z (bomba(x,y) -> (-vacio(x,y) & -sensor(x,y,z))).
@@ -141,6 +142,14 @@ formula_list(sos).
     sensor(4,5,2).
     sensor(5,4,2).
 
-    % Situación final. %TODO: wie bekomme ich das hier generisch hin???
-    -(completado(1,3) & completado(2,4) & completado(3,2) & completado(4,1) & completado(4,3) & completado(4,5) & completado(5,4)).
+    % Situación final. %TODO: das hier terminiert, aber wie bekomme ich das generisch hin???
+    %TODO: UND: wie bekomme ich eine anständige $ANS ?
+    %-(completado(1,3) & completado(2,4) & completado(3,2) & completado(4,1) & completado(4,3) & completado(4,5) & completado(5,4)).
+
+    % TODO: DAS HIER MUSS VIEL GENERISCHER SEIN
+    bomba(1,2) & bomba(1,4) & bomba(2,3) & bomba(3,5) & bomba(4,4) & bomba(5,1) & bomba(5,3) -> $ANS([bomba(1,2) & bomba(1,4) & bomba(2,3) & bomba(3,5) & bomba(4,4) & bomba(5,1) & bomba(5,3)]).
+
+
+    %WARUM ZUM FICK ERKENNT ER DAS NICHT
+    %-(exists a b (bombas([a|b]) & pertenece(bomba(1,2), [a|b]) & pertenece(bomba(1,4), [a|b]) & pertenece(bomba(2,3), [a|b]) & pertenece(bomba(3,5), [a|b]) & pertenece(bomba(4,4), [a|b]) & pertenece(bomba(5,1), [a|b]) & pertenece(bomba(5,3), [a|b]))).
 end_of_list.
