@@ -1,14 +1,23 @@
 ----- Otter 3.3f, August 2004 -----
 The process was started by julien on Juliens-MacBook-Pro.local,
-Thu Dec  8 15:04:13 2022
-The command was "../../../otter-3.3f/bin/otter".  The process ID is 99701.
+Mon Dec 12 13:14:59 2022
+The command was "../../../otter-3.3f/bin/otter".  The process ID is 3728.
 
+set(para_into).
+set(para_from).
 set(hyper_res).
 make_evaluable(_>_,$GT(_,_)).
 make_evaluable(_<_,$LT(_,_)).
 make_evaluable(_<=_,$LE(_,_)).
 make_evaluable(_+_,$SUM(_,_)).
 make_evaluable(_-_,$DIFF(_,_)).
+
+list(demodulators).
+1 [] pertenece(x,[])=$F.
+2 [] pertenece(x,[y|w])=$IF($ID(x,y),$T,pertenece(x,w)).
+3 [] len([])=0.
+4 [] len([y|w])=1+len(w).
+end_of_list.
 
 formula_list(usable).
 all x y z (vacio(x,y)-> -bomba(x,y)& -sensor(x,y,z)).
@@ -52,199 +61,199 @@ end_of_list.
 -------> usable clausifies to:
 
 list(usable).
-1 [] -vacio(x,y)| -bomba(x,y).
-2 [] -vacio(x,y)| -sensor(x,y,z).
-3 [] -bomba(x,y)| -vacio(x,y).
-4 [] -bomba(x,y)| -sensor(x,y,z).
-5 [] -sensor(x,y,z)| -vacio(x,y).
-6 [] -sensor(x,y,z)| -bomba(x,y).
-7 [] -sensor(1,1,0)|vacio(1,2).
-8 [] -sensor(1,1,0)|vacio(2,1).
-9 [] -sensor(1,1,0)|completado(1,1).
-10 [] -filas(x1)| -sensor(x1,1,0)|vacio(x1-1,1).
-11 [] -filas(x1)| -sensor(x1,1,0)|vacio(x1,2).
-12 [] -filas(x1)| -sensor(x1,1,0)|completado(x1,1).
-13 [] -columnas(x2)| -sensor(1,x2,0)|vacio(1,x2-1).
-14 [] -columnas(x2)| -sensor(1,x2,0)|vacio(2,x2).
-15 [] -columnas(x2)| -sensor(1,x2,0)|completado(1,x2).
-16 [] -filas(x3)| -columnas(x4)| -sensor(x3,x4,0)|vacio(x3,x4-1).
-17 [] -filas(x3)| -columnas(x4)| -sensor(x3,x4,0)|vacio(x3-1,x4).
-18 [] -filas(x3)| -columnas(x4)| -sensor(x3,x4,0)|completado(x3,x4).
-19 [] -columnas(x5)| -(y>1)| -(y<x5)| -sensor(1,y,0)|vacio(1,y-1).
-20 [] -columnas(x5)| -(y>1)| -(y<x5)| -sensor(1,y,0)|vacio(1,y+1).
-21 [] -columnas(x5)| -(y>1)| -(y<x5)| -sensor(1,y,0)|vacio(2,y).
-22 [] -columnas(x5)| -(y>1)| -(y<x5)| -sensor(1,y,0)|completado(1,y).
-23 [] -filas(x6)| -columnas(x7)| -(y>1)| -(y<x7)| -sensor(x6,y,0)|vacio(x6,y-1).
-24 [] -filas(x6)| -columnas(x7)| -(y>1)| -(y<x7)| -sensor(x6,y,0)|vacio(x6,y+1).
-25 [] -filas(x6)| -columnas(x7)| -(y>1)| -(y<x7)| -sensor(x6,y,0)|vacio(x6-1,y).
-26 [] -filas(x6)| -columnas(x7)| -(y>1)| -(y<x7)| -sensor(x6,y,0)|completado(x6,y).
-27 [] -filas(x8)| -(x>1)| -(x<x8)| -sensor(x,1,0)|vacio(x-1,1).
-28 [] -filas(x8)| -(x>1)| -(x<x8)| -sensor(x,1,0)|vacio(x+1,1).
-29 [] -filas(x8)| -(x>1)| -(x<x8)| -sensor(x,1,0)|vacio(x,2).
-30 [] -filas(x8)| -(x>1)| -(x<x8)| -sensor(x,1,0)|completado(x,1).
-31 [] -filas(x9)| -columnas(x10)| -(x>1)| -(x<x9)| -sensor(x,x10,0)|vacio(x-1,x10).
-32 [] -filas(x9)| -columnas(x10)| -(x>1)| -(x<x9)| -sensor(x,x10,0)|vacio(x+1,x10).
-33 [] -filas(x9)| -columnas(x10)| -(x>1)| -(x<x9)| -sensor(x,x10,0)|vacio(x,x10-1).
-34 [] -filas(x9)| -columnas(x10)| -(x>1)| -(x<x9)| -sensor(x,x10,0)|completado(x,x10).
-35 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x-1,y).
-36 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x+1,y).
-37 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x,y-1).
-38 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x,y+1).
-39 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|completado(x,y).
-40 [] -sensor(1,1,2)|bomba(1,2).
-41 [] -sensor(1,1,2)|bomba(2,1).
-42 [] -sensor(1,1,2)|completado(1,1).
-43 [] -filas(x13)| -sensor(x13,1,2)|bomba(x13-1,1).
-44 [] -filas(x13)| -sensor(x13,1,2)|bomba(x13,2).
-45 [] -filas(x13)| -sensor(x13,1,2)|completado(x13,1).
-46 [] -columnas(x14)| -sensor(1,x14,2)|bomba(1,x14-1).
-47 [] -columnas(x14)| -sensor(1,x14,2)|bomba(2,x14).
-48 [] -columnas(x14)| -sensor(1,x14,2)|completado(1,x14).
-49 [] -filas(x15)| -columnas(x16)| -sensor(x15,x16,2)|bomba(x15,x16-1).
-50 [] -filas(x15)| -columnas(x16)| -sensor(x15,x16,2)|bomba(x15-1,x16).
-51 [] -filas(x15)| -columnas(x16)| -sensor(x15,x16,2)|completado(x15,x16).
-52 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|bomba(1,y-1).
-53 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|bomba(1,y+1).
-54 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|bomba(2,y).
-55 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|completado(1,y).
-56 [] -filas(x18)| -columnas(x19)| -(y>1)| -(y<x19)| -sensor(x18,y,3)|bomba(x18,y-1).
-57 [] -filas(x18)| -columnas(x19)| -(y>1)| -(y<x19)| -sensor(x18,y,3)|bomba(x18,y+1).
-58 [] -filas(x18)| -columnas(x19)| -(y>1)| -(y<x19)| -sensor(x18,y,3)|bomba(x18-1,y).
-59 [] -filas(x18)| -columnas(x19)| -(y>1)| -(y<x19)| -sensor(x18,y,3)|completado(x18,y).
-60 [] -filas(x20)| -(x>1)| -(x<x20)| -sensor(x,1,3)|bomba(x-1,1).
-61 [] -filas(x20)| -(x>1)| -(x<x20)| -sensor(x,1,3)|bomba(x+1,1).
-62 [] -filas(x20)| -(x>1)| -(x<x20)| -sensor(x,1,3)|bomba(x,2).
-63 [] -filas(x20)| -(x>1)| -(x<x20)| -sensor(x,1,3)|completado(x,1).
-64 [] -filas(x21)| -columnas(x22)| -(x>1)| -(x<x21)| -sensor(x,x22,3)|bomba(x-1,x22).
-65 [] -filas(x21)| -columnas(x22)| -(x>1)| -(x<x21)| -sensor(x,x22,3)|bomba(x+1,x22).
-66 [] -filas(x21)| -columnas(x22)| -(x>1)| -(x<x21)| -sensor(x,x22,3)|bomba(x,x22-1).
-67 [] -filas(x21)| -columnas(x22)| -(x>1)| -(x<x21)| -sensor(x,x22,3)|completado(x,x22).
-68 [] -filas(x23)| -columnas(x24)| -(x>1)| -(x<x23)| -(y>1)| -(y<x24)| -sensor(x,y,4)|bomba(x-1,y).
-69 [] -filas(x23)| -columnas(x24)| -(x>1)| -(x<x23)| -(y>1)| -(y<x24)| -sensor(x,y,4)|bomba(x+1,y).
-70 [] -filas(x23)| -columnas(x24)| -(x>1)| -(x<x23)| -(y>1)| -(y<x24)| -sensor(x,y,4)|bomba(x,y-1).
-71 [] -filas(x23)| -columnas(x24)| -(x>1)| -(x<x23)| -(y>1)| -(y<x24)| -sensor(x,y,4)|bomba(x,y+1).
-72 [] -filas(x23)| -columnas(x24)| -(x>1)| -(x<x23)| -(y>1)| -(y<x24)| -sensor(x,y,4)|completado(x,y).
-73 [] -sensor(1,1,1)|bomba(1,2)|vacio(1,2).
-74 [] -sensor(1,1,1)|bomba(1,2)|bomba(2,1).
-75 [] -sensor(1,1,1)|vacio(2,1)|vacio(1,2).
-76 [] -sensor(1,1,1)|vacio(2,1)|bomba(2,1).
-77 [] -sensor(1,1,1)|completado(1,1).
-78 [] -filas(x25)| -sensor(x25,1,1)|bomba(x25-1,1)|vacio(x25-1,1).
-79 [] -filas(x25)| -sensor(x25,1,1)|bomba(x25-1,1)|bomba(x25,2).
-80 [] -filas(x25)| -sensor(x25,1,1)|vacio(x25,2)|vacio(x25-1,1).
-81 [] -filas(x25)| -sensor(x25,1,1)|vacio(x25,2)|bomba(x25,2).
-82 [] -filas(x25)| -sensor(x25,1,1)|completado(x25,1).
-83 [] -columnas(x26)| -sensor(1,x26,1)|bomba(2,x26)|vacio(2,x26).
-84 [] -columnas(x26)| -sensor(1,x26,1)|bomba(2,x26)|bomba(1,x26-1).
-85 [] -columnas(x26)| -sensor(1,x26,1)|vacio(1,x26-1)|vacio(2,x26).
-86 [] -columnas(x26)| -sensor(1,x26,1)|vacio(1,x26-1)|bomba(1,x26-1).
-87 [] -columnas(x26)| -sensor(1,x26,1)|completado(1,x26).
-88 [] -filas(x27)| -columnas(x28)| -sensor(x27,x28,1)|bomba(x27,x28-1)|vacio(x27,x28-1).
-89 [] -filas(x27)| -columnas(x28)| -sensor(x27,x28,1)|bomba(x27,x28-1)|bomba(x27-1,x28).
-90 [] -filas(x27)| -columnas(x28)| -sensor(x27,x28,1)|vacio(x27-1,x28)|vacio(x27,x28-1).
-91 [] -filas(x27)| -columnas(x28)| -sensor(x27,x28,1)|vacio(x27-1,x28)|bomba(x27-1,x28).
-92 [] -filas(x27)| -columnas(x28)| -sensor(x27,x28,1)|completado(x27,x28).
-93 [] -columnas(x29)| -(y>1)| -(y<x29)| -sensor(1,y,1)|bomba(1,y-1)|vacio(1,y-1).
-94 [] -columnas(x29)| -(y>1)| -(y<x29)| -sensor(1,y,1)|bomba(1,y-1)|bomba(1,y+1)|bomba(2,y).
-95 [] -columnas(x29)| -(y>1)| -(y<x29)| -sensor(1,y,1)|vacio(1,y+1)|vacio(1,y-1).
-96 [] -columnas(x29)| -(y>1)| -(y<x29)| -sensor(1,y,1)|vacio(1,y+1)|bomba(1,y+1).
-97 [] -columnas(x29)| -(y>1)| -(y<x29)| -sensor(1,y,1)|vacio(1,y+1)|vacio(2,y).
-98 [] -columnas(x29)| -(y>1)| -(y<x29)| -sensor(1,y,1)|vacio(2,y)|vacio(1,y-1).
-99 [] -columnas(x29)| -(y>1)| -(y<x29)| -sensor(1,y,1)|vacio(2,y)|bomba(2,y).
-100 [] -columnas(x29)| -(y>1)| -(y<x29)| -sensor(1,y,1)|completado(1,y).
-101 [] -filas(x30)| -columnas(x31)| -(y>1)| -(y<x31)| -sensor(x30,y,1)|bomba(x30,y-1)|vacio(x30,y-1).
-102 [] -filas(x30)| -columnas(x31)| -(y>1)| -(y<x31)| -sensor(x30,y,1)|bomba(x30,y-1)|bomba(x30,y+1)|bomba(x30-1,y).
-103 [] -filas(x30)| -columnas(x31)| -(y>1)| -(y<x31)| -sensor(x30,y,1)|vacio(x30,y+1)|vacio(x30,y-1).
-104 [] -filas(x30)| -columnas(x31)| -(y>1)| -(y<x31)| -sensor(x30,y,1)|vacio(x30,y+1)|bomba(x30,y+1).
-105 [] -filas(x30)| -columnas(x31)| -(y>1)| -(y<x31)| -sensor(x30,y,1)|vacio(x30,y+1)|vacio(x30-1,y).
-106 [] -filas(x30)| -columnas(x31)| -(y>1)| -(y<x31)| -sensor(x30,y,1)|vacio(x30-1,y)|vacio(x30,y-1).
-107 [] -filas(x30)| -columnas(x31)| -(y>1)| -(y<x31)| -sensor(x30,y,1)|vacio(x30-1,y)|bomba(x30-1,y).
-108 [] -filas(x30)| -columnas(x31)| -(y>1)| -(y<x31)| -sensor(x30,y,1)|completado(x30,y).
-109 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|bomba(x-1,1)|vacio(x-1,1).
-110 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|bomba(x-1,1)|bomba(x+1,1)|bomba(x,2).
-111 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|vacio(x+1,1)|vacio(x-1,1).
-112 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|vacio(x+1,1)|bomba(x+1,1).
-113 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|vacio(x+1,1)|vacio(x,2).
-114 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|vacio(x,2)|vacio(x-1,1).
-115 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|vacio(x,2)|bomba(x,2).
-116 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|completado(x,1).
-117 [] -filas(x33)| -columnas(x34)| -(x>1)| -(x<x33)| -sensor(x,x34,1)|bomba(x-1,x34)|vacio(x-1,x34).
-118 [] -filas(x33)| -columnas(x34)| -(x>1)| -(x<x33)| -sensor(x,x34,1)|bomba(x-1,x34)|bomba(x+1,x34)|bomba(x,x34-1).
-119 [] -filas(x33)| -columnas(x34)| -(x>1)| -(x<x33)| -sensor(x,x34,1)|vacio(x+1,x34)|vacio(x-1,x34).
-120 [] -filas(x33)| -columnas(x34)| -(x>1)| -(x<x33)| -sensor(x,x34,1)|vacio(x+1,x34)|bomba(x+1,x34).
-121 [] -filas(x33)| -columnas(x34)| -(x>1)| -(x<x33)| -sensor(x,x34,1)|vacio(x+1,x34)|vacio(x,x34-1).
-122 [] -filas(x33)| -columnas(x34)| -(x>1)| -(x<x33)| -sensor(x,x34,1)|vacio(x,x34-1)|vacio(x-1,x34).
-123 [] -filas(x33)| -columnas(x34)| -(x>1)| -(x<x33)| -sensor(x,x34,1)|vacio(x,x34-1)|bomba(x,x34-1).
-124 [] -filas(x33)| -columnas(x34)| -(x>1)| -(x<x33)| -sensor(x,x34,1)|completado(x,x34).
-125 [] -columnas(x35)| -(y>1)| -(y<x35)| -sensor(1,y,2)|bomba(1,y-1)|vacio(1,y-1).
-126 [] -columnas(x35)| -(y>1)| -(y<x35)| -sensor(1,y,2)|bomba(1,y-1)|bomba(1,y+1).
-127 [] -columnas(x35)| -(y>1)| -(y<x35)| -sensor(1,y,2)|bomba(1,y-1)|bomba(2,y).
-128 [] -columnas(x35)| -(y>1)| -(y<x35)| -sensor(1,y,2)|bomba(1,y+1)|vacio(1,y+1).
-129 [] -columnas(x35)| -(y>1)| -(y<x35)| -sensor(1,y,2)|bomba(1,y+1)|bomba(2,y).
-130 [] -columnas(x35)| -(y>1)| -(y<x35)| -sensor(1,y,2)|vacio(2,y)|vacio(1,y+1)|vacio(1,y-1).
-131 [] -columnas(x35)| -(y>1)| -(y<x35)| -sensor(1,y,2)|vacio(2,y)|bomba(2,y).
-132 [] -columnas(x35)| -(y>1)| -(y<x35)| -sensor(1,y,2)|completado(1,y).
-133 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|bomba(x36,y-1)|vacio(x36,y-1).
-134 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|bomba(x36,y-1)|bomba(x36,y+1).
-135 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|bomba(x36,y-1)|bomba(x36-1,y).
-136 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|bomba(x36,y+1)|vacio(x36,y+1).
-137 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|bomba(x36,y+1)|bomba(x36-1,y).
-138 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|vacio(x36-1,y)|vacio(x36,y+1)|vacio(x36,y-1).
-139 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|vacio(x36-1,y)|bomba(x36-1,y).
-140 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|completado(x36,y).
-141 [] -filas(x38)| -(x>1)| -(x<x38)| -sensor(x,1,2)|bomba(x-1,1)|vacio(x-1,1).
-142 [] -filas(x38)| -(x>1)| -(x<x38)| -sensor(x,1,2)|bomba(x-1,1)|bomba(x+1,1).
-143 [] -filas(x38)| -(x>1)| -(x<x38)| -sensor(x,1,2)|bomba(x-1,1)|bomba(x,2).
-144 [] -filas(x38)| -(x>1)| -(x<x38)| -sensor(x,1,2)|bomba(x+1,1)|vacio(x+1,1).
-145 [] -filas(x38)| -(x>1)| -(x<x38)| -sensor(x,1,2)|bomba(x+1,1)|bomba(x,2).
-146 [] -filas(x38)| -(x>1)| -(x<x38)| -sensor(x,1,2)|vacio(x,2)|vacio(x+1,1)|vacio(x-1,1).
-147 [] -filas(x38)| -(x>1)| -(x<x38)| -sensor(x,1,2)|vacio(x,2)|bomba(x,2).
-148 [] -filas(x38)| -(x>1)| -(x<x38)| -sensor(x,1,2)|completado(x,1).
-149 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|bomba(x-1,x40)|vacio(x-1,x40).
-150 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|bomba(x-1,x40)|bomba(x+1,x40).
-151 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|bomba(x-1,x40)|bomba(x,x40-1).
-152 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|bomba(x+1,x40)|vacio(x+1,x40).
-153 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|bomba(x+1,x40)|bomba(x,x40-1).
-154 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|vacio(x,x40-1)|vacio(x+1,x40)|vacio(x-1,x40).
-155 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|vacio(x,x40-1)|bomba(x,x40-1).
-156 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|completado(x,x40).
-157 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|bomba(x-1,y)|vacio(x-1,y).
-158 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|bomba(x-1,y)|bomba(x+1,y)|bomba(x,y-1)|bomba(x,y+1).
-159 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|vacio(x+1,y)|vacio(x-1,y).
-160 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|vacio(x+1,y)|bomba(x+1,y).
-161 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|vacio(x+1,y)|vacio(x,y-1).
-162 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|vacio(x+1,y)|vacio(x,y+1).
-163 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|vacio(x,y-1)|vacio(x-1,y).
-164 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|vacio(x,y-1)|bomba(x,y-1).
-165 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|vacio(x,y-1)|vacio(x,y+1).
-166 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|vacio(x,y+1)|vacio(x-1,y).
-167 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|vacio(x,y+1)|bomba(x,y+1).
-168 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|completado(x,y).
-169 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x-1,y)|vacio(x-1,y).
-170 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x-1,y)|bomba(x+1,y)|bomba(x,y-1).
-171 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x-1,y)|bomba(x+1,y)|bomba(x,y+1).
-172 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x-1,y)|bomba(x,y-1)|bomba(x,y+1).
-173 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x+1,y)|vacio(x+1,y).
-174 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x+1,y)|bomba(x,y-1)|bomba(x,y+1).
-175 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|vacio(x,y-1)|vacio(x-1,y)|vacio(x+1,y).
-176 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|vacio(x,y-1)|vacio(x-1,y)|vacio(x,y+1).
-177 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|vacio(x,y-1)|bomba(x,y-1).
-178 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|vacio(x,y-1)|vacio(x,y+1)|vacio(x+1,y).
-179 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|vacio(x,y+1)|vacio(x-1,y)|vacio(x+1,y).
-180 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|vacio(x,y+1)|bomba(x,y+1).
-181 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|completado(x,y).
-182 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|bomba(x-1,y)|vacio(x-1,y).
-183 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|bomba(x-1,y)|bomba(x+1,y).
-184 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|bomba(x-1,y)|bomba(x,y-1).
-185 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|bomba(x-1,y)|bomba(x,y+1).
-186 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|bomba(x+1,y)|vacio(x+1,y).
-187 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|bomba(x+1,y)|bomba(x,y-1).
-188 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|bomba(x+1,y)|bomba(x,y+1).
-189 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|bomba(x,y-1)|vacio(x,y-1).
-190 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|bomba(x,y-1)|bomba(x,y+1).
-191 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|vacio(x,y+1)|vacio(x,y-1)|vacio(x+1,y)|vacio(x-1,y).
-192 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|vacio(x,y+1)|bomba(x,y+1).
-193 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|completado(x,y).
+5 [] -vacio(x,y)| -bomba(x,y).
+6 [] -vacio(x,y)| -sensor(x,y,z).
+7 [] -bomba(x,y)| -vacio(x,y).
+8 [] -bomba(x,y)| -sensor(x,y,z).
+9 [] -sensor(x,y,z)| -vacio(x,y).
+10 [] -sensor(x,y,z)| -bomba(x,y).
+11 [] -sensor(1,1,0)|vacio(1,2).
+12 [] -sensor(1,1,0)|vacio(2,1).
+13 [] -sensor(1,1,0)|completado(1,1).
+14 [] -filas(x1)| -sensor(x1,1,0)|vacio(x1-1,1).
+15 [] -filas(x1)| -sensor(x1,1,0)|vacio(x1,2).
+16 [] -filas(x1)| -sensor(x1,1,0)|completado(x1,1).
+17 [] -columnas(x2)| -sensor(1,x2,0)|vacio(1,x2-1).
+18 [] -columnas(x2)| -sensor(1,x2,0)|vacio(2,x2).
+19 [] -columnas(x2)| -sensor(1,x2,0)|completado(1,x2).
+20 [] -filas(x3)| -columnas(x4)| -sensor(x3,x4,0)|vacio(x3,x4-1).
+21 [] -filas(x3)| -columnas(x4)| -sensor(x3,x4,0)|vacio(x3-1,x4).
+22 [] -filas(x3)| -columnas(x4)| -sensor(x3,x4,0)|completado(x3,x4).
+23 [] -columnas(x5)| -(y>1)| -(y<x5)| -sensor(1,y,0)|vacio(1,y-1).
+24 [] -columnas(x5)| -(y>1)| -(y<x5)| -sensor(1,y,0)|vacio(1,y+1).
+25 [] -columnas(x5)| -(y>1)| -(y<x5)| -sensor(1,y,0)|vacio(2,y).
+26 [] -columnas(x5)| -(y>1)| -(y<x5)| -sensor(1,y,0)|completado(1,y).
+27 [] -filas(x6)| -columnas(x7)| -(y>1)| -(y<x7)| -sensor(x6,y,0)|vacio(x6,y-1).
+28 [] -filas(x6)| -columnas(x7)| -(y>1)| -(y<x7)| -sensor(x6,y,0)|vacio(x6,y+1).
+29 [] -filas(x6)| -columnas(x7)| -(y>1)| -(y<x7)| -sensor(x6,y,0)|vacio(x6-1,y).
+30 [] -filas(x6)| -columnas(x7)| -(y>1)| -(y<x7)| -sensor(x6,y,0)|completado(x6,y).
+31 [] -filas(x8)| -(x>1)| -(x<x8)| -sensor(x,1,0)|vacio(x-1,1).
+32 [] -filas(x8)| -(x>1)| -(x<x8)| -sensor(x,1,0)|vacio(x+1,1).
+33 [] -filas(x8)| -(x>1)| -(x<x8)| -sensor(x,1,0)|vacio(x,2).
+34 [] -filas(x8)| -(x>1)| -(x<x8)| -sensor(x,1,0)|completado(x,1).
+35 [] -filas(x9)| -columnas(x10)| -(x>1)| -(x<x9)| -sensor(x,x10,0)|vacio(x-1,x10).
+36 [] -filas(x9)| -columnas(x10)| -(x>1)| -(x<x9)| -sensor(x,x10,0)|vacio(x+1,x10).
+37 [] -filas(x9)| -columnas(x10)| -(x>1)| -(x<x9)| -sensor(x,x10,0)|vacio(x,x10-1).
+38 [] -filas(x9)| -columnas(x10)| -(x>1)| -(x<x9)| -sensor(x,x10,0)|completado(x,x10).
+39 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x-1,y).
+40 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x+1,y).
+41 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x,y-1).
+42 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x,y+1).
+43 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|completado(x,y).
+44 [] -sensor(1,1,2)|bomba(1,2).
+45 [] -sensor(1,1,2)|bomba(2,1).
+46 [] -sensor(1,1,2)|completado(1,1).
+47 [] -filas(x13)| -sensor(x13,1,2)|bomba(x13-1,1).
+48 [] -filas(x13)| -sensor(x13,1,2)|bomba(x13,2).
+49 [] -filas(x13)| -sensor(x13,1,2)|completado(x13,1).
+50 [] -columnas(x14)| -sensor(1,x14,2)|bomba(1,x14-1).
+51 [] -columnas(x14)| -sensor(1,x14,2)|bomba(2,x14).
+52 [] -columnas(x14)| -sensor(1,x14,2)|completado(1,x14).
+53 [] -filas(x15)| -columnas(x16)| -sensor(x15,x16,2)|bomba(x15,x16-1).
+54 [] -filas(x15)| -columnas(x16)| -sensor(x15,x16,2)|bomba(x15-1,x16).
+55 [] -filas(x15)| -columnas(x16)| -sensor(x15,x16,2)|completado(x15,x16).
+56 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|bomba(1,y-1).
+57 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|bomba(1,y+1).
+58 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|bomba(2,y).
+59 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|completado(1,y).
+60 [] -filas(x18)| -columnas(x19)| -(y>1)| -(y<x19)| -sensor(x18,y,3)|bomba(x18,y-1).
+61 [] -filas(x18)| -columnas(x19)| -(y>1)| -(y<x19)| -sensor(x18,y,3)|bomba(x18,y+1).
+62 [] -filas(x18)| -columnas(x19)| -(y>1)| -(y<x19)| -sensor(x18,y,3)|bomba(x18-1,y).
+63 [] -filas(x18)| -columnas(x19)| -(y>1)| -(y<x19)| -sensor(x18,y,3)|completado(x18,y).
+64 [] -filas(x20)| -(x>1)| -(x<x20)| -sensor(x,1,3)|bomba(x-1,1).
+65 [] -filas(x20)| -(x>1)| -(x<x20)| -sensor(x,1,3)|bomba(x+1,1).
+66 [] -filas(x20)| -(x>1)| -(x<x20)| -sensor(x,1,3)|bomba(x,2).
+67 [] -filas(x20)| -(x>1)| -(x<x20)| -sensor(x,1,3)|completado(x,1).
+68 [] -filas(x21)| -columnas(x22)| -(x>1)| -(x<x21)| -sensor(x,x22,3)|bomba(x-1,x22).
+69 [] -filas(x21)| -columnas(x22)| -(x>1)| -(x<x21)| -sensor(x,x22,3)|bomba(x+1,x22).
+70 [] -filas(x21)| -columnas(x22)| -(x>1)| -(x<x21)| -sensor(x,x22,3)|bomba(x,x22-1).
+71 [] -filas(x21)| -columnas(x22)| -(x>1)| -(x<x21)| -sensor(x,x22,3)|completado(x,x22).
+72 [] -filas(x23)| -columnas(x24)| -(x>1)| -(x<x23)| -(y>1)| -(y<x24)| -sensor(x,y,4)|bomba(x-1,y).
+73 [] -filas(x23)| -columnas(x24)| -(x>1)| -(x<x23)| -(y>1)| -(y<x24)| -sensor(x,y,4)|bomba(x+1,y).
+74 [] -filas(x23)| -columnas(x24)| -(x>1)| -(x<x23)| -(y>1)| -(y<x24)| -sensor(x,y,4)|bomba(x,y-1).
+75 [] -filas(x23)| -columnas(x24)| -(x>1)| -(x<x23)| -(y>1)| -(y<x24)| -sensor(x,y,4)|bomba(x,y+1).
+76 [] -filas(x23)| -columnas(x24)| -(x>1)| -(x<x23)| -(y>1)| -(y<x24)| -sensor(x,y,4)|completado(x,y).
+77 [] -sensor(1,1,1)|bomba(1,2)|vacio(1,2).
+78 [] -sensor(1,1,1)|bomba(1,2)|bomba(2,1).
+79 [] -sensor(1,1,1)|vacio(2,1)|vacio(1,2).
+80 [] -sensor(1,1,1)|vacio(2,1)|bomba(2,1).
+81 [] -sensor(1,1,1)|completado(1,1).
+82 [] -filas(x25)| -sensor(x25,1,1)|bomba(x25-1,1)|vacio(x25-1,1).
+83 [] -filas(x25)| -sensor(x25,1,1)|bomba(x25-1,1)|bomba(x25,2).
+84 [] -filas(x25)| -sensor(x25,1,1)|vacio(x25,2)|vacio(x25-1,1).
+85 [] -filas(x25)| -sensor(x25,1,1)|vacio(x25,2)|bomba(x25,2).
+86 [] -filas(x25)| -sensor(x25,1,1)|completado(x25,1).
+87 [] -columnas(x26)| -sensor(1,x26,1)|bomba(2,x26)|vacio(2,x26).
+88 [] -columnas(x26)| -sensor(1,x26,1)|bomba(2,x26)|bomba(1,x26-1).
+89 [] -columnas(x26)| -sensor(1,x26,1)|vacio(1,x26-1)|vacio(2,x26).
+90 [] -columnas(x26)| -sensor(1,x26,1)|vacio(1,x26-1)|bomba(1,x26-1).
+91 [] -columnas(x26)| -sensor(1,x26,1)|completado(1,x26).
+92 [] -filas(x27)| -columnas(x28)| -sensor(x27,x28,1)|bomba(x27,x28-1)|vacio(x27,x28-1).
+93 [] -filas(x27)| -columnas(x28)| -sensor(x27,x28,1)|bomba(x27,x28-1)|bomba(x27-1,x28).
+94 [] -filas(x27)| -columnas(x28)| -sensor(x27,x28,1)|vacio(x27-1,x28)|vacio(x27,x28-1).
+95 [] -filas(x27)| -columnas(x28)| -sensor(x27,x28,1)|vacio(x27-1,x28)|bomba(x27-1,x28).
+96 [] -filas(x27)| -columnas(x28)| -sensor(x27,x28,1)|completado(x27,x28).
+97 [] -columnas(x29)| -(y>1)| -(y<x29)| -sensor(1,y,1)|bomba(1,y-1)|vacio(1,y-1).
+98 [] -columnas(x29)| -(y>1)| -(y<x29)| -sensor(1,y,1)|bomba(1,y-1)|bomba(1,y+1)|bomba(2,y).
+99 [] -columnas(x29)| -(y>1)| -(y<x29)| -sensor(1,y,1)|vacio(1,y+1)|vacio(1,y-1).
+100 [] -columnas(x29)| -(y>1)| -(y<x29)| -sensor(1,y,1)|vacio(1,y+1)|bomba(1,y+1).
+101 [] -columnas(x29)| -(y>1)| -(y<x29)| -sensor(1,y,1)|vacio(1,y+1)|vacio(2,y).
+102 [] -columnas(x29)| -(y>1)| -(y<x29)| -sensor(1,y,1)|vacio(2,y)|vacio(1,y-1).
+103 [] -columnas(x29)| -(y>1)| -(y<x29)| -sensor(1,y,1)|vacio(2,y)|bomba(2,y).
+104 [] -columnas(x29)| -(y>1)| -(y<x29)| -sensor(1,y,1)|completado(1,y).
+105 [] -filas(x30)| -columnas(x31)| -(y>1)| -(y<x31)| -sensor(x30,y,1)|bomba(x30,y-1)|vacio(x30,y-1).
+106 [] -filas(x30)| -columnas(x31)| -(y>1)| -(y<x31)| -sensor(x30,y,1)|bomba(x30,y-1)|bomba(x30,y+1)|bomba(x30-1,y).
+107 [] -filas(x30)| -columnas(x31)| -(y>1)| -(y<x31)| -sensor(x30,y,1)|vacio(x30,y+1)|vacio(x30,y-1).
+108 [] -filas(x30)| -columnas(x31)| -(y>1)| -(y<x31)| -sensor(x30,y,1)|vacio(x30,y+1)|bomba(x30,y+1).
+109 [] -filas(x30)| -columnas(x31)| -(y>1)| -(y<x31)| -sensor(x30,y,1)|vacio(x30,y+1)|vacio(x30-1,y).
+110 [] -filas(x30)| -columnas(x31)| -(y>1)| -(y<x31)| -sensor(x30,y,1)|vacio(x30-1,y)|vacio(x30,y-1).
+111 [] -filas(x30)| -columnas(x31)| -(y>1)| -(y<x31)| -sensor(x30,y,1)|vacio(x30-1,y)|bomba(x30-1,y).
+112 [] -filas(x30)| -columnas(x31)| -(y>1)| -(y<x31)| -sensor(x30,y,1)|completado(x30,y).
+113 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|bomba(x-1,1)|vacio(x-1,1).
+114 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|bomba(x-1,1)|bomba(x+1,1)|bomba(x,2).
+115 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|vacio(x+1,1)|vacio(x-1,1).
+116 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|vacio(x+1,1)|bomba(x+1,1).
+117 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|vacio(x+1,1)|vacio(x,2).
+118 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|vacio(x,2)|vacio(x-1,1).
+119 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|vacio(x,2)|bomba(x,2).
+120 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|completado(x,1).
+121 [] -filas(x33)| -columnas(x34)| -(x>1)| -(x<x33)| -sensor(x,x34,1)|bomba(x-1,x34)|vacio(x-1,x34).
+122 [] -filas(x33)| -columnas(x34)| -(x>1)| -(x<x33)| -sensor(x,x34,1)|bomba(x-1,x34)|bomba(x+1,x34)|bomba(x,x34-1).
+123 [] -filas(x33)| -columnas(x34)| -(x>1)| -(x<x33)| -sensor(x,x34,1)|vacio(x+1,x34)|vacio(x-1,x34).
+124 [] -filas(x33)| -columnas(x34)| -(x>1)| -(x<x33)| -sensor(x,x34,1)|vacio(x+1,x34)|bomba(x+1,x34).
+125 [] -filas(x33)| -columnas(x34)| -(x>1)| -(x<x33)| -sensor(x,x34,1)|vacio(x+1,x34)|vacio(x,x34-1).
+126 [] -filas(x33)| -columnas(x34)| -(x>1)| -(x<x33)| -sensor(x,x34,1)|vacio(x,x34-1)|vacio(x-1,x34).
+127 [] -filas(x33)| -columnas(x34)| -(x>1)| -(x<x33)| -sensor(x,x34,1)|vacio(x,x34-1)|bomba(x,x34-1).
+128 [] -filas(x33)| -columnas(x34)| -(x>1)| -(x<x33)| -sensor(x,x34,1)|completado(x,x34).
+129 [] -columnas(x35)| -(y>1)| -(y<x35)| -sensor(1,y,2)|bomba(1,y-1)|vacio(1,y-1).
+130 [] -columnas(x35)| -(y>1)| -(y<x35)| -sensor(1,y,2)|bomba(1,y-1)|bomba(1,y+1).
+131 [] -columnas(x35)| -(y>1)| -(y<x35)| -sensor(1,y,2)|bomba(1,y-1)|bomba(2,y).
+132 [] -columnas(x35)| -(y>1)| -(y<x35)| -sensor(1,y,2)|bomba(1,y+1)|vacio(1,y+1).
+133 [] -columnas(x35)| -(y>1)| -(y<x35)| -sensor(1,y,2)|bomba(1,y+1)|bomba(2,y).
+134 [] -columnas(x35)| -(y>1)| -(y<x35)| -sensor(1,y,2)|vacio(2,y)|vacio(1,y+1)|vacio(1,y-1).
+135 [] -columnas(x35)| -(y>1)| -(y<x35)| -sensor(1,y,2)|vacio(2,y)|bomba(2,y).
+136 [] -columnas(x35)| -(y>1)| -(y<x35)| -sensor(1,y,2)|completado(1,y).
+137 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|bomba(x36,y-1)|vacio(x36,y-1).
+138 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|bomba(x36,y-1)|bomba(x36,y+1).
+139 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|bomba(x36,y-1)|bomba(x36-1,y).
+140 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|bomba(x36,y+1)|vacio(x36,y+1).
+141 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|bomba(x36,y+1)|bomba(x36-1,y).
+142 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|vacio(x36-1,y)|vacio(x36,y+1)|vacio(x36,y-1).
+143 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|vacio(x36-1,y)|bomba(x36-1,y).
+144 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|completado(x36,y).
+145 [] -filas(x38)| -(x>1)| -(x<x38)| -sensor(x,1,2)|bomba(x-1,1)|vacio(x-1,1).
+146 [] -filas(x38)| -(x>1)| -(x<x38)| -sensor(x,1,2)|bomba(x-1,1)|bomba(x+1,1).
+147 [] -filas(x38)| -(x>1)| -(x<x38)| -sensor(x,1,2)|bomba(x-1,1)|bomba(x,2).
+148 [] -filas(x38)| -(x>1)| -(x<x38)| -sensor(x,1,2)|bomba(x+1,1)|vacio(x+1,1).
+149 [] -filas(x38)| -(x>1)| -(x<x38)| -sensor(x,1,2)|bomba(x+1,1)|bomba(x,2).
+150 [] -filas(x38)| -(x>1)| -(x<x38)| -sensor(x,1,2)|vacio(x,2)|vacio(x+1,1)|vacio(x-1,1).
+151 [] -filas(x38)| -(x>1)| -(x<x38)| -sensor(x,1,2)|vacio(x,2)|bomba(x,2).
+152 [] -filas(x38)| -(x>1)| -(x<x38)| -sensor(x,1,2)|completado(x,1).
+153 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|bomba(x-1,x40)|vacio(x-1,x40).
+154 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|bomba(x-1,x40)|bomba(x+1,x40).
+155 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|bomba(x-1,x40)|bomba(x,x40-1).
+156 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|bomba(x+1,x40)|vacio(x+1,x40).
+157 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|bomba(x+1,x40)|bomba(x,x40-1).
+158 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|vacio(x,x40-1)|vacio(x+1,x40)|vacio(x-1,x40).
+159 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|vacio(x,x40-1)|bomba(x,x40-1).
+160 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|completado(x,x40).
+161 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|bomba(x-1,y)|vacio(x-1,y).
+162 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|bomba(x-1,y)|bomba(x+1,y)|bomba(x,y-1)|bomba(x,y+1).
+163 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|vacio(x+1,y)|vacio(x-1,y).
+164 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|vacio(x+1,y)|bomba(x+1,y).
+165 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|vacio(x+1,y)|vacio(x,y-1).
+166 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|vacio(x+1,y)|vacio(x,y+1).
+167 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|vacio(x,y-1)|vacio(x-1,y).
+168 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|vacio(x,y-1)|bomba(x,y-1).
+169 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|vacio(x,y-1)|vacio(x,y+1).
+170 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|vacio(x,y+1)|vacio(x-1,y).
+171 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|vacio(x,y+1)|bomba(x,y+1).
+172 [] -filas(x41)| -columnas(x42)| -(x>1)| -(x<x41)| -(y>1)| -(y<x42)| -sensor(x,y,1)|completado(x,y).
+173 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x-1,y)|vacio(x-1,y).
+174 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x-1,y)|bomba(x+1,y)|bomba(x,y-1).
+175 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x-1,y)|bomba(x+1,y)|bomba(x,y+1).
+176 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x-1,y)|bomba(x,y-1)|bomba(x,y+1).
+177 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x+1,y)|vacio(x+1,y).
+178 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x+1,y)|bomba(x,y-1)|bomba(x,y+1).
+179 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|vacio(x,y-1)|vacio(x-1,y)|vacio(x+1,y).
+180 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|vacio(x,y-1)|vacio(x-1,y)|vacio(x,y+1).
+181 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|vacio(x,y-1)|bomba(x,y-1).
+182 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|vacio(x,y-1)|vacio(x,y+1)|vacio(x+1,y).
+183 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|vacio(x,y+1)|vacio(x-1,y)|vacio(x+1,y).
+184 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|vacio(x,y+1)|bomba(x,y+1).
+185 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|completado(x,y).
+186 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|bomba(x-1,y)|vacio(x-1,y).
+187 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|bomba(x-1,y)|bomba(x+1,y).
+188 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|bomba(x-1,y)|bomba(x,y-1).
+189 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|bomba(x-1,y)|bomba(x,y+1).
+190 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|bomba(x+1,y)|vacio(x+1,y).
+191 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|bomba(x+1,y)|bomba(x,y-1).
+192 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|bomba(x+1,y)|bomba(x,y+1).
+193 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|bomba(x,y-1)|vacio(x,y-1).
+194 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|bomba(x,y-1)|bomba(x,y+1).
+195 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|vacio(x,y+1)|vacio(x,y-1)|vacio(x+1,y)|vacio(x-1,y).
+196 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|vacio(x,y+1)|bomba(x,y+1).
+197 [] -filas(x45)| -columnas(x46)| -(x>1)| -(x<x45)| -(y>1)| -(y<x46)| -sensor(x,y,3)|completado(x,y).
 end_of_list.
 
 formula_list(sos).
@@ -257,297 +266,310 @@ sensor(4,1,1).
 sensor(4,3,2).
 sensor(4,5,2).
 sensor(5,4,2).
-bomba(1,2)&bomba(1,4)&bomba(2,3)&bomba(3,5)&bomba(4,4)&bomba(5,1)&bomba(5,3)->$ANS([bomba(1,2),bomba(1,4),bomba(2,3),bomba(3,5),bomba(4,4),bomba(5,1),bomba(5,3)]).
+-(completado(1,3)&completado(2,4)&completado(3,2)&completado(4,1)&completado(4,3)&completado(4,5)&completado(5,4)).
+bombas([]).
+all x y (bombas([])&bomba(x,y)->bombas([bomba(x,y)])).
+all x y p q (bombas([p|q])&bomba(x,y)& -pertenece(bomba(x,y),[p|q])->bombas([bomba(x,y),p|q])).
 end_of_list.
 
 -------> sos clausifies to:
 
 list(sos).
-194 [] filas(5).
-195 [] columnas(5).
-196 [] sensor(1,3,3).
-197 [] sensor(2,4,2).
-198 [] sensor(3,2,0).
-199 [] sensor(4,1,1).
-200 [] sensor(4,3,2).
-201 [] sensor(4,5,2).
-202 [] sensor(5,4,2).
-203 [] -bomba(1,2)| -bomba(1,4)| -bomba(2,3)| -bomba(3,5)| -bomba(4,4)| -bomba(5,1)| -bomba(5,3)|$ANS([bomba(1,2),bomba(1,4),bomba(2,3),bomba(3,5),bomba(4,4),bomba(5,1),bomba(5,3)]).
+198 [] filas(5).
+199 [] columnas(5).
+200 [] sensor(1,3,3).
+201 [] sensor(2,4,2).
+202 [] sensor(3,2,0).
+203 [] sensor(4,1,1).
+204 [] sensor(4,3,2).
+205 [] sensor(4,5,2).
+206 [] sensor(5,4,2).
+207 [] -completado(1,3)| -completado(2,4)| -completado(3,2)| -completado(4,1)| -completado(4,3)| -completado(4,5)| -completado(5,4).
+208 [] bombas([]).
+209 [] -bombas([])| -bomba(x,y)|bombas([bomba(x,y)]).
+210 [] -bombas([x47|x48])| -bomba(x,y)|pertenece(bomba(x,y),[x47|x48])|bombas([bomba(x,y),x47|x48]).
 end_of_list.
 
 ======= end of input processing =======
 
 =========== start of search ===========
 
-given clause #1: (wt=2) 194 [] filas(5).
+given clause #1: (wt=2) 198 [] filas(5).
 
-given clause #2: (wt=2) 195 [] columnas(5).
+given clause #2: (wt=2) 199 [] columnas(5).
 
-given clause #3: (wt=4) 196 [] sensor(1,3,3).
-** KEPT (pick-wt=3): 204 [hyper,196,55,195,eval,eval] completado(1,3).
-** KEPT (pick-wt=3): 205 [hyper,196,54,195,eval,eval] bomba(2,3).
-** KEPT (pick-wt=3): 206 [hyper,196,53,195,eval,eval,demod] bomba(1,4).
-** KEPT (pick-wt=3): 207 [hyper,196,52,195,eval,eval,demod] bomba(1,2).
-207 back subsumes 74.
-207 back subsumes 73.
-207 back subsumes 40.
+given clause #3: (wt=2) 208 [] bombas([]).
 
-given clause #4: (wt=3) 204 [hyper,196,55,195,eval,eval] completado(1,3).
+given clause #4: (wt=4) 200 [] sensor(1,3,3).
+** KEPT (pick-wt=3): 211 [hyper,200,59,199,eval,eval] completado(1,3).
+** KEPT (pick-wt=3): 212 [hyper,200,58,199,eval,eval] bomba(2,3).
+** KEPT (pick-wt=3): 213 [hyper,200,57,199,eval,eval,demod] bomba(1,4).
+** KEPT (pick-wt=3): 214 [hyper,200,56,199,eval,eval,demod] bomba(1,2).
+214 back subsumes 78.
+214 back subsumes 77.
+214 back subsumes 44.
 
-given clause #5: (wt=3) 205 [hyper,196,54,195,eval,eval] bomba(2,3).
+given clause #5: (wt=3) 211 [hyper,200,59,199,eval,eval] completado(1,3).
 
-given clause #6: (wt=3) 206 [hyper,196,53,195,eval,eval,demod] bomba(1,4).
+given clause #6: (wt=3) 212 [hyper,200,58,199,eval,eval] bomba(2,3).
 
-given clause #7: (wt=3) 207 [hyper,196,52,195,eval,eval,demod] bomba(1,2).
+given clause #7: (wt=3) 213 [hyper,200,57,199,eval,eval,demod] bomba(1,4).
 
-given clause #8: (wt=4) 197 [] sensor(2,4,2).
-** KEPT (pick-wt=3): 208 [hyper,197,181,194,195,eval,eval,eval,eval] completado(2,4).
-** KEPT (pick-wt=6): 209 [hyper,197,180,194,195,eval,eval,eval,eval,demod] vacio(2,5)|bomba(2,5).
-** KEPT (pick-wt=9): 210 [hyper,197,179,194,195,eval,eval,eval,eval,demod] vacio(2,5)|vacio(1,4)|vacio(3,4).
-** KEPT (pick-wt=9): 211 [hyper,197,178,194,195,eval,eval,eval,eval,demod] vacio(2,3)|vacio(2,5)|vacio(3,4).
-** KEPT (pick-wt=9): 212 [hyper,197,176,194,195,eval,eval,eval,eval,demod] vacio(2,3)|vacio(1,4)|vacio(2,5).
-** KEPT (pick-wt=9): 213 [hyper,197,175,194,195,eval,eval,eval,eval,demod] vacio(2,3)|vacio(1,4)|vacio(3,4).
-** KEPT (pick-wt=6): 214 [hyper,197,173,194,195,eval,eval,eval,eval,demod] bomba(3,4)|vacio(3,4).
+given clause #8: (wt=3) 214 [hyper,200,56,199,eval,eval,demod] bomba(1,2).
 
-given clause #9: (wt=3) 208 [hyper,197,181,194,195,eval,eval,eval,eval] completado(2,4).
+given clause #9: (wt=4) 201 [] sensor(2,4,2).
+** KEPT (pick-wt=3): 215 [hyper,201,185,198,199,eval,eval,eval,eval] completado(2,4).
+** KEPT (pick-wt=6): 216 [hyper,201,184,198,199,eval,eval,eval,eval,demod] vacio(2,5)|bomba(2,5).
+** KEPT (pick-wt=9): 217 [hyper,201,183,198,199,eval,eval,eval,eval,demod] vacio(2,5)|vacio(1,4)|vacio(3,4).
+** KEPT (pick-wt=9): 218 [hyper,201,182,198,199,eval,eval,eval,eval,demod] vacio(2,3)|vacio(2,5)|vacio(3,4).
+** KEPT (pick-wt=9): 219 [hyper,201,180,198,199,eval,eval,eval,eval,demod] vacio(2,3)|vacio(1,4)|vacio(2,5).
+** KEPT (pick-wt=9): 220 [hyper,201,179,198,199,eval,eval,eval,eval,demod] vacio(2,3)|vacio(1,4)|vacio(3,4).
+** KEPT (pick-wt=6): 221 [hyper,201,177,198,199,eval,eval,eval,eval,demod] bomba(3,4)|vacio(3,4).
 
-given clause #10: (wt=4) 198 [] sensor(3,2,0).
-** KEPT (pick-wt=3): 215 [hyper,198,39,194,195,eval,eval,eval,eval] completado(3,2).
-** KEPT (pick-wt=3): 216 [hyper,198,38,194,195,eval,eval,eval,eval,demod] vacio(3,3).
-** KEPT (pick-wt=3): 217 [hyper,198,37,194,195,eval,eval,eval,eval,demod] vacio(3,1).
-** KEPT (pick-wt=3): 218 [hyper,198,36,194,195,eval,eval,eval,eval,demod] vacio(4,2).
-** KEPT (pick-wt=3): 219 [hyper,198,35,194,195,eval,eval,eval,eval,demod] vacio(2,2).
+given clause #10: (wt=3) 215 [hyper,201,185,198,199,eval,eval,eval,eval] completado(2,4).
 
-given clause #11: (wt=3) 215 [hyper,198,39,194,195,eval,eval,eval,eval] completado(3,2).
+given clause #11: (wt=4) 202 [] sensor(3,2,0).
+** KEPT (pick-wt=3): 222 [hyper,202,43,198,199,eval,eval,eval,eval] completado(3,2).
+** KEPT (pick-wt=3): 223 [hyper,202,42,198,199,eval,eval,eval,eval,demod] vacio(3,3).
+** KEPT (pick-wt=3): 224 [hyper,202,41,198,199,eval,eval,eval,eval,demod] vacio(3,1).
+** KEPT (pick-wt=3): 225 [hyper,202,40,198,199,eval,eval,eval,eval,demod] vacio(4,2).
+** KEPT (pick-wt=3): 226 [hyper,202,39,198,199,eval,eval,eval,eval,demod] vacio(2,2).
 
-given clause #12: (wt=3) 216 [hyper,198,38,194,195,eval,eval,eval,eval,demod] vacio(3,3).
+given clause #12: (wt=3) 222 [hyper,202,43,198,199,eval,eval,eval,eval] completado(3,2).
 
-given clause #13: (wt=3) 217 [hyper,198,37,194,195,eval,eval,eval,eval,demod] vacio(3,1).
+given clause #13: (wt=3) 223 [hyper,202,42,198,199,eval,eval,eval,eval,demod] vacio(3,3).
 
-given clause #14: (wt=3) 218 [hyper,198,36,194,195,eval,eval,eval,eval,demod] vacio(4,2).
+given clause #14: (wt=3) 224 [hyper,202,41,198,199,eval,eval,eval,eval,demod] vacio(3,1).
 
-given clause #15: (wt=3) 219 [hyper,198,35,194,195,eval,eval,eval,eval,demod] vacio(2,2).
+given clause #15: (wt=3) 225 [hyper,202,40,198,199,eval,eval,eval,eval,demod] vacio(4,2).
 
-given clause #16: (wt=4) 199 [] sensor(4,1,1).
-** KEPT (pick-wt=3): 220 [hyper,199,116,194,eval,eval] completado(4,1).
-** KEPT (pick-wt=6): 221 [hyper,199,112,194,eval,eval,demod] vacio(5,1)|bomba(5,1).
-** KEPT (pick-wt=9): 222 [hyper,199,110,194,eval,eval,demod] bomba(3,1)|bomba(5,1)|bomba(4,2).
+given clause #16: (wt=3) 226 [hyper,202,39,198,199,eval,eval,eval,eval,demod] vacio(2,2).
 
-given clause #17: (wt=3) 220 [hyper,199,116,194,eval,eval] completado(4,1).
+given clause #17: (wt=4) 203 [] sensor(4,1,1).
+** KEPT (pick-wt=3): 227 [hyper,203,120,198,eval,eval] completado(4,1).
+** KEPT (pick-wt=6): 228 [hyper,203,116,198,eval,eval,demod] vacio(5,1)|bomba(5,1).
+** KEPT (pick-wt=9): 229 [hyper,203,114,198,eval,eval,demod] bomba(3,1)|bomba(5,1)|bomba(4,2).
 
-given clause #18: (wt=4) 200 [] sensor(4,3,2).
-** KEPT (pick-wt=3): 223 [hyper,200,181,194,195,eval,eval,eval,eval] completado(4,3).
-** KEPT (pick-wt=6): 224 [hyper,200,180,194,195,eval,eval,eval,eval,demod] vacio(4,4)|bomba(4,4).
-** KEPT (pick-wt=9): 225 [hyper,200,174,194,195,eval,eval,eval,eval,demod] bomba(5,3)|bomba(4,2)|bomba(4,4).
-** KEPT (pick-wt=6): 226 [hyper,200,173,194,195,eval,eval,eval,eval,demod] bomba(5,3)|vacio(5,3).
-** KEPT (pick-wt=9): 227 [hyper,200,172,194,195,eval,eval,eval,eval,demod] bomba(3,3)|bomba(4,2)|bomba(4,4).
-** KEPT (pick-wt=9): 228 [hyper,200,171,194,195,eval,eval,eval,eval,demod] bomba(3,3)|bomba(5,3)|bomba(4,4).
-** KEPT (pick-wt=9): 229 [hyper,200,170,194,195,eval,eval,eval,eval,demod] bomba(3,3)|bomba(5,3)|bomba(4,2).
+given clause #18: (wt=3) 227 [hyper,203,120,198,eval,eval] completado(4,1).
 
-given clause #19: (wt=3) 223 [hyper,200,181,194,195,eval,eval,eval,eval] completado(4,3).
+given clause #19: (wt=4) 204 [] sensor(4,3,2).
+** KEPT (pick-wt=3): 230 [hyper,204,185,198,199,eval,eval,eval,eval] completado(4,3).
+** KEPT (pick-wt=6): 231 [hyper,204,184,198,199,eval,eval,eval,eval,demod] vacio(4,4)|bomba(4,4).
+** KEPT (pick-wt=9): 232 [hyper,204,178,198,199,eval,eval,eval,eval,demod] bomba(5,3)|bomba(4,2)|bomba(4,4).
+** KEPT (pick-wt=6): 233 [hyper,204,177,198,199,eval,eval,eval,eval,demod] bomba(5,3)|vacio(5,3).
+** KEPT (pick-wt=9): 234 [hyper,204,176,198,199,eval,eval,eval,eval,demod] bomba(3,3)|bomba(4,2)|bomba(4,4).
+** KEPT (pick-wt=9): 235 [hyper,204,175,198,199,eval,eval,eval,eval,demod] bomba(3,3)|bomba(5,3)|bomba(4,4).
+** KEPT (pick-wt=9): 236 [hyper,204,174,198,199,eval,eval,eval,eval,demod] bomba(3,3)|bomba(5,3)|bomba(4,2).
 
-given clause #20: (wt=4) 201 [] sensor(4,5,2).
-** KEPT (pick-wt=3): 230 [hyper,201,156,194,195,eval,eval] completado(4,5).
-** KEPT (pick-wt=9): 231 [hyper,201,154,194,195,eval,eval,demod] vacio(4,4)|vacio(5,5)|vacio(3,5).
-** KEPT (pick-wt=6): 232 [hyper,201,153,194,195,eval,eval,demod] bomba(5,5)|bomba(4,4).
-** KEPT (pick-wt=6): 233 [hyper,201,152,194,195,eval,eval,demod] bomba(5,5)|vacio(5,5).
-** KEPT (pick-wt=6): 234 [hyper,201,151,194,195,eval,eval,demod] bomba(3,5)|bomba(4,4).
-** KEPT (pick-wt=6): 235 [hyper,201,150,194,195,eval,eval,demod] bomba(3,5)|bomba(5,5).
-** KEPT (pick-wt=6): 236 [hyper,201,149,194,195,eval,eval,demod] bomba(3,5)|vacio(3,5).
+given clause #20: (wt=3) 230 [hyper,204,185,198,199,eval,eval,eval,eval] completado(4,3).
 
-given clause #21: (wt=3) 230 [hyper,201,156,194,195,eval,eval] completado(4,5).
+given clause #21: (wt=4) 205 [] sensor(4,5,2).
+** KEPT (pick-wt=3): 237 [hyper,205,160,198,199,eval,eval] completado(4,5).
+** KEPT (pick-wt=9): 238 [hyper,205,158,198,199,eval,eval,demod] vacio(4,4)|vacio(5,5)|vacio(3,5).
+** KEPT (pick-wt=6): 239 [hyper,205,157,198,199,eval,eval,demod] bomba(5,5)|bomba(4,4).
+** KEPT (pick-wt=6): 240 [hyper,205,156,198,199,eval,eval,demod] bomba(5,5)|vacio(5,5).
+** KEPT (pick-wt=6): 241 [hyper,205,155,198,199,eval,eval,demod] bomba(3,5)|bomba(4,4).
+** KEPT (pick-wt=6): 242 [hyper,205,154,198,199,eval,eval,demod] bomba(3,5)|bomba(5,5).
+** KEPT (pick-wt=6): 243 [hyper,205,153,198,199,eval,eval,demod] bomba(3,5)|vacio(3,5).
 
-given clause #22: (wt=4) 202 [] sensor(5,4,2).
-** KEPT (pick-wt=3): 237 [hyper,202,140,194,195,eval,eval] completado(5,4).
-** KEPT (pick-wt=9): 238 [hyper,202,138,194,195,eval,eval,demod] vacio(4,4)|vacio(5,5)|vacio(5,3).
-** KEPT (pick-wt=6): 239 [hyper,202,135,194,195,eval,eval,demod] bomba(5,3)|bomba(4,4).
-** KEPT (pick-wt=6): 240 [hyper,202,134,194,195,eval,eval,demod] bomba(5,3)|bomba(5,5).
-239 back subsumes 228.
-239 back subsumes 225.
+given clause #22: (wt=3) 237 [hyper,205,160,198,199,eval,eval] completado(4,5).
 
-given clause #23: (wt=3) 237 [hyper,202,140,194,195,eval,eval] completado(5,4).
+given clause #23: (wt=4) 206 [] sensor(5,4,2).
+** KEPT (pick-wt=3): 244 [hyper,206,144,198,199,eval,eval] completado(5,4).
+** KEPT (pick-wt=9): 245 [hyper,206,142,198,199,eval,eval,demod] vacio(4,4)|vacio(5,5)|vacio(5,3).
+** KEPT (pick-wt=6): 246 [hyper,206,139,198,199,eval,eval,demod] bomba(5,3)|bomba(4,4).
+** KEPT (pick-wt=6): 247 [hyper,206,138,198,199,eval,eval,demod] bomba(5,3)|bomba(5,5).
+246 back subsumes 235.
+246 back subsumes 232.
 
-given clause #24: (wt=6) 209 [hyper,197,180,194,195,eval,eval,eval,eval,demod] vacio(2,5)|bomba(2,5).
+given clause #24: (wt=3) 244 [hyper,206,144,198,199,eval,eval] completado(5,4).
 
-given clause #25: (wt=6) 214 [hyper,197,173,194,195,eval,eval,eval,eval,demod] bomba(3,4)|vacio(3,4).
+given clause #25: (wt=6) 216 [hyper,201,184,198,199,eval,eval,eval,eval,demod] vacio(2,5)|bomba(2,5).
 
-given clause #26: (wt=6) 221 [hyper,199,112,194,eval,eval,demod] vacio(5,1)|bomba(5,1).
+given clause #26: (wt=6) 221 [hyper,201,177,198,199,eval,eval,eval,eval,demod] bomba(3,4)|vacio(3,4).
 
-given clause #27: (wt=6) 224 [hyper,200,180,194,195,eval,eval,eval,eval,demod] vacio(4,4)|bomba(4,4).
+given clause #27: (wt=6) 228 [hyper,203,116,198,eval,eval,demod] vacio(5,1)|bomba(5,1).
 
-given clause #28: (wt=6) 226 [hyper,200,173,194,195,eval,eval,eval,eval,demod] bomba(5,3)|vacio(5,3).
+given clause #28: (wt=6) 231 [hyper,204,184,198,199,eval,eval,eval,eval,demod] vacio(4,4)|bomba(4,4).
 
-given clause #29: (wt=6) 232 [hyper,201,153,194,195,eval,eval,demod] bomba(5,5)|bomba(4,4).
+given clause #29: (wt=6) 233 [hyper,204,177,198,199,eval,eval,eval,eval,demod] bomba(5,3)|vacio(5,3).
 
-given clause #30: (wt=6) 233 [hyper,201,152,194,195,eval,eval,demod] bomba(5,5)|vacio(5,5).
+given clause #30: (wt=6) 239 [hyper,205,157,198,199,eval,eval,demod] bomba(5,5)|bomba(4,4).
 
-given clause #31: (wt=6) 234 [hyper,201,151,194,195,eval,eval,demod] bomba(3,5)|bomba(4,4).
+given clause #31: (wt=6) 240 [hyper,205,156,198,199,eval,eval,demod] bomba(5,5)|vacio(5,5).
 
-given clause #32: (wt=6) 235 [hyper,201,150,194,195,eval,eval,demod] bomba(3,5)|bomba(5,5).
+given clause #32: (wt=6) 241 [hyper,205,155,198,199,eval,eval,demod] bomba(3,5)|bomba(4,4).
 
-given clause #33: (wt=6) 236 [hyper,201,149,194,195,eval,eval,demod] bomba(3,5)|vacio(3,5).
+given clause #33: (wt=6) 242 [hyper,205,154,198,199,eval,eval,demod] bomba(3,5)|bomba(5,5).
 
-given clause #34: (wt=6) 239 [hyper,202,135,194,195,eval,eval,demod] bomba(5,3)|bomba(4,4).
+given clause #34: (wt=6) 243 [hyper,205,153,198,199,eval,eval,demod] bomba(3,5)|vacio(3,5).
 
-given clause #35: (wt=6) 240 [hyper,202,134,194,195,eval,eval,demod] bomba(5,3)|bomba(5,5).
+given clause #35: (wt=6) 246 [hyper,206,139,198,199,eval,eval,demod] bomba(5,3)|bomba(4,4).
 
-given clause #36: (wt=9) 210 [hyper,197,179,194,195,eval,eval,eval,eval,demod] vacio(2,5)|vacio(1,4)|vacio(3,4).
-** KEPT (pick-wt=6): 241 [hyper,210,3,206] vacio(2,5)|vacio(3,4).
-241 back subsumes 211.
-241 back subsumes 210.
+given clause #36: (wt=6) 247 [hyper,206,138,198,199,eval,eval,demod] bomba(5,3)|bomba(5,5).
 
-given clause #37: (wt=6) 241 [hyper,210,3,206] vacio(2,5)|vacio(3,4).
+given clause #37: (wt=9) 217 [hyper,201,183,198,199,eval,eval,eval,eval,demod] vacio(2,5)|vacio(1,4)|vacio(3,4).
+** KEPT (pick-wt=6): 248 [hyper,217,7,213] vacio(2,5)|vacio(3,4).
+248 back subsumes 218.
+248 back subsumes 217.
 
-given clause #38: (wt=9) 212 [hyper,197,176,194,195,eval,eval,eval,eval,demod] vacio(2,3)|vacio(1,4)|vacio(2,5).
-** KEPT (pick-wt=6): 242 [hyper,212,3,205] vacio(1,4)|vacio(2,5).
-** KEPT (pick-wt=6): 243 [hyper,212,3,206] vacio(2,3)|vacio(2,5).
-242 back subsumes 212.
+given clause #38: (wt=6) 248 [hyper,217,7,213] vacio(2,5)|vacio(3,4).
 
-given clause #39: (wt=6) 242 [hyper,212,3,205] vacio(1,4)|vacio(2,5).
-** KEPT (pick-wt=3): 244 [hyper,242,3,206] vacio(2,5).
-244 back subsumes 243.
-244 back subsumes 242.
-244 back subsumes 241.
-244 back subsumes 209.
+given clause #39: (wt=9) 219 [hyper,201,180,198,199,eval,eval,eval,eval,demod] vacio(2,3)|vacio(1,4)|vacio(2,5).
+** KEPT (pick-wt=6): 249 [hyper,219,7,212] vacio(1,4)|vacio(2,5).
+** KEPT (pick-wt=6): 250 [hyper,219,7,213] vacio(2,3)|vacio(2,5).
+249 back subsumes 219.
 
-given clause #40: (wt=3) 244 [hyper,242,3,206] vacio(2,5).
+given clause #40: (wt=6) 249 [hyper,219,7,212] vacio(1,4)|vacio(2,5).
+** KEPT (pick-wt=3): 251 [hyper,249,7,213] vacio(2,5).
+251 back subsumes 250.
+251 back subsumes 249.
+251 back subsumes 248.
+251 back subsumes 216.
 
-given clause #41: (wt=9) 213 [hyper,197,175,194,195,eval,eval,eval,eval,demod] vacio(2,3)|vacio(1,4)|vacio(3,4).
-** KEPT (pick-wt=6): 245 [hyper,213,3,205] vacio(1,4)|vacio(3,4).
-** KEPT (pick-wt=6): 246 [hyper,213,3,206] vacio(2,3)|vacio(3,4).
-245 back subsumes 213.
+given clause #41: (wt=3) 251 [hyper,249,7,213] vacio(2,5).
 
-given clause #42: (wt=6) 245 [hyper,213,3,205] vacio(1,4)|vacio(3,4).
-** KEPT (pick-wt=3): 247 [hyper,245,3,206] vacio(3,4).
-247 back subsumes 246.
-247 back subsumes 245.
-247 back subsumes 214.
+given clause #42: (wt=9) 220 [hyper,201,179,198,199,eval,eval,eval,eval,demod] vacio(2,3)|vacio(1,4)|vacio(3,4).
+** KEPT (pick-wt=6): 252 [hyper,220,7,212] vacio(1,4)|vacio(3,4).
+** KEPT (pick-wt=6): 253 [hyper,220,7,213] vacio(2,3)|vacio(3,4).
+252 back subsumes 220.
 
-given clause #43: (wt=3) 247 [hyper,245,3,206] vacio(3,4).
+given clause #43: (wt=6) 252 [hyper,220,7,212] vacio(1,4)|vacio(3,4).
+** KEPT (pick-wt=3): 254 [hyper,252,7,213] vacio(3,4).
+254 back subsumes 253.
+254 back subsumes 252.
+254 back subsumes 221.
 
-given clause #44: (wt=9) 222 [hyper,199,110,194,eval,eval,demod] bomba(3,1)|bomba(5,1)|bomba(4,2).
-** KEPT (pick-wt=6): 248 [hyper,222,3,217] bomba(5,1)|bomba(4,2).
-** KEPT (pick-wt=6): 249 [hyper,222,3,218] bomba(3,1)|bomba(5,1).
-248 back subsumes 222.
+given clause #44: (wt=3) 254 [hyper,252,7,213] vacio(3,4).
 
-given clause #45: (wt=6) 248 [hyper,222,3,217] bomba(5,1)|bomba(4,2).
-** KEPT (pick-wt=3): 250 [hyper,248,3,218] bomba(5,1).
-250 back subsumes 249.
-250 back subsumes 248.
-250 back subsumes 221.
+given clause #45: (wt=9) 229 [hyper,203,114,198,eval,eval,demod] bomba(3,1)|bomba(5,1)|bomba(4,2).
+** KEPT (pick-wt=6): 255 [hyper,229,7,224] bomba(5,1)|bomba(4,2).
+** KEPT (pick-wt=6): 256 [hyper,229,7,225] bomba(3,1)|bomba(5,1).
+255 back subsumes 229.
 
-given clause #46: (wt=3) 250 [hyper,248,3,218] bomba(5,1).
+given clause #46: (wt=6) 255 [hyper,229,7,224] bomba(5,1)|bomba(4,2).
+** KEPT (pick-wt=3): 257 [hyper,255,7,225] bomba(5,1).
+257 back subsumes 256.
+257 back subsumes 255.
+257 back subsumes 228.
 
-given clause #47: (wt=9) 227 [hyper,200,172,194,195,eval,eval,eval,eval,demod] bomba(3,3)|bomba(4,2)|bomba(4,4).
-** KEPT (pick-wt=6): 251 [hyper,227,3,216] bomba(4,2)|bomba(4,4).
-** KEPT (pick-wt=6): 252 [hyper,227,3,218] bomba(3,3)|bomba(4,4).
-251 back subsumes 227.
+given clause #47: (wt=3) 257 [hyper,255,7,225] bomba(5,1).
 
-given clause #48: (wt=6) 251 [hyper,227,3,216] bomba(4,2)|bomba(4,4).
-** KEPT (pick-wt=3): 253 [hyper,251,3,218] bomba(4,4).
-253 back subsumes 252.
-253 back subsumes 251.
-253 back subsumes 239.
-253 back subsumes 234.
-253 back subsumes 232.
-253 back subsumes 224.
+given clause #48: (wt=9) 234 [hyper,204,176,198,199,eval,eval,eval,eval,demod] bomba(3,3)|bomba(4,2)|bomba(4,4).
+** KEPT (pick-wt=6): 258 [hyper,234,7,223] bomba(4,2)|bomba(4,4).
+** KEPT (pick-wt=6): 259 [hyper,234,7,225] bomba(3,3)|bomba(4,4).
+258 back subsumes 234.
 
-given clause #49: (wt=3) 253 [hyper,251,3,218] bomba(4,4).
+given clause #49: (wt=6) 258 [hyper,234,7,223] bomba(4,2)|bomba(4,4).
+** KEPT (pick-wt=3): 260 [hyper,258,7,225] bomba(4,4).
+260 back subsumes 259.
+260 back subsumes 258.
+260 back subsumes 246.
+260 back subsumes 241.
+260 back subsumes 239.
+260 back subsumes 231.
 
-given clause #50: (wt=9) 229 [hyper,200,170,194,195,eval,eval,eval,eval,demod] bomba(3,3)|bomba(5,3)|bomba(4,2).
-** KEPT (pick-wt=6): 254 [hyper,229,3,216] bomba(5,3)|bomba(4,2).
-** KEPT (pick-wt=6): 255 [hyper,229,3,218] bomba(3,3)|bomba(5,3).
-254 back subsumes 229.
+given clause #50: (wt=3) 260 [hyper,258,7,225] bomba(4,4).
 
-given clause #51: (wt=6) 254 [hyper,229,3,216] bomba(5,3)|bomba(4,2).
-** KEPT (pick-wt=3): 256 [hyper,254,3,218] bomba(5,3).
-256 back subsumes 255.
-256 back subsumes 254.
-256 back subsumes 240.
-256 back subsumes 226.
+given clause #51: (wt=9) 236 [hyper,204,174,198,199,eval,eval,eval,eval,demod] bomba(3,3)|bomba(5,3)|bomba(4,2).
+** KEPT (pick-wt=6): 261 [hyper,236,7,223] bomba(5,3)|bomba(4,2).
+** KEPT (pick-wt=6): 262 [hyper,236,7,225] bomba(3,3)|bomba(5,3).
+261 back subsumes 236.
 
-given clause #52: (wt=3) 256 [hyper,254,3,218] bomba(5,3).
-
-given clause #53: (wt=9) 231 [hyper,201,154,194,195,eval,eval,demod] vacio(4,4)|vacio(5,5)|vacio(3,5).
-** KEPT (pick-wt=6): 257 [hyper,231,3,253] vacio(5,5)|vacio(3,5).
-257 back subsumes 231.
-
-given clause #54: (wt=6) 257 [hyper,231,3,253] vacio(5,5)|vacio(3,5).
-
-given clause #55: (wt=9) 238 [hyper,202,138,194,195,eval,eval,demod] vacio(4,4)|vacio(5,5)|vacio(5,3).
-** KEPT (pick-wt=6): 258 [hyper,238,3,253] vacio(5,5)|vacio(5,3).
-** KEPT (pick-wt=9): 259 [hyper,238,3,235] vacio(4,4)|vacio(5,3)|bomba(3,5).
-** KEPT (pick-wt=6): 260 [hyper,238,3,256] vacio(4,4)|vacio(5,5).
-258 back subsumes 238.
-
-given clause #56: (wt=6) 258 [hyper,238,3,253] vacio(5,5)|vacio(5,3).
-** KEPT (pick-wt=6): 261 [hyper,258,3,235] vacio(5,3)|bomba(3,5).
-** KEPT (pick-wt=3): 262 [hyper,258,3,256] vacio(5,5).
-261 back subsumes 259.
-262 back subsumes 260.
-262 back subsumes 258.
-262 back subsumes 257.
-262 back subsumes 233.
-
-given clause #57: (wt=3) 262 [hyper,258,3,256] vacio(5,5).
-** KEPT (pick-wt=3): 263 [hyper,262,3,235] bomba(3,5).
+given clause #52: (wt=6) 261 [hyper,236,7,223] bomba(5,3)|bomba(4,2).
+** KEPT (pick-wt=3): 263 [hyper,261,7,225] bomba(5,3).
+263 back subsumes 262.
 263 back subsumes 261.
-263 back subsumes 236.
-263 back subsumes 235.
+263 back subsumes 247.
+263 back subsumes 233.
 
-given clause #58: (wt=3) 263 [hyper,262,3,235] bomba(3,5).
+given clause #53: (wt=3) 263 [hyper,261,7,225] bomba(5,3).
 
-given clause #59: (wt=21) 203 [] -bomba(1,2)| -bomba(1,4)| -bomba(2,3)| -bomba(3,5)| -bomba(4,4)| -bomba(5,1)| -bomba(5,3)|$ANS([bomba(1,2),bomba(1,4),bomba(2,3),bomba(3,5),bomba(4,4),bomba(5,1),bomba(5,3)]).
-** KEPT (pick-wt=0): 264 [hyper,203,207,206,205,263,253,250,256] $ANS([bomba(1,2),bomba(1,4),bomba(2,3),bomba(3,5),bomba(4,4),bomba(5,1),bomba(5,3)]).
+given clause #54: (wt=9) 238 [hyper,205,158,198,199,eval,eval,demod] vacio(4,4)|vacio(5,5)|vacio(3,5).
+** KEPT (pick-wt=6): 264 [hyper,238,7,260] vacio(5,5)|vacio(3,5).
+264 back subsumes 238.
 
------> EMPTY CLAUSE at   0.01 sec ----> 264 [hyper,203,207,206,205,263,253,250,256] $ANS([bomba(1,2),bomba(1,4),bomba(2,3),bomba(3,5),bomba(4,4),bomba(5,1),bomba(5,3)]).
+given clause #55: (wt=6) 264 [hyper,238,7,260] vacio(5,5)|vacio(3,5).
 
-Length of proof is 20.  Level of proof is 6.
+given clause #56: (wt=9) 245 [hyper,206,142,198,199,eval,eval,demod] vacio(4,4)|vacio(5,5)|vacio(5,3).
+** KEPT (pick-wt=6): 265 [hyper,245,7,260] vacio(5,5)|vacio(5,3).
+** KEPT (pick-wt=9): 266 [hyper,245,7,242] vacio(4,4)|vacio(5,3)|bomba(3,5).
+** KEPT (pick-wt=6): 267 [hyper,245,7,263] vacio(4,4)|vacio(5,5).
+265 back subsumes 245.
+
+given clause #57: (wt=6) 265 [hyper,245,7,260] vacio(5,5)|vacio(5,3).
+** KEPT (pick-wt=6): 268 [hyper,265,7,242] vacio(5,3)|bomba(3,5).
+** KEPT (pick-wt=3): 269 [hyper,265,7,263] vacio(5,5).
+268 back subsumes 266.
+269 back subsumes 267.
+269 back subsumes 265.
+269 back subsumes 264.
+269 back subsumes 240.
+
+given clause #58: (wt=3) 269 [hyper,265,7,263] vacio(5,5).
+** KEPT (pick-wt=3): 270 [hyper,269,7,242] bomba(3,5).
+270 back subsumes 268.
+270 back subsumes 243.
+270 back subsumes 242.
+
+given clause #59: (wt=3) 270 [hyper,269,7,242] bomba(3,5).
+
+given clause #60: (wt=11) 209 [] -bombas([])| -bomba(x,y)|bombas([bomba(x,y)]).
+** KEPT (pick-wt=6): 271 [hyper,209,208,270] bombas([bomba(3,5)]).
+** KEPT (pick-wt=6): 272 [hyper,209,208,263] bombas([bomba(5,3)]).
+** KEPT (pick-wt=6): 273 [hyper,209,208,260] bombas([bomba(4,4)]).
+** KEPT (pick-wt=6): 274 [hyper,209,208,257] bombas([bomba(5,1)]).
+** KEPT (pick-wt=6): 275 [hyper,209,208,214] bombas([bomba(1,2)]).
+** KEPT (pick-wt=6): 276 [hyper,209,208,213] bombas([bomba(1,4)]).
+** KEPT (pick-wt=6): 277 [hyper,209,208,212] bombas([bomba(2,3)]).
+
+given clause #61: (wt=6) 271 [hyper,209,208,270] bombas([bomba(3,5)]).
+
+given clause #62: (wt=6) 272 [hyper,209,208,263] bombas([bomba(5,3)]).
+
+given clause #63: (wt=6) 273 [hyper,209,208,260] bombas([bomba(4,4)]).
+
+given clause #64: (wt=6) 274 [hyper,209,208,257] bombas([bomba(5,1)]).
+
+given clause #65: (wt=6) 275 [hyper,209,208,214] bombas([bomba(1,2)]).
+
+given clause #66: (wt=6) 276 [hyper,209,208,213] bombas([bomba(1,4)]).
+
+given clause #67: (wt=6) 277 [hyper,209,208,212] bombas([bomba(2,3)]).
+
+given clause #68: (wt=21) 207 [] -completado(1,3)| -completado(2,4)| -completado(3,2)| -completado(4,1)| -completado(4,3)| -completado(4,5)| -completado(5,4).
+** KEPT (pick-wt=0): 278 [hyper,207,211,215,222,227,230,237,244] $F.
+
+-----> EMPTY CLAUSE at   0.01 sec ----> 278 [hyper,207,211,215,222,227,230,237,244] $F.
+
+Length of proof is 7.  Level of proof is 1.
 
 ---------------- PROOF ----------------
 
-3 [] -bomba(x,y)| -vacio(x,y).
-36 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x+1,y).
-37 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x,y-1).
-38 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x,y+1).
-52 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|bomba(1,y-1).
-53 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|bomba(1,y+1).
-54 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|bomba(2,y).
-110 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|bomba(x-1,1)|bomba(x+1,1)|bomba(x,2).
-138 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|vacio(x36-1,y)|vacio(x36,y+1)|vacio(x36,y-1).
-150 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|bomba(x-1,x40)|bomba(x+1,x40).
-170 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x-1,y)|bomba(x+1,y)|bomba(x,y-1).
-172 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x-1,y)|bomba(x,y-1)|bomba(x,y+1).
-194 [] filas(5).
-195 [] columnas(5).
-196 [] sensor(1,3,3).
-198 [] sensor(3,2,0).
-199 [] sensor(4,1,1).
-200 [] sensor(4,3,2).
-201 [] sensor(4,5,2).
-202 [] sensor(5,4,2).
-203 [] -bomba(1,2)| -bomba(1,4)| -bomba(2,3)| -bomba(3,5)| -bomba(4,4)| -bomba(5,1)| -bomba(5,3)|$ANS([bomba(1,2),bomba(1,4),bomba(2,3),bomba(3,5),bomba(4,4),bomba(5,1),bomba(5,3)]).
-205 [hyper,196,54,195,eval,eval] bomba(2,3).
-206 [hyper,196,53,195,eval,eval,demod] bomba(1,4).
-207 [hyper,196,52,195,eval,eval,demod] bomba(1,2).
-216 [hyper,198,38,194,195,eval,eval,eval,eval,demod] vacio(3,3).
-217 [hyper,198,37,194,195,eval,eval,eval,eval,demod] vacio(3,1).
-218 [hyper,198,36,194,195,eval,eval,eval,eval,demod] vacio(4,2).
-222 [hyper,199,110,194,eval,eval,demod] bomba(3,1)|bomba(5,1)|bomba(4,2).
-227 [hyper,200,172,194,195,eval,eval,eval,eval,demod] bomba(3,3)|bomba(4,2)|bomba(4,4).
-229 [hyper,200,170,194,195,eval,eval,eval,eval,demod] bomba(3,3)|bomba(5,3)|bomba(4,2).
-235 [hyper,201,150,194,195,eval,eval,demod] bomba(3,5)|bomba(5,5).
-238 [hyper,202,138,194,195,eval,eval,demod] vacio(4,4)|vacio(5,5)|vacio(5,3).
-248 [hyper,222,3,217] bomba(5,1)|bomba(4,2).
-250 [hyper,248,3,218] bomba(5,1).
-251 [hyper,227,3,216] bomba(4,2)|bomba(4,4).
-253 [hyper,251,3,218] bomba(4,4).
-254 [hyper,229,3,216] bomba(5,3)|bomba(4,2).
-256 [hyper,254,3,218] bomba(5,3).
-258 [hyper,238,3,253] vacio(5,5)|vacio(5,3).
-262 [hyper,258,3,256] vacio(5,5).
-263 [hyper,262,3,235] bomba(3,5).
-264 [hyper,203,207,206,205,263,253,250,256] $ANS([bomba(1,2),bomba(1,4),bomba(2,3),bomba(3,5),bomba(4,4),bomba(5,1),bomba(5,3)]).
+43 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|completado(x,y).
+59 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|completado(1,y).
+120 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|completado(x,1).
+144 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|completado(x36,y).
+160 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|completado(x,x40).
+185 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|completado(x,y).
+198 [] filas(5).
+199 [] columnas(5).
+200 [] sensor(1,3,3).
+201 [] sensor(2,4,2).
+202 [] sensor(3,2,0).
+203 [] sensor(4,1,1).
+204 [] sensor(4,3,2).
+205 [] sensor(4,5,2).
+206 [] sensor(5,4,2).
+207 [] -completado(1,3)| -completado(2,4)| -completado(3,2)| -completado(4,1)| -completado(4,3)| -completado(4,5)| -completado(5,4).
+211 [hyper,200,59,199,eval,eval] completado(1,3).
+215 [hyper,201,185,198,199,eval,eval,eval,eval] completado(2,4).
+222 [hyper,202,43,198,199,eval,eval,eval,eval] completado(3,2).
+227 [hyper,203,120,198,eval,eval] completado(4,1).
+230 [hyper,204,185,198,199,eval,eval,eval,eval] completado(4,3).
+237 [hyper,205,160,198,199,eval,eval] completado(4,5).
+244 [hyper,206,144,198,199,eval,eval] completado(5,4).
+278 [hyper,207,211,215,222,227,230,237,244] $F.
 
 ------------ end of proof -------------
 
@@ -557,9 +579,11 @@ Search stopped by max_proofs option.
 ============ end of search ============
 
 -------------- statistics -------------
-clauses given                 59
-clauses generated            146
-  hyper_res generated        146
+clauses given                 68
+clauses generated            153
+  hyper_res generated        153
+  para_from generated          0
+  para_into generated          0
 demod & eval rewrites        110
 clauses wt,lit,sk delete       0
 tautologies deleted            0
@@ -567,14 +591,14 @@ clauses forward subsumed      85
   (subsumed by sos)           30
 unit deletions                 0
 factor simplifications         0
-clauses kept                  60
+clauses kept                  67
 new demodulators               0
 empty clauses                  1
 clauses back demodulated       0
 clauses back subsumed         42
-usable size                  221
-sos size                       0
-demodulators size              0
+usable size                  230
+sos size                       1
+demodulators size              4
 passive size                   0
 hot size                       0
 Kbytes malloced             1953
@@ -586,4 +610,4 @@ wall-clock time        0             (0 hr, 0 min, 0 sec)
 
 That finishes the proof of the theorem.
 
-Process 99701 finished Thu Dec  8 15:04:13 2022
+Process 3728 finished Mon Dec 12 13:14:59 2022
