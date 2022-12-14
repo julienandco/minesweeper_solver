@@ -1,11 +1,12 @@
 ----- Otter 3.3f, August 2004 -----
 The process was started by julien on Juliens-MacBook-Pro.local,
-Mon Dec 12 13:14:59 2022
-The command was "../../../otter-3.3f/bin/otter".  The process ID is 3728.
+Wed Dec 14 12:02:14 2022
+The command was "../../../otter-3.3f/bin/otter".  The process ID is 9107.
 
 set(para_into).
 set(para_from).
 set(hyper_res).
+assign(max_proofs,-1).
 make_evaluable(_>_,$GT(_,_)).
 make_evaluable(_<_,$LT(_,_)).
 make_evaluable(_<=_,$LE(_,_)).
@@ -266,10 +267,6 @@ sensor(4,1,1).
 sensor(4,3,2).
 sensor(4,5,2).
 sensor(5,4,2).
--(completado(1,3)&completado(2,4)&completado(3,2)&completado(4,1)&completado(4,3)&completado(4,5)&completado(5,4)).
-bombas([]).
-all x y (bombas([])&bomba(x,y)->bombas([bomba(x,y)])).
-all x y p q (bombas([p|q])&bomba(x,y)& -pertenece(bomba(x,y),[p|q])->bombas([bomba(x,y),p|q])).
 end_of_list.
 
 -------> sos clausifies to:
@@ -284,10 +281,16 @@ list(sos).
 204 [] sensor(4,3,2).
 205 [] sensor(4,5,2).
 206 [] sensor(5,4,2).
-207 [] -completado(1,3)| -completado(2,4)| -completado(3,2)| -completado(4,1)| -completado(4,3)| -completado(4,5)| -completado(5,4).
-208 [] bombas([]).
-209 [] -bombas([])| -bomba(x,y)|bombas([bomba(x,y)]).
-210 [] -bombas([x47|x48])| -bomba(x,y)|pertenece(bomba(x,y),[x47|x48])|bombas([bomba(x,y),x47|x48]).
+end_of_list.
+
+formula_list(passive).
+all x y (bomba(x,y)->$ANS(bomba(x,y))).
+end_of_list.
+
+-------> passive clausifies to:
+
+list(passive).
+207 [] -bomba(x,y)|$ANS(bomba(x,y)).
 end_of_list.
 
 ======= end of input processing =======
@@ -298,26 +301,72 @@ given clause #1: (wt=2) 198 [] filas(5).
 
 given clause #2: (wt=2) 199 [] columnas(5).
 
-given clause #3: (wt=2) 208 [] bombas([]).
+given clause #3: (wt=4) 200 [] sensor(1,3,3).
+** KEPT (pick-wt=3): 208 [hyper,200,59,199,eval,eval] completado(1,3).
+** KEPT (pick-wt=3): 209 [hyper,200,58,199,eval,eval] bomba(2,3).
 
-given clause #4: (wt=4) 200 [] sensor(1,3,3).
-** KEPT (pick-wt=3): 211 [hyper,200,59,199,eval,eval] completado(1,3).
-** KEPT (pick-wt=3): 212 [hyper,200,58,199,eval,eval] bomba(2,3).
-** KEPT (pick-wt=3): 213 [hyper,200,57,199,eval,eval,demod] bomba(1,4).
-** KEPT (pick-wt=3): 214 [hyper,200,56,199,eval,eval,demod] bomba(1,2).
-214 back subsumes 78.
-214 back subsumes 77.
-214 back subsumes 44.
+----> UNIT CONFLICT at   0.01 sec ----> 210 [binary,209.1,207.1] $ANS(bomba(2,3)).
 
-given clause #5: (wt=3) 211 [hyper,200,59,199,eval,eval] completado(1,3).
+Length of proof is 1.  Level of proof is 1.
 
-given clause #6: (wt=3) 212 [hyper,200,58,199,eval,eval] bomba(2,3).
+---------------- PROOF ----------------
 
-given clause #7: (wt=3) 213 [hyper,200,57,199,eval,eval,demod] bomba(1,4).
+58 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|bomba(2,y).
+199 [] columnas(5).
+200 [] sensor(1,3,3).
+207 [] -bomba(x,y)|$ANS(bomba(x,y)).
+209 [hyper,200,58,199,eval,eval] bomba(2,3).
+210 [binary,209.1,207.1] $ANS(bomba(2,3)).
 
-given clause #8: (wt=3) 214 [hyper,200,56,199,eval,eval,demod] bomba(1,2).
+------------ end of proof -------------
 
-given clause #9: (wt=4) 201 [] sensor(2,4,2).
+** KEPT (pick-wt=3): 211 [hyper,200,57,199,eval,eval,demod] bomba(1,4).
+
+----> UNIT CONFLICT at   0.01 sec ----> 212 [binary,211.1,207.1] $ANS(bomba(1,4)).
+
+Length of proof is 1.  Level of proof is 1.
+
+---------------- PROOF ----------------
+
+57 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|bomba(1,y+1).
+199 [] columnas(5).
+200 [] sensor(1,3,3).
+207 [] -bomba(x,y)|$ANS(bomba(x,y)).
+211 [hyper,200,57,199,eval,eval,demod] bomba(1,4).
+212 [binary,211.1,207.1] $ANS(bomba(1,4)).
+
+------------ end of proof -------------
+
+** KEPT (pick-wt=3): 213 [hyper,200,56,199,eval,eval,demod] bomba(1,2).
+
+----> UNIT CONFLICT at   0.01 sec ----> 214 [binary,213.1,207.1] $ANS(bomba(1,2)).
+
+Length of proof is 1.  Level of proof is 1.
+
+---------------- PROOF ----------------
+
+56 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|bomba(1,y-1).
+199 [] columnas(5).
+200 [] sensor(1,3,3).
+207 [] -bomba(x,y)|$ANS(bomba(x,y)).
+213 [hyper,200,56,199,eval,eval,demod] bomba(1,2).
+214 [binary,213.1,207.1] $ANS(bomba(1,2)).
+
+------------ end of proof -------------
+
+213 back subsumes 78.
+213 back subsumes 77.
+213 back subsumes 44.
+
+given clause #4: (wt=3) 208 [hyper,200,59,199,eval,eval] completado(1,3).
+
+given clause #5: (wt=3) 209 [hyper,200,58,199,eval,eval] bomba(2,3).
+
+given clause #6: (wt=3) 211 [hyper,200,57,199,eval,eval,demod] bomba(1,4).
+
+given clause #7: (wt=3) 213 [hyper,200,56,199,eval,eval,demod] bomba(1,2).
+
+given clause #8: (wt=4) 201 [] sensor(2,4,2).
 ** KEPT (pick-wt=3): 215 [hyper,201,185,198,199,eval,eval,eval,eval] completado(2,4).
 ** KEPT (pick-wt=6): 216 [hyper,201,184,198,199,eval,eval,eval,eval,demod] vacio(2,5)|bomba(2,5).
 ** KEPT (pick-wt=9): 217 [hyper,201,183,198,199,eval,eval,eval,eval,demod] vacio(2,5)|vacio(1,4)|vacio(3,4).
@@ -326,33 +375,33 @@ given clause #9: (wt=4) 201 [] sensor(2,4,2).
 ** KEPT (pick-wt=9): 220 [hyper,201,179,198,199,eval,eval,eval,eval,demod] vacio(2,3)|vacio(1,4)|vacio(3,4).
 ** KEPT (pick-wt=6): 221 [hyper,201,177,198,199,eval,eval,eval,eval,demod] bomba(3,4)|vacio(3,4).
 
-given clause #10: (wt=3) 215 [hyper,201,185,198,199,eval,eval,eval,eval] completado(2,4).
+given clause #9: (wt=3) 215 [hyper,201,185,198,199,eval,eval,eval,eval] completado(2,4).
 
-given clause #11: (wt=4) 202 [] sensor(3,2,0).
+given clause #10: (wt=4) 202 [] sensor(3,2,0).
 ** KEPT (pick-wt=3): 222 [hyper,202,43,198,199,eval,eval,eval,eval] completado(3,2).
 ** KEPT (pick-wt=3): 223 [hyper,202,42,198,199,eval,eval,eval,eval,demod] vacio(3,3).
 ** KEPT (pick-wt=3): 224 [hyper,202,41,198,199,eval,eval,eval,eval,demod] vacio(3,1).
 ** KEPT (pick-wt=3): 225 [hyper,202,40,198,199,eval,eval,eval,eval,demod] vacio(4,2).
 ** KEPT (pick-wt=3): 226 [hyper,202,39,198,199,eval,eval,eval,eval,demod] vacio(2,2).
 
-given clause #12: (wt=3) 222 [hyper,202,43,198,199,eval,eval,eval,eval] completado(3,2).
+given clause #11: (wt=3) 222 [hyper,202,43,198,199,eval,eval,eval,eval] completado(3,2).
 
-given clause #13: (wt=3) 223 [hyper,202,42,198,199,eval,eval,eval,eval,demod] vacio(3,3).
+given clause #12: (wt=3) 223 [hyper,202,42,198,199,eval,eval,eval,eval,demod] vacio(3,3).
 
-given clause #14: (wt=3) 224 [hyper,202,41,198,199,eval,eval,eval,eval,demod] vacio(3,1).
+given clause #13: (wt=3) 224 [hyper,202,41,198,199,eval,eval,eval,eval,demod] vacio(3,1).
 
-given clause #15: (wt=3) 225 [hyper,202,40,198,199,eval,eval,eval,eval,demod] vacio(4,2).
+given clause #14: (wt=3) 225 [hyper,202,40,198,199,eval,eval,eval,eval,demod] vacio(4,2).
 
-given clause #16: (wt=3) 226 [hyper,202,39,198,199,eval,eval,eval,eval,demod] vacio(2,2).
+given clause #15: (wt=3) 226 [hyper,202,39,198,199,eval,eval,eval,eval,demod] vacio(2,2).
 
-given clause #17: (wt=4) 203 [] sensor(4,1,1).
+given clause #16: (wt=4) 203 [] sensor(4,1,1).
 ** KEPT (pick-wt=3): 227 [hyper,203,120,198,eval,eval] completado(4,1).
 ** KEPT (pick-wt=6): 228 [hyper,203,116,198,eval,eval,demod] vacio(5,1)|bomba(5,1).
 ** KEPT (pick-wt=9): 229 [hyper,203,114,198,eval,eval,demod] bomba(3,1)|bomba(5,1)|bomba(4,2).
 
-given clause #18: (wt=3) 227 [hyper,203,120,198,eval,eval] completado(4,1).
+given clause #17: (wt=3) 227 [hyper,203,120,198,eval,eval] completado(4,1).
 
-given clause #19: (wt=4) 204 [] sensor(4,3,2).
+given clause #18: (wt=4) 204 [] sensor(4,3,2).
 ** KEPT (pick-wt=3): 230 [hyper,204,185,198,199,eval,eval,eval,eval] completado(4,3).
 ** KEPT (pick-wt=6): 231 [hyper,204,184,198,199,eval,eval,eval,eval,demod] vacio(4,4)|bomba(4,4).
 ** KEPT (pick-wt=9): 232 [hyper,204,178,198,199,eval,eval,eval,eval,demod] bomba(5,3)|bomba(4,2)|bomba(4,4).
@@ -361,9 +410,9 @@ given clause #19: (wt=4) 204 [] sensor(4,3,2).
 ** KEPT (pick-wt=9): 235 [hyper,204,175,198,199,eval,eval,eval,eval,demod] bomba(3,3)|bomba(5,3)|bomba(4,4).
 ** KEPT (pick-wt=9): 236 [hyper,204,174,198,199,eval,eval,eval,eval,demod] bomba(3,3)|bomba(5,3)|bomba(4,2).
 
-given clause #20: (wt=3) 230 [hyper,204,185,198,199,eval,eval,eval,eval] completado(4,3).
+given clause #19: (wt=3) 230 [hyper,204,185,198,199,eval,eval,eval,eval] completado(4,3).
 
-given clause #21: (wt=4) 205 [] sensor(4,5,2).
+given clause #20: (wt=4) 205 [] sensor(4,5,2).
 ** KEPT (pick-wt=3): 237 [hyper,205,160,198,199,eval,eval] completado(4,5).
 ** KEPT (pick-wt=9): 238 [hyper,205,158,198,199,eval,eval,demod] vacio(4,4)|vacio(5,5)|vacio(3,5).
 ** KEPT (pick-wt=6): 239 [hyper,205,157,198,199,eval,eval,demod] bomba(5,5)|bomba(4,4).
@@ -372,9 +421,9 @@ given clause #21: (wt=4) 205 [] sensor(4,5,2).
 ** KEPT (pick-wt=6): 242 [hyper,205,154,198,199,eval,eval,demod] bomba(3,5)|bomba(5,5).
 ** KEPT (pick-wt=6): 243 [hyper,205,153,198,199,eval,eval,demod] bomba(3,5)|vacio(3,5).
 
-given clause #22: (wt=3) 237 [hyper,205,160,198,199,eval,eval] completado(4,5).
+given clause #21: (wt=3) 237 [hyper,205,160,198,199,eval,eval] completado(4,5).
 
-given clause #23: (wt=4) 206 [] sensor(5,4,2).
+given clause #22: (wt=4) 206 [] sensor(5,4,2).
 ** KEPT (pick-wt=3): 244 [hyper,206,144,198,199,eval,eval] completado(5,4).
 ** KEPT (pick-wt=9): 245 [hyper,206,142,198,199,eval,eval,demod] vacio(4,4)|vacio(5,5)|vacio(5,3).
 ** KEPT (pick-wt=6): 246 [hyper,206,139,198,199,eval,eval,demod] bomba(5,3)|bomba(4,4).
@@ -382,206 +431,259 @@ given clause #23: (wt=4) 206 [] sensor(5,4,2).
 246 back subsumes 235.
 246 back subsumes 232.
 
-given clause #24: (wt=3) 244 [hyper,206,144,198,199,eval,eval] completado(5,4).
+given clause #23: (wt=3) 244 [hyper,206,144,198,199,eval,eval] completado(5,4).
 
-given clause #25: (wt=6) 216 [hyper,201,184,198,199,eval,eval,eval,eval,demod] vacio(2,5)|bomba(2,5).
+given clause #24: (wt=6) 216 [hyper,201,184,198,199,eval,eval,eval,eval,demod] vacio(2,5)|bomba(2,5).
 
-given clause #26: (wt=6) 221 [hyper,201,177,198,199,eval,eval,eval,eval,demod] bomba(3,4)|vacio(3,4).
+given clause #25: (wt=6) 221 [hyper,201,177,198,199,eval,eval,eval,eval,demod] bomba(3,4)|vacio(3,4).
 
-given clause #27: (wt=6) 228 [hyper,203,116,198,eval,eval,demod] vacio(5,1)|bomba(5,1).
+given clause #26: (wt=6) 228 [hyper,203,116,198,eval,eval,demod] vacio(5,1)|bomba(5,1).
 
-given clause #28: (wt=6) 231 [hyper,204,184,198,199,eval,eval,eval,eval,demod] vacio(4,4)|bomba(4,4).
+given clause #27: (wt=6) 231 [hyper,204,184,198,199,eval,eval,eval,eval,demod] vacio(4,4)|bomba(4,4).
 
-given clause #29: (wt=6) 233 [hyper,204,177,198,199,eval,eval,eval,eval,demod] bomba(5,3)|vacio(5,3).
+given clause #28: (wt=6) 233 [hyper,204,177,198,199,eval,eval,eval,eval,demod] bomba(5,3)|vacio(5,3).
 
-given clause #30: (wt=6) 239 [hyper,205,157,198,199,eval,eval,demod] bomba(5,5)|bomba(4,4).
+given clause #29: (wt=6) 239 [hyper,205,157,198,199,eval,eval,demod] bomba(5,5)|bomba(4,4).
 
-given clause #31: (wt=6) 240 [hyper,205,156,198,199,eval,eval,demod] bomba(5,5)|vacio(5,5).
+given clause #30: (wt=6) 240 [hyper,205,156,198,199,eval,eval,demod] bomba(5,5)|vacio(5,5).
 
-given clause #32: (wt=6) 241 [hyper,205,155,198,199,eval,eval,demod] bomba(3,5)|bomba(4,4).
+given clause #31: (wt=6) 241 [hyper,205,155,198,199,eval,eval,demod] bomba(3,5)|bomba(4,4).
 
-given clause #33: (wt=6) 242 [hyper,205,154,198,199,eval,eval,demod] bomba(3,5)|bomba(5,5).
+given clause #32: (wt=6) 242 [hyper,205,154,198,199,eval,eval,demod] bomba(3,5)|bomba(5,5).
 
-given clause #34: (wt=6) 243 [hyper,205,153,198,199,eval,eval,demod] bomba(3,5)|vacio(3,5).
+given clause #33: (wt=6) 243 [hyper,205,153,198,199,eval,eval,demod] bomba(3,5)|vacio(3,5).
 
-given clause #35: (wt=6) 246 [hyper,206,139,198,199,eval,eval,demod] bomba(5,3)|bomba(4,4).
+given clause #34: (wt=6) 246 [hyper,206,139,198,199,eval,eval,demod] bomba(5,3)|bomba(4,4).
 
-given clause #36: (wt=6) 247 [hyper,206,138,198,199,eval,eval,demod] bomba(5,3)|bomba(5,5).
+given clause #35: (wt=6) 247 [hyper,206,138,198,199,eval,eval,demod] bomba(5,3)|bomba(5,5).
 
-given clause #37: (wt=9) 217 [hyper,201,183,198,199,eval,eval,eval,eval,demod] vacio(2,5)|vacio(1,4)|vacio(3,4).
-** KEPT (pick-wt=6): 248 [hyper,217,7,213] vacio(2,5)|vacio(3,4).
+given clause #36: (wt=9) 217 [hyper,201,183,198,199,eval,eval,eval,eval,demod] vacio(2,5)|vacio(1,4)|vacio(3,4).
+** KEPT (pick-wt=6): 248 [hyper,217,7,211] vacio(2,5)|vacio(3,4).
 248 back subsumes 218.
 248 back subsumes 217.
 
-given clause #38: (wt=6) 248 [hyper,217,7,213] vacio(2,5)|vacio(3,4).
+given clause #37: (wt=6) 248 [hyper,217,7,211] vacio(2,5)|vacio(3,4).
 
-given clause #39: (wt=9) 219 [hyper,201,180,198,199,eval,eval,eval,eval,demod] vacio(2,3)|vacio(1,4)|vacio(2,5).
-** KEPT (pick-wt=6): 249 [hyper,219,7,212] vacio(1,4)|vacio(2,5).
-** KEPT (pick-wt=6): 250 [hyper,219,7,213] vacio(2,3)|vacio(2,5).
+given clause #38: (wt=9) 219 [hyper,201,180,198,199,eval,eval,eval,eval,demod] vacio(2,3)|vacio(1,4)|vacio(2,5).
+** KEPT (pick-wt=6): 249 [hyper,219,7,209] vacio(1,4)|vacio(2,5).
+** KEPT (pick-wt=6): 250 [hyper,219,7,211] vacio(2,3)|vacio(2,5).
 249 back subsumes 219.
 
-given clause #40: (wt=6) 249 [hyper,219,7,212] vacio(1,4)|vacio(2,5).
-** KEPT (pick-wt=3): 251 [hyper,249,7,213] vacio(2,5).
+given clause #39: (wt=6) 249 [hyper,219,7,209] vacio(1,4)|vacio(2,5).
+** KEPT (pick-wt=3): 251 [hyper,249,7,211] vacio(2,5).
 251 back subsumes 250.
 251 back subsumes 249.
 251 back subsumes 248.
 251 back subsumes 216.
 
-given clause #41: (wt=3) 251 [hyper,249,7,213] vacio(2,5).
+given clause #40: (wt=3) 251 [hyper,249,7,211] vacio(2,5).
 
-given clause #42: (wt=9) 220 [hyper,201,179,198,199,eval,eval,eval,eval,demod] vacio(2,3)|vacio(1,4)|vacio(3,4).
-** KEPT (pick-wt=6): 252 [hyper,220,7,212] vacio(1,4)|vacio(3,4).
-** KEPT (pick-wt=6): 253 [hyper,220,7,213] vacio(2,3)|vacio(3,4).
+given clause #41: (wt=9) 220 [hyper,201,179,198,199,eval,eval,eval,eval,demod] vacio(2,3)|vacio(1,4)|vacio(3,4).
+** KEPT (pick-wt=6): 252 [hyper,220,7,209] vacio(1,4)|vacio(3,4).
+** KEPT (pick-wt=6): 253 [hyper,220,7,211] vacio(2,3)|vacio(3,4).
 252 back subsumes 220.
 
-given clause #43: (wt=6) 252 [hyper,220,7,212] vacio(1,4)|vacio(3,4).
-** KEPT (pick-wt=3): 254 [hyper,252,7,213] vacio(3,4).
+given clause #42: (wt=6) 252 [hyper,220,7,209] vacio(1,4)|vacio(3,4).
+** KEPT (pick-wt=3): 254 [hyper,252,7,211] vacio(3,4).
 254 back subsumes 253.
 254 back subsumes 252.
 254 back subsumes 221.
 
-given clause #44: (wt=3) 254 [hyper,252,7,213] vacio(3,4).
+given clause #43: (wt=3) 254 [hyper,252,7,211] vacio(3,4).
 
-given clause #45: (wt=9) 229 [hyper,203,114,198,eval,eval,demod] bomba(3,1)|bomba(5,1)|bomba(4,2).
+given clause #44: (wt=9) 229 [hyper,203,114,198,eval,eval,demod] bomba(3,1)|bomba(5,1)|bomba(4,2).
 ** KEPT (pick-wt=6): 255 [hyper,229,7,224] bomba(5,1)|bomba(4,2).
 ** KEPT (pick-wt=6): 256 [hyper,229,7,225] bomba(3,1)|bomba(5,1).
 255 back subsumes 229.
 
-given clause #46: (wt=6) 255 [hyper,229,7,224] bomba(5,1)|bomba(4,2).
+given clause #45: (wt=6) 255 [hyper,229,7,224] bomba(5,1)|bomba(4,2).
 ** KEPT (pick-wt=3): 257 [hyper,255,7,225] bomba(5,1).
+
+----> UNIT CONFLICT at   0.01 sec ----> 258 [binary,257.1,207.1] $ANS(bomba(5,1)).
+
+Length of proof is 5.  Level of proof is 3.
+
+---------------- PROOF ----------------
+
+7 [] -bomba(x,y)| -vacio(x,y).
+40 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x+1,y).
+41 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x,y-1).
+114 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|bomba(x-1,1)|bomba(x+1,1)|bomba(x,2).
+198 [] filas(5).
+199 [] columnas(5).
+202 [] sensor(3,2,0).
+203 [] sensor(4,1,1).
+207 [] -bomba(x,y)|$ANS(bomba(x,y)).
+224 [hyper,202,41,198,199,eval,eval,eval,eval,demod] vacio(3,1).
+225 [hyper,202,40,198,199,eval,eval,eval,eval,demod] vacio(4,2).
+229 [hyper,203,114,198,eval,eval,demod] bomba(3,1)|bomba(5,1)|bomba(4,2).
+255 [hyper,229,7,224] bomba(5,1)|bomba(4,2).
+257 [hyper,255,7,225] bomba(5,1).
+258 [binary,257.1,207.1] $ANS(bomba(5,1)).
+
+------------ end of proof -------------
+
 257 back subsumes 256.
 257 back subsumes 255.
 257 back subsumes 228.
 
-given clause #47: (wt=3) 257 [hyper,255,7,225] bomba(5,1).
+given clause #46: (wt=3) 257 [hyper,255,7,225] bomba(5,1).
 
-given clause #48: (wt=9) 234 [hyper,204,176,198,199,eval,eval,eval,eval,demod] bomba(3,3)|bomba(4,2)|bomba(4,4).
-** KEPT (pick-wt=6): 258 [hyper,234,7,223] bomba(4,2)|bomba(4,4).
-** KEPT (pick-wt=6): 259 [hyper,234,7,225] bomba(3,3)|bomba(4,4).
-258 back subsumes 234.
+given clause #47: (wt=9) 234 [hyper,204,176,198,199,eval,eval,eval,eval,demod] bomba(3,3)|bomba(4,2)|bomba(4,4).
+** KEPT (pick-wt=6): 259 [hyper,234,7,223] bomba(4,2)|bomba(4,4).
+** KEPT (pick-wt=6): 260 [hyper,234,7,225] bomba(3,3)|bomba(4,4).
+259 back subsumes 234.
 
-given clause #49: (wt=6) 258 [hyper,234,7,223] bomba(4,2)|bomba(4,4).
-** KEPT (pick-wt=3): 260 [hyper,258,7,225] bomba(4,4).
-260 back subsumes 259.
-260 back subsumes 258.
-260 back subsumes 246.
-260 back subsumes 241.
-260 back subsumes 239.
-260 back subsumes 231.
+given clause #48: (wt=6) 259 [hyper,234,7,223] bomba(4,2)|bomba(4,4).
+** KEPT (pick-wt=3): 261 [hyper,259,7,225] bomba(4,4).
 
-given clause #50: (wt=3) 260 [hyper,258,7,225] bomba(4,4).
+----> UNIT CONFLICT at   0.01 sec ----> 262 [binary,261.1,207.1] $ANS(bomba(4,4)).
 
-given clause #51: (wt=9) 236 [hyper,204,174,198,199,eval,eval,eval,eval,demod] bomba(3,3)|bomba(5,3)|bomba(4,2).
-** KEPT (pick-wt=6): 261 [hyper,236,7,223] bomba(5,3)|bomba(4,2).
-** KEPT (pick-wt=6): 262 [hyper,236,7,225] bomba(3,3)|bomba(5,3).
-261 back subsumes 236.
-
-given clause #52: (wt=6) 261 [hyper,236,7,223] bomba(5,3)|bomba(4,2).
-** KEPT (pick-wt=3): 263 [hyper,261,7,225] bomba(5,3).
-263 back subsumes 262.
-263 back subsumes 261.
-263 back subsumes 247.
-263 back subsumes 233.
-
-given clause #53: (wt=3) 263 [hyper,261,7,225] bomba(5,3).
-
-given clause #54: (wt=9) 238 [hyper,205,158,198,199,eval,eval,demod] vacio(4,4)|vacio(5,5)|vacio(3,5).
-** KEPT (pick-wt=6): 264 [hyper,238,7,260] vacio(5,5)|vacio(3,5).
-264 back subsumes 238.
-
-given clause #55: (wt=6) 264 [hyper,238,7,260] vacio(5,5)|vacio(3,5).
-
-given clause #56: (wt=9) 245 [hyper,206,142,198,199,eval,eval,demod] vacio(4,4)|vacio(5,5)|vacio(5,3).
-** KEPT (pick-wt=6): 265 [hyper,245,7,260] vacio(5,5)|vacio(5,3).
-** KEPT (pick-wt=9): 266 [hyper,245,7,242] vacio(4,4)|vacio(5,3)|bomba(3,5).
-** KEPT (pick-wt=6): 267 [hyper,245,7,263] vacio(4,4)|vacio(5,5).
-265 back subsumes 245.
-
-given clause #57: (wt=6) 265 [hyper,245,7,260] vacio(5,5)|vacio(5,3).
-** KEPT (pick-wt=6): 268 [hyper,265,7,242] vacio(5,3)|bomba(3,5).
-** KEPT (pick-wt=3): 269 [hyper,265,7,263] vacio(5,5).
-268 back subsumes 266.
-269 back subsumes 267.
-269 back subsumes 265.
-269 back subsumes 264.
-269 back subsumes 240.
-
-given clause #58: (wt=3) 269 [hyper,265,7,263] vacio(5,5).
-** KEPT (pick-wt=3): 270 [hyper,269,7,242] bomba(3,5).
-270 back subsumes 268.
-270 back subsumes 243.
-270 back subsumes 242.
-
-given clause #59: (wt=3) 270 [hyper,269,7,242] bomba(3,5).
-
-given clause #60: (wt=11) 209 [] -bombas([])| -bomba(x,y)|bombas([bomba(x,y)]).
-** KEPT (pick-wt=6): 271 [hyper,209,208,270] bombas([bomba(3,5)]).
-** KEPT (pick-wt=6): 272 [hyper,209,208,263] bombas([bomba(5,3)]).
-** KEPT (pick-wt=6): 273 [hyper,209,208,260] bombas([bomba(4,4)]).
-** KEPT (pick-wt=6): 274 [hyper,209,208,257] bombas([bomba(5,1)]).
-** KEPT (pick-wt=6): 275 [hyper,209,208,214] bombas([bomba(1,2)]).
-** KEPT (pick-wt=6): 276 [hyper,209,208,213] bombas([bomba(1,4)]).
-** KEPT (pick-wt=6): 277 [hyper,209,208,212] bombas([bomba(2,3)]).
-
-given clause #61: (wt=6) 271 [hyper,209,208,270] bombas([bomba(3,5)]).
-
-given clause #62: (wt=6) 272 [hyper,209,208,263] bombas([bomba(5,3)]).
-
-given clause #63: (wt=6) 273 [hyper,209,208,260] bombas([bomba(4,4)]).
-
-given clause #64: (wt=6) 274 [hyper,209,208,257] bombas([bomba(5,1)]).
-
-given clause #65: (wt=6) 275 [hyper,209,208,214] bombas([bomba(1,2)]).
-
-given clause #66: (wt=6) 276 [hyper,209,208,213] bombas([bomba(1,4)]).
-
-given clause #67: (wt=6) 277 [hyper,209,208,212] bombas([bomba(2,3)]).
-
-given clause #68: (wt=21) 207 [] -completado(1,3)| -completado(2,4)| -completado(3,2)| -completado(4,1)| -completado(4,3)| -completado(4,5)| -completado(5,4).
-** KEPT (pick-wt=0): 278 [hyper,207,211,215,222,227,230,237,244] $F.
-
------> EMPTY CLAUSE at   0.01 sec ----> 278 [hyper,207,211,215,222,227,230,237,244] $F.
-
-Length of proof is 7.  Level of proof is 1.
+Length of proof is 5.  Level of proof is 3.
 
 ---------------- PROOF ----------------
 
-43 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|completado(x,y).
-59 [] -columnas(x17)| -(y>1)| -(y<x17)| -sensor(1,y,3)|completado(1,y).
-120 [] -filas(x32)| -(x>1)| -(x<x32)| -sensor(x,1,1)|completado(x,1).
-144 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|completado(x36,y).
-160 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|completado(x,x40).
-185 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|completado(x,y).
+7 [] -bomba(x,y)| -vacio(x,y).
+40 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x+1,y).
+42 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x,y+1).
+176 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x-1,y)|bomba(x,y-1)|bomba(x,y+1).
 198 [] filas(5).
 199 [] columnas(5).
-200 [] sensor(1,3,3).
-201 [] sensor(2,4,2).
 202 [] sensor(3,2,0).
-203 [] sensor(4,1,1).
 204 [] sensor(4,3,2).
-205 [] sensor(4,5,2).
-206 [] sensor(5,4,2).
-207 [] -completado(1,3)| -completado(2,4)| -completado(3,2)| -completado(4,1)| -completado(4,3)| -completado(4,5)| -completado(5,4).
-211 [hyper,200,59,199,eval,eval] completado(1,3).
-215 [hyper,201,185,198,199,eval,eval,eval,eval] completado(2,4).
-222 [hyper,202,43,198,199,eval,eval,eval,eval] completado(3,2).
-227 [hyper,203,120,198,eval,eval] completado(4,1).
-230 [hyper,204,185,198,199,eval,eval,eval,eval] completado(4,3).
-237 [hyper,205,160,198,199,eval,eval] completado(4,5).
-244 [hyper,206,144,198,199,eval,eval] completado(5,4).
-278 [hyper,207,211,215,222,227,230,237,244] $F.
+207 [] -bomba(x,y)|$ANS(bomba(x,y)).
+223 [hyper,202,42,198,199,eval,eval,eval,eval,demod] vacio(3,3).
+225 [hyper,202,40,198,199,eval,eval,eval,eval,demod] vacio(4,2).
+234 [hyper,204,176,198,199,eval,eval,eval,eval,demod] bomba(3,3)|bomba(4,2)|bomba(4,4).
+259 [hyper,234,7,223] bomba(4,2)|bomba(4,4).
+261 [hyper,259,7,225] bomba(4,4).
+262 [binary,261.1,207.1] $ANS(bomba(4,4)).
 
 ------------ end of proof -------------
 
+261 back subsumes 260.
+261 back subsumes 259.
+261 back subsumes 246.
+261 back subsumes 241.
+261 back subsumes 239.
+261 back subsumes 231.
 
-Search stopped by max_proofs option.
+given clause #49: (wt=3) 261 [hyper,259,7,225] bomba(4,4).
+
+given clause #50: (wt=9) 236 [hyper,204,174,198,199,eval,eval,eval,eval,demod] bomba(3,3)|bomba(5,3)|bomba(4,2).
+** KEPT (pick-wt=6): 263 [hyper,236,7,223] bomba(5,3)|bomba(4,2).
+** KEPT (pick-wt=6): 264 [hyper,236,7,225] bomba(3,3)|bomba(5,3).
+263 back subsumes 236.
+
+given clause #51: (wt=6) 263 [hyper,236,7,223] bomba(5,3)|bomba(4,2).
+** KEPT (pick-wt=3): 265 [hyper,263,7,225] bomba(5,3).
+
+----> UNIT CONFLICT at   0.01 sec ----> 266 [binary,265.1,207.1] $ANS(bomba(5,3)).
+
+Length of proof is 5.  Level of proof is 3.
+
+---------------- PROOF ----------------
+
+7 [] -bomba(x,y)| -vacio(x,y).
+40 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x+1,y).
+42 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x,y+1).
+174 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x-1,y)|bomba(x+1,y)|bomba(x,y-1).
+198 [] filas(5).
+199 [] columnas(5).
+202 [] sensor(3,2,0).
+204 [] sensor(4,3,2).
+207 [] -bomba(x,y)|$ANS(bomba(x,y)).
+223 [hyper,202,42,198,199,eval,eval,eval,eval,demod] vacio(3,3).
+225 [hyper,202,40,198,199,eval,eval,eval,eval,demod] vacio(4,2).
+236 [hyper,204,174,198,199,eval,eval,eval,eval,demod] bomba(3,3)|bomba(5,3)|bomba(4,2).
+263 [hyper,236,7,223] bomba(5,3)|bomba(4,2).
+265 [hyper,263,7,225] bomba(5,3).
+266 [binary,265.1,207.1] $ANS(bomba(5,3)).
+
+------------ end of proof -------------
+
+265 back subsumes 264.
+265 back subsumes 263.
+265 back subsumes 247.
+265 back subsumes 233.
+
+given clause #52: (wt=3) 265 [hyper,263,7,225] bomba(5,3).
+
+given clause #53: (wt=9) 238 [hyper,205,158,198,199,eval,eval,demod] vacio(4,4)|vacio(5,5)|vacio(3,5).
+** KEPT (pick-wt=6): 267 [hyper,238,7,261] vacio(5,5)|vacio(3,5).
+267 back subsumes 238.
+
+given clause #54: (wt=6) 267 [hyper,238,7,261] vacio(5,5)|vacio(3,5).
+
+given clause #55: (wt=9) 245 [hyper,206,142,198,199,eval,eval,demod] vacio(4,4)|vacio(5,5)|vacio(5,3).
+** KEPT (pick-wt=6): 268 [hyper,245,7,261] vacio(5,5)|vacio(5,3).
+** KEPT (pick-wt=9): 269 [hyper,245,7,242] vacio(4,4)|vacio(5,3)|bomba(3,5).
+** KEPT (pick-wt=6): 270 [hyper,245,7,265] vacio(4,4)|vacio(5,5).
+268 back subsumes 245.
+
+given clause #56: (wt=6) 268 [hyper,245,7,261] vacio(5,5)|vacio(5,3).
+** KEPT (pick-wt=6): 271 [hyper,268,7,242] vacio(5,3)|bomba(3,5).
+** KEPT (pick-wt=3): 272 [hyper,268,7,265] vacio(5,5).
+271 back subsumes 269.
+272 back subsumes 270.
+272 back subsumes 268.
+272 back subsumes 267.
+272 back subsumes 240.
+
+given clause #57: (wt=3) 272 [hyper,268,7,265] vacio(5,5).
+** KEPT (pick-wt=3): 273 [hyper,272,7,242] bomba(3,5).
+
+----> UNIT CONFLICT at   0.01 sec ----> 274 [binary,273.1,207.1] $ANS(bomba(3,5)).
+
+Length of proof is 13.  Level of proof is 6.
+
+---------------- PROOF ----------------
+
+7 [] -bomba(x,y)| -vacio(x,y).
+40 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x+1,y).
+42 [] -filas(x11)| -columnas(x12)| -(x>1)| -(x<x11)| -(y>1)| -(y<x12)| -sensor(x,y,0)|vacio(x,y+1).
+142 [] -filas(x36)| -columnas(x37)| -(y>1)| -(y<x37)| -sensor(x36,y,2)|vacio(x36-1,y)|vacio(x36,y+1)|vacio(x36,y-1).
+154 [] -filas(x39)| -columnas(x40)| -(x>1)| -(x<x39)| -sensor(x,x40,2)|bomba(x-1,x40)|bomba(x+1,x40).
+174 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x-1,y)|bomba(x+1,y)|bomba(x,y-1).
+176 [] -filas(x43)| -columnas(x44)| -(x>1)| -(x<x43)| -(y>1)| -(y<x44)| -sensor(x,y,2)|bomba(x-1,y)|bomba(x,y-1)|bomba(x,y+1).
+198 [] filas(5).
+199 [] columnas(5).
+202 [] sensor(3,2,0).
+204 [] sensor(4,3,2).
+205 [] sensor(4,5,2).
+206 [] sensor(5,4,2).
+207 [] -bomba(x,y)|$ANS(bomba(x,y)).
+223 [hyper,202,42,198,199,eval,eval,eval,eval,demod] vacio(3,3).
+225 [hyper,202,40,198,199,eval,eval,eval,eval,demod] vacio(4,2).
+234 [hyper,204,176,198,199,eval,eval,eval,eval,demod] bomba(3,3)|bomba(4,2)|bomba(4,4).
+236 [hyper,204,174,198,199,eval,eval,eval,eval,demod] bomba(3,3)|bomba(5,3)|bomba(4,2).
+242 [hyper,205,154,198,199,eval,eval,demod] bomba(3,5)|bomba(5,5).
+245 [hyper,206,142,198,199,eval,eval,demod] vacio(4,4)|vacio(5,5)|vacio(5,3).
+259 [hyper,234,7,223] bomba(4,2)|bomba(4,4).
+261 [hyper,259,7,225] bomba(4,4).
+263 [hyper,236,7,223] bomba(5,3)|bomba(4,2).
+265 [hyper,263,7,225] bomba(5,3).
+268 [hyper,245,7,261] vacio(5,5)|vacio(5,3).
+272 [hyper,268,7,265] vacio(5,5).
+273 [hyper,272,7,242] bomba(3,5).
+274 [binary,273.1,207.1] $ANS(bomba(3,5)).
+
+------------ end of proof -------------
+
+273 back subsumes 271.
+273 back subsumes 243.
+273 back subsumes 242.
+
+given clause #58: (wt=3) 273 [hyper,272,7,242] bomba(3,5).
+
+Search stopped because sos empty.
 
 ============ end of search ============
 
 -------------- statistics -------------
-clauses given                 68
-clauses generated            153
-  hyper_res generated        153
+clauses given                 58
+clauses generated            145
+  hyper_res generated        145
   para_from generated          0
   para_into generated          0
 demod & eval rewrites        110
@@ -591,15 +693,15 @@ clauses forward subsumed      85
   (subsumed by sos)           30
 unit deletions                 0
 factor simplifications         0
-clauses kept                  67
+clauses kept                  60
 new demodulators               0
-empty clauses                  1
+empty clauses                  7
 clauses back demodulated       0
 clauses back subsumed         42
-usable size                  230
-sos size                       1
+usable size                  220
+sos size                       0
 demodulators size              4
-passive size                   0
+passive size                   1
 hot size                       0
 Kbytes malloced             1953
 
@@ -610,4 +712,4 @@ wall-clock time        0             (0 hr, 0 min, 0 sec)
 
 That finishes the proof of the theorem.
 
-Process 3728 finished Mon Dec 12 13:14:59 2022
+Process 9107 finished Wed Dec 14 12:02:14 2022

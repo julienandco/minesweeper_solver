@@ -1,6 +1,7 @@
 set(para_into).
 set(para_from).
 set(hyper_res).
+assign(max_proofs,-1).
 
 % Lenguaje del Problema
 %
@@ -155,17 +156,22 @@ formula_list(sos).
     % Situación final. 
 
     % FRAGE 1
-    -(completado(1,3) & completado(2,4) & completado(3,2) & completado(4,1) & completado(4,3) & completado(4,5) & completado(5,4)).
+    %-(completado(1,3) & completado(2,4) & completado(3,2) & completado(4,1) & completado(4,3) & completado(4,5) & completado(5,4)).
 
     % Frage 1 - Formel 2
     %exists x y z (sensor(x,y,z) & -completado(x,y)).
 
     % Frage 2
-    bombas([]).
+    %bombas([]).
 
     % Cuando encontramos a una nueva bomba, la añadimos a la lista de bombas
-    all x y (bombas([]) & bomba(x,y) -> bombas([bomba(x,y)])).
-    all x y p q (bombas([p|q]) & bomba(x,y) & -pertenece(bomba(x,y),[p|q]) -> bombas([bomba(x,y),p|q])).
+    %all x y (bombas([]) & bomba(x,y) -> bombas([bomba(x,y)])).
+    %all x y p q (bombas([p|q]) & bomba(x,y) & -pertenece(bomba(x,y),[p|q]) -> bombas([bomba(x,y),p|q])).
+
+end_of_list.
+
+formula_list(passive).
+    all x y (bomba(x,y) -> $ANS(bomba(x,y))).
 
     % Frage 3
     %-(exists a b (bombas([a|b]) & pertenece(bomba(1,2), [a|b]) & pertenece(bomba(1,4), [a|b]) & pertenece(bomba(2,3), [a|b]) & pertenece(bomba(3,5), [a|b]) & pertenece(bomba(4,4), [a|b]) & pertenece(bomba(5,1), [a|b]) & pertenece(bomba(5,3), [a|b]))).
@@ -190,3 +196,5 @@ end_of_list.
 %
 % 5) Meiner Meinung nach der beste Call, aber es terminiert nicht. Why?
 %
+
+% maxproofs = -1 -> dann einer $ANS pro bombe die du findest (neue formel bomba -> $ANS) und ganze listen kacke
