@@ -23,7 +23,7 @@ formula_list(usable).
     all x y z (vacio(x,y) -> (-bomba(x,y) & -sensorV(x,y,z) & -sensorH(x,y,z))).
     all x y z (bomba(x,y) -> (-vacio(x,y) & -sensorV(x,y,z) & -sensorH(x,y,z))).
     all x y z (sensorV(x,y,z) -> (-vacio(x,y) & -bomba(x,y) & -sensorH(x,y,z))).  
-    all x y z (sensorX(x,y,z) -> (-vacio(x,y) & -bomba(x,y) & -sensorV(x,y,z))).  
+    all x y z (sensorH(x,y,z) -> (-vacio(x,y) & -bomba(x,y) & -sensorV(x,y,z))).  
 end_of_list.
 
 formula_list(sos).
