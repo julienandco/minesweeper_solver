@@ -18,12 +18,26 @@ make_evaluable(_<=_, $LE(_,_)).
 make_evaluable(_+_, $SUM(_,_)).
 make_evaluable(_-_, $DIFF(_,_)).
 
+list(demodulators).
+    pertenece(x,[]) = $F.
+    pertenece(x,[y|w]) = $IF($ID(x,y), $T, pertenece(x,w)).
+end_of_list.
+
 formula_list(usable).
     % Cada celda solo puede tener un estado
     all x y z (vacio(x,y) -> (-bomba(x,y) & -sensorV(x,y,z) & -sensorH(x,y,z))).
     all x y z (bomba(x,y) -> (-vacio(x,y) & -sensorV(x,y,z) & -sensorH(x,y,z))).
     all x y z (sensorV(x,y,z) -> (-vacio(x,y) & -bomba(x,y) & -sensorH(x,y,z))).  
     all x y z (sensorH(x,y,z) -> (-vacio(x,y) & -bomba(x,y) & -sensorV(x,y,z))).
+
+    % Cada celda necesita un estado.
+    all x y z f c ((filas(f) & columnas(c) & x>0 &x<=f & y>0 &y<=c) -> (sensorH(x,y,z) | (-vacio(x,y) | -bomba(x,y) | -sensorV(x,y,z)))).
+
+    all x y z f (filas(f) & sensorV(x,y,z) -> construyendoPosiblesV(f,y,z,[])).
+    all f c n (construyendoPosiblesV(f,c,n,[]) -> construyendoPosiblesV(f-1,c,n,[celda(f,c)])).
+    all f c n a b (construyendoPosiblesV(f,c,n,[a|b]) & f>0 & -pertenece(celda(f,c),[a|b]) -> construyendoPosiblesV(f-1,c,n,[celda(f,c),a|b])).
+
+    %all x y z ((vacio(x,y) | sensorH(x,y,z) | sensorV(x,y,z)) & -> ).
 
     %IDEE: pro sensor eine liste von möglichen aufbauen (für die reihe/spalte)
     %BRUH: iwie lösen, dass ich eine komplette reihe vernullen will, wenn sensor nichts findet  
