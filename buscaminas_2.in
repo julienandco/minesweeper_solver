@@ -23,7 +23,10 @@ formula_list(usable).
     all x y z (vacio(x,y) -> (-bomba(x,y) & -sensorV(x,y,z) & -sensorH(x,y,z))).
     all x y z (bomba(x,y) -> (-vacio(x,y) & -sensorV(x,y,z) & -sensorH(x,y,z))).
     all x y z (sensorV(x,y,z) -> (-vacio(x,y) & -bomba(x,y) & -sensorH(x,y,z))).  
-    all x y z (sensorH(x,y,z) -> (-vacio(x,y) & -bomba(x,y) & -sensorV(x,y,z))).  
+    all x y z (sensorH(x,y,z) -> (-vacio(x,y) & -bomba(x,y) & -sensorV(x,y,z))).
+
+    %IDEE: pro sensor eine liste von möglichen aufbauen (für die reihe/spalte)
+    %BRUH: iwie lösen, dass ich eine komplette reihe vernullen will, wenn sensor nichts findet  
 end_of_list.
 
 formula_list(sos).
