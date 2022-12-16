@@ -10,7 +10,7 @@ assign(max_proofs,-1).
 % - sensorH(x,y,z): En la casilla de coordenadas (x,y) hay un sensor H que detecta z bombas
 % - sensorV(x,y,z): En la casilla de coordenadas (x,y) hay un sensor V que detecta z bombas
 % - bomba(x,y): Hay una bomba en la casilla de coordenadas (x,y)
-% - vacio(x,y): La casilla de coordenas (x,y) está vacía
+% - vacio(x,y): La casilla de coordenas (x,y) está vacía.
 %
 
 make_evaluable(_>_, $GT(_,_)).
@@ -29,6 +29,7 @@ formula_list(usable).
     all x y f (filas(f) & sensorV(x,y,0) -> vaciarColumna(y,f)).
     all x y c (columnas(c) & sensorH(x,y,0) -> vaciarFila(x,c)).
 
+    %TODO: DAS EVTL ZU -BOMBA ÄNDERN UND NICHT VACIO? DANN LOGIK SAUBERER
     all f c (vaciarColumna(c,f) & f > 0 -> vacio(f,c) & vaciarColumna(c,f-1)).
     all f c (vaciarFila(f,c) & c > 0 -> vacio(f,c) & vaciarFila(f,c-1)).
 
