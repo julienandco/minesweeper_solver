@@ -1,4 +1,5 @@
 set(hyper_res).
+%set(neg_hyper_res).
 assign(max_proofs,-1).
 
 % Lenguaje del Problema
@@ -18,6 +19,11 @@ make_evaluable(_<=_, $LE(_,_)).
 make_evaluable(_+_, $SUM(_,_)).
 make_evaluable(_-_, $DIFF(_,_)).
 
+list(demodulators).
+    pertenece(x,[]) = $F.
+    pertenece(x,[y|w]) = $IF($ID(x,y), $T, pertenece(x,w)).
+end_of_list.
+
 formula_list(usable).
     % Sensores que no detectan nada
     all x y f (filas(f) & sensorV(x,y,0) -> vaciarColumna(y,f)).
@@ -26,6 +32,21 @@ formula_list(usable).
     all f c (vaciarColumna(c,f) & f > 0 -> vacio(f,c) & vaciarColumna(c,f-1)).
     all f c (vaciarFila(f,c) & c > 0 -> vacio(f,c) & vaciarFila(f,c-1)).
 
+    % Sensores que detectan algo
+    all x y z f (filas(f) & sensorV(x,y,z) & z > 0 -> bombasImposiblesEnColumnaTemp(y, [x], f-1)).
+    all a b c n x z ((bombasImposiblesEnColumnaTemp(c, [a|b], n) & n > 0 & (sensorH(x,c,z) | sensorV(x,c,z)) & -pertenece(x,[a|b])) -> bombasImposiblesEnColumnaTemp(c, [x,a|b], n-1)).
+
+    %(exists a b (vacio(a,b))) -> kek.
+
+    %TODO: WICHTIG1111111
+    %bombasImposiblesEnColumnaTemp GIBT UNS JZ AN LETZTER STELLE DIE ANZAHL MÖGLICHER BOMBEN AN
+    % -> WENN ES EINEN SENSOR GIBT, DER GENAUSO VIELE BOMBEN DETECTED, WIE MÖGLICH SIND,
+    % DANN IST DAS UNSER ÄQUIVALENT ZU DEM AUS BUSCA1: ALLES UM DICH RUM SIND BOMBEN!
+
+    % TODO: das kickt nie, weil wir nie f sensoren in einer ganzen column haben, wenn sensor was entdeckt hat
+    %all a b c (bombasImposiblesEnColumnaTemp(c, [a|b], 0) -> bombasImposiblesEnColumna(c, [a|b])).
+
+    % kann ich so coden: wenn alle sensoren in liste, dann nicht-temp liste assert?
 
     %IDEE: pro sensor eine liste von möglichen aufbauen (für die reihe/spalte)
     %BRUH: iwie lösen, dass ich eine komplette reihe vernullen will, wenn sensor nichts findet  
