@@ -19,8 +19,6 @@ make_evaluable(_+_, $SUM(_,_)).
 make_evaluable(_-_, $DIFF(_,_)).
 
 formula_list(usable).
-    all x (x=x).
-
     % Sensores que no detectan nada
     all x y f (filas(f) & sensorV(x,y,0) -> vaciarColumna(y,f)).
     all x y c (columnas(c) & sensorH(x,y,0) -> vaciarFila(x,c)).
