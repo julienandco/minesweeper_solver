@@ -1,5 +1,4 @@
 set(hyper_res).
-%set(neg_hyper_res).
 assign(max_proofs,-1).
 
 % Lenguaje del Problema
@@ -38,6 +37,10 @@ formula_list(usable).
     all a b c n x z ((bombasImposiblesEnColumnaTemp(c, [a|b], n) & n > 0 & (sensorH(x,c,z) | sensorV(x,c,z)) & -pertenece(x,[a|b])) -> bombasImposiblesEnColumnaTemp(c, [x,a|b], n-1)).
 
     %(exists a b (vacio(a,b))) -> kek.
+    all a b x y z (sensorV(x,y,z) & bombasImposiblesEnColumnaTemp(y, [a|b], z) -> plantarBombasEnColumna(y, [a|b], 1)).
+
+    all a b c f x  (filas(f) & plantarBombasEnColumna(c, [a|b], x) & x <= f & -pertenece(x, [a|b]) -> bomba(x,c) & plantarBombasEnColumna(c, [a|b],x+1)).
+    all a b c f x  (filas(f) & plantarBombasEnColumna(c, [a|b], x) & x <= f & pertenece(x, [a|b]) -> -bomba(x,c) & plantarBombasEnColumna(c, [a|b],x+1)).
 
     %TODO: WICHTIG1111111
     %bombasImposiblesEnColumnaTemp GIBT UNS JZ AN LETZTER STELLE DIE ANZAHL MÖGLICHER BOMBEN AN
@@ -51,6 +54,8 @@ formula_list(usable).
 
     %IDEE: pro sensor eine liste von möglichen aufbauen (für die reihe/spalte)
     %BRUH: iwie lösen, dass ich eine komplette reihe vernullen will, wenn sensor nichts findet  
+
+    % IDEE: für leere felder nicht vacio, sondern -bomba nutzen
 end_of_list.
 
 formula_list(sos).
