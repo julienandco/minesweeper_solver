@@ -58,8 +58,9 @@ formula_list(usable).
     %% Comienzo del relleno ingenuo -> cada celda de la fila puede contener una bomba
     all f c (bombasPosiblesEnFilaInit(f,[]) & columnas(c) -> bombasPosiblesEnFilaTemp(f,c-1,[c],1)).
 
-    %% Comienzo del relleno inteligente -> la celda puede tener una bomba si no tiene un sensor, no está vacía 
-    %% o no está en una columna completada y no contiene una bomba de esta columna.
+    %% Comienzo del relleno inteligente (se activa si la celda tiene un sensor, está vacía o está en una
+    %% columna completada y no contiene una bomba de esta columna -> no puede contener una bomba en está fila,
+    %% sin romper el buscaminas).
     all f c z x y (bombasPosiblesEnFilaInit(f,[]) & columnas(c) & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c) | (columnaCompletada(c,[x|y]) & -pertenece(f,[x|y]))) -> bombasPosiblesEnFilaTemp(f,c-1,[],0)).
 
     %% Paso de relleno ingenuo por las listas vacías (en todos los pasos de antés el relleno intelligente impedió la addición de un índice)
