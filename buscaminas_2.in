@@ -21,9 +21,6 @@ make_evaluable(_-_, $DIFF(_,_)).
 % TODO: WENN EIN SENSOR NUR PARTIELLEN CALL MACHT (1 DETECTED, 3 MÖGLICH) UND ES ERFÜLLT WIRD (1 BOMBE IRGENDWO)
 % DANN MUSS DIE LISTE AUCH AKTUALISIERT WERDEN
 
-% TODO: es fickt mich jz, dass es jede bombasPosiblesEnFila/COlumna liste nur in einer reihenfolge gibt und nicht in allen
-% permutationen, weil ich dann keine elemente daraus löschen kann...
-
 formula_list(usable).
     % Listas iniciales de bombas posibles
 
