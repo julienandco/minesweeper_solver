@@ -1,3 +1,5 @@
+set(para_into).
+set(para_from).
 set(hyper_res).
 assign(max_proofs,-1).
 
@@ -21,29 +23,41 @@ make_evaluable(_-_, $DIFF(_,_)).
 % TODO: WENN EIN SENSOR NUR PARTIELLEN CALL MACHT (1 DETECTED, 3 MÖGLICH) UND ES ERFÜLLT WIRD (1 BOMBE IRGENDWO)
 % DANN MUSS DIE LISTE AUCH AKTUALISIERT WERDEN
 
+list(demodulators).
+    pertenece(x,[]) = $F.
+    pertenece(x,[y|w]) = $IF($ID(x,y), $T, pertenece(x,w)).
+end_of_list.
+
 formula_list(usable).
     % Listas iniciales de bombas posibles
+
+    %
+    % | (filaCompletada(f,[x|y]) & -pertenece(c,[x|y]))
+
+    % damit auch leere liste mal da ist:
+    %    all f a b n (bombasPosiblesEnFilaTemp(f,0,[a|b],n) & (exists y (sensorH(f,y,0))) -> bombasPosiblesEnFila(f,[],0)).
+
 
     % En Filas
     all f (filas(f) -> bombasPosiblesEnFilaInit(f,[])).
     all f (bombasPosiblesEnFilaInit(f,[]) & f>1 -> bombasPosiblesEnFilaInit(f-1,[])).
     all f c (bombasPosiblesEnFilaInit(f,[]) & columnas(c) -> bombasPosiblesEnFilaTemp(f,c-1,[c],1)).
-    all f c z (bombasPosiblesEnFilaInit(f,[]) & columnas(c) & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c)) -> bombasPosiblesEnFilaTemp(f,c-1,[],0)).
+    all f c z x y (bombasPosiblesEnFilaInit(f,[]) & columnas(c) & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c) | (columnaCompletada(c,[x|y]) & -pertenece(f,[x|y]))) -> bombasPosiblesEnFilaTemp(f,c-1,[],0)).
     all f c (bombasPosiblesEnFilaTemp(f,c,[],0) & c>0 -> bombasPosiblesEnFilaTemp(f,c-1,[c],1)).
-    all f c (bombasPosiblesEnFilaTemp(f,c,[],0) & c>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c)) -> bombasPosiblesEnFilaTemp(f,c-1,[],0)).
+    all f c z x y (bombasPosiblesEnFilaTemp(f,c,[],0) & c>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c) | (columnaCompletada(c,[x|y]) & -pertenece(f,[x|y]))) -> bombasPosiblesEnFilaTemp(f,c-1,[],0)).
     all f c a b n (bombasPosiblesEnFilaTemp(f,c,[a|b],n) & c>0 -> bombasPosiblesEnFilaTemp(f,c-1,[c,a|b],n+1)).
-    all f a b c n z (bombasPosiblesEnFilaTemp(f,c,[a|b],n) & c>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c)) -> bombasPosiblesEnFilaTemp(f,c-1,[a|b],n)).
+    all f a b c n z x y (bombasPosiblesEnFilaTemp(f,c,[a|b],n) & c>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c) | (columnaCompletada(c,[x|y]) & -pertenece(f,[x|y]))) -> bombasPosiblesEnFilaTemp(f,c-1,[a|b],n)).
     all f a b n (bombasPosiblesEnFilaTemp(f,0,[a|b],n) -> bombasPosiblesEnFila(f,[a|b],n)).
 
     % En Columnas
     all c (columnas(c) -> bombasPosiblesEnColumnaInit(c,[])).
     all c (bombasPosiblesEnColumnaInit(c,[]) & c>1 -> bombasPosiblesEnColumnaInit(c-1,[])).
     all f c (bombasPosiblesEnColumnaInit(c,[]) & filas(f) -> bombasPosiblesEnColumnaTemp(c,f-1,[f],1)).
-    all f c z (bombasPosiblesEnColumnaInit(c,[]) & filas(f) & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c)) -> bombasPosiblesEnColumnaTemp(c,f-1,[],0)).
+    all f c z x y (bombasPosiblesEnColumnaInit(c,[]) & filas(f) & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c) | (filaCompletada(f,[x|y]) & -pertenece(c,[x|y]))) -> bombasPosiblesEnColumnaTemp(c,f-1,[],0)).
     all f c (bombasPosiblesEnColumnaTemp(c,f,[],0) & f>0 -> bombasPosiblesEnColumnaTemp(c,f-1,[f],1)).
-    all f c (bombasPosiblesEnColumnaTemp(c,f,[],0) & f>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c)) -> bombasPosiblesEnColumnaTemp(c,f-1,[],0)).
+    all f c z x y (bombasPosiblesEnColumnaTemp(c,f,[],0) & f>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c) | (filaCompletada(f,[x|y]) & -pertenece(c,[x|y]))) -> bombasPosiblesEnColumnaTemp(c,f-1,[],0)).
     all f a b c n (bombasPosiblesEnColumnaTemp(c,f,[a|b],n) & f>0 -> bombasPosiblesEnColumnaTemp(c,f-1,[f,a|b],n+1)).
-    all f a b c n z (bombasPosiblesEnColumnaTemp(c,f,[a|b],n) & f>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c)) -> bombasPosiblesEnColumnaTemp(c,f-1,[a|b],n)).
+    all f a b c n z x y (bombasPosiblesEnColumnaTemp(c,f,[a|b],n) & f>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c) | (filaCompletada(f,[x|y]) & -pertenece(c,[x|y]))) -> bombasPosiblesEnColumnaTemp(c,f-1,[a|b],n)).
     all c a b n (bombasPosiblesEnColumnaTemp(c,0,[a|b],n) -> bombasPosiblesEnColumna(c,[a|b],n)).
 
     % Sensores que no detectan nada - Vertical
@@ -55,12 +69,33 @@ formula_list(usable).
     all f c (vaciarFila(f,c) & c > 0 -> vacio(f,c) & vaciarFila(f,c-1)).
 
     % Sensores que detectan todo - Vertical
-    all a b c f n (sensorV(f,c,n) & bombasPosiblesEnColumna(c,[a|b],n) -> llenarColumna(c,[a|b])).
-    all a b c (llenarColumna(c,[a|b]) -> bomba(a,c) & llenarColumna(c,b)).
+    all a b c f n (sensorV(f,c,n) & bombasPosiblesEnColumna(c,[a|b],n) -> llenarColumna(c,[a|b],[a|b])).
+    all a b c d e (llenarColumna(c,[a|b],[d|e]) -> bomba(a,c) & llenarColumna(c,b,[d|e])).
+    all a b c (llenarColumna(c,[],[a|b]) -> columnaCompletada(c,[a|b])).
 
     % Sensores que detectan todo - Horizontal
-    all a b c f n (sensorH(f,c,n) & bombasPosiblesEnFila(f,[a|b],n) -> llenarFila(f,[a|b])).
-    all a b f (llenarFila(f,[a|b]) -> bomba(f,a) & llenarFila(f,b)).
+    all a b c f n (sensorH(f,c,n) & bombasPosiblesEnFila(f,[a|b],n) -> llenarFila(f,[a|b],[a|b])).
+    all a b c d f (llenarFila(f,[a|b],[c|d]) -> bomba(f,a) & llenarFila(f,b,[c|d])).
+    all a b f (llenarFila(f,[],[a|b]) -> filaCompletada(f,[a|b])).
+
+    % Contar bombas
+    all f (filas(f) -> bombasEnFila(f,[],0)).
+    all f (bombasEnFila(f,[],0) & f > 1 -> bombasEnFila(f-1,[],0)).
+    all x y (bomba(x,y) & bombasEnFila(x,[],0) -> bombasEnFila(x,[y],1)).
+    all x y a b n (bomba(x,y) & bombasEnFila(x,[a|b],n) & -pertenece(y,[a|b]) -> bombasEnFila(x,[y,a|b],n+1)).
+
+    all c (columnas(c) -> bombasEnColumna(c,[],0)).
+    all c (bombasEnColumna(c,[],0) & c>1 -> bombasEnColumna(c-1,[],0)).
+    all x y (bomba(x,y) & bombasEnColumna(y,[],0) -> bombasEnColumna(y,[x],1)).
+    all x y a b n (bomba(x,y) & bombasEnColumna(y,[a|b],n) & -pertenece(x,[a|b]) -> bombasEnColumna(y,[x,a|b],n+1)).
+
+    all f c z a b (sensorV(f,c,z) & bombasEnColumna(c,[a|b],z) -> columnaCompletada(c,[a|b])).
+    all f c z a b (sensorH(f,c,z) & bombasEnFila(f,[a|b],z) -> filaCompletada(f,[a|b])).
+
+    %IDEE: FÜR JEDE COLUMN/FILA AUCH EINE LISTE: FOUDN BOMBS SPEICHERN (SO WIE POSIBLE BONBS)
+    % SOBALD DIE LÄNGE DER LISTE SO LANG IST WIE DIE GEFUNDENE ANZAHL BOMBEN EINES SENSORS -> SENSOR COMPLETED
+    % SOBALD EIN SENSOR COMPLETED IST -> FELD DER ZEILE/SPALTE NICHT MEHR VERFÜGBAR FÜR POSIBLE BOMBS ABER NUR WENN DIE GEFUNDENE
+    % BOMBE NICHT IN DER GERADE BETRACHTETEN ZEILE/SPALTE IST
 end_of_list.
 
 formula_list(sos).
