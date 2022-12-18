@@ -21,41 +21,52 @@ make_evaluable(_-_, $DIFF(_,_)).
 list(demodulators).
     pertenece(x,[]) = $F.
     pertenece(x,[y|w]) = $IF($ID(x,y), $T, pertenece(x,w)).
+
+    len([]) = 0.
+    len([x|y]) = $SUM(1, len(y)).
 end_of_list.
 
 formula_list(usable).
-    % Sensores que no detectan nada
+    % Listas iniciales de bombas posibles
+
+    % En Filas
+    all f (filas(f) -> bombasPosiblesEnFilaInit(f,[])).
+    all f (bombasPosiblesEnFilaInit(f,[]) & f>1 -> bombasPosiblesEnFilaInit(f-1,[])).
+    all f c (bombasPosiblesEnFilaInit(f,[]) & columnas(c) -> bombasPosiblesEnFilaTemp(f,[c],c-1)).
+    all f c z (bombasPosiblesEnFilaInit(f,[]) & columnas(c) & (sensorV(f,c,z) | sensorH(f,c,z)) -> bombasPosiblesEnFilaTemp(f,[],c-1)).
+    all f c (bombasPosiblesEnFilaTemp(f,[],c) & c>0 -> bombasPosiblesEnFilaTemp(f,[c],c-1)).
+    all f c a b (bombasPosiblesEnFilaTemp(f,[a|b],c) & c>0 -> bombasPosiblesEnFilaTemp(f,[c,a|b],c-1)).
+    all f a b c z (bombasPosiblesEnFilaTemp(f,[a|b],c) & c>0 & (sensorV(f,c,z) | sensorH(f,c,z)) -> bombasPosiblesEnFilaTemp(f,[a|b],c-1)).
+    all f a b (bombasPosiblesEnFilaTemp(f,[a|b],0) -> bombasPosiblesEnFila(f,[a|b])).
+
+    % En Columnas
+    all c (columnas(c) -> bombasPosiblesEnColumnaInit(c,[])).
+    all c (bombasPosiblesEnColumnaInit(c,[]) & c>1 -> bombasPosiblesEnColumnaInit(c-1,[])).
+    all f c (bombasPosiblesEnColumnaInit(c,[]) & filas(f) -> bombasPosiblesEnColumnaTemp(c,[f],f-1)).
+    all f c z (bombasPosiblesEnColumnaInit(c,[]) & filas(f) & (sensorV(f,c,z) | sensorH(f,c,z)) -> bombasPosiblesEnColumnaTemp(c,[],f-1)).
+    all f c (bombasPosiblesEnColumnaTemp(c,[],f) & f>0 -> bombasPosiblesEnColumnaTemp(c,[f],f-1)).
+    all f a b c (bombasPosiblesEnColumnaTemp(c,[a|b],f) & f>0 -> bombasPosiblesEnColumnaTemp(c,[f,a|b],f-1)).
+    all f a b c z (bombasPosiblesEnColumnaTemp(c,[a|b],f) & f>0 & (sensorV(f,c,z) | sensorH(f,c,z)) -> bombasPosiblesEnColumnaTemp(c,[a|b],f-1)).
+    all c a b (bombasPosiblesEnColumnaTemp(c,[a|b],0) -> bombasPosiblesEnColumna(c,[a|b])).
+
+    %all x y (bomba(x,y) -> -vacio(x,y)).
+    %all x y z ((sensorV(x,y,z) | sensorH(x,y,z)) -> -bomba(x,y)).
+    %all x y (vacio(x,y) -> -bomba(x,y)).
+%
+    % Sensores que no detectan nada - Vertical
     all x y f (filas(f) & sensorV(x,y,0) -> vaciarColumna(y,f)).
-    all x y c (columnas(c) & sensorH(x,y,0) -> vaciarFila(x,c)).
-
-    %TODO: DAS EVTL ZU -BOMBA ÄNDERN UND NICHT VACIO? DANN LOGIK SAUBERER
     all f c (vaciarColumna(c,f) & f > 0 -> vacio(f,c) & vaciarColumna(c,f-1)).
+%
+    % Sensores que no detectan nada - Horizontal
+    all x y c (columnas(c) & sensorH(x,y,0) -> vaciarFila(x,c)).
     all f c (vaciarFila(f,c) & c > 0 -> vacio(f,c) & vaciarFila(f,c-1)).
-
-    % Sensores que detectan algo
-    all x y z f (filas(f) & sensorV(x,y,z) & z > 0 -> bombasImposiblesEnColumnaTemp(y, [x], f-1)).
-    all a b c n x z ((bombasImposiblesEnColumnaTemp(c, [a|b], n) & n > 0 & (sensorH(x,c,z) | sensorV(x,c,z)) & -pertenece(x,[a|b])) -> bombasImposiblesEnColumnaTemp(c, [x,a|b], n-1)).
-
-    %(exists a b (vacio(a,b))) -> kek.
-    all a b x y z (sensorV(x,y,z) & bombasImposiblesEnColumnaTemp(y, [a|b], z) -> plantarBombasEnColumna(y, [a|b], 1)).
-
-    all a b c f x  (filas(f) & plantarBombasEnColumna(c, [a|b], x) & x <= f & -pertenece(x, [a|b]) -> bomba(x,c) & plantarBombasEnColumna(c, [a|b],x+1)).
-    all a b c f x  (filas(f) & plantarBombasEnColumna(c, [a|b], x) & x <= f & pertenece(x, [a|b]) -> -bomba(x,c) & plantarBombasEnColumna(c, [a|b],x+1)).
-
-    %TODO: WICHTIG1111111
-    %bombasImposiblesEnColumnaTemp GIBT UNS JZ AN LETZTER STELLE DIE ANZAHL MÖGLICHER BOMBEN AN
-    % -> WENN ES EINEN SENSOR GIBT, DER GENAUSO VIELE BOMBEN DETECTED, WIE MÖGLICH SIND,
-    % DANN IST DAS UNSER ÄQUIVALENT ZU DEM AUS BUSCA1: ALLES UM DICH RUM SIND BOMBEN!
-
-    % TODO: das kickt nie, weil wir nie f sensoren in einer ganzen column haben, wenn sensor was entdeckt hat
-    %all a b c (bombasImposiblesEnColumnaTemp(c, [a|b], 0) -> bombasImposiblesEnColumna(c, [a|b])).
-
-    % kann ich so coden: wenn alle sensoren in liste, dann nicht-temp liste assert?
-
-    %IDEE: pro sensor eine liste von möglichen aufbauen (für die reihe/spalte)
-    %BRUH: iwie lösen, dass ich eine komplette reihe vernullen will, wenn sensor nichts findet  
-
-    % IDEE: für leere felder nicht vacio, sondern -bomba nutzen
+%
+    %% Sensores que detectan algo - Vertical
+    %all x c z f (filas(f) & sensorV(x,c,z) & z > 0 -> bombasImposiblesEnColumna(c, [x], f-1)).
+    %all a b c n x z ((bombasImposiblesEnColumna(c, [a|b], n) & n > 0 & (sensorH(x,c,z) | sensorV(x,c,z)) & -pertenece(x,[a|b])) -> bombasImposiblesEnColumna(c, [x,a|b], n-1)).
+    %all a b f x y z (filas(f) & sensorV(x,y,z) & bombasImposiblesEnColumna(y, [a|b], z) -> llenarColumnaDeBombas(f, y, [a|b])).
+    %all a b c x (llenarColumnaDeBombas(x,c,[a|b]) & x>0 & -pertenece(x, [a|b]) -> bomba(x,c) & llenarColumnaDeBombas(x-1,c, [a|b])).
+    %all a b c x (llenarColumnaDeBombas(x,c,[a|b]) & x>0 & pertenece(x, [a|b]) -> vacio(x,c) & llenarColumnaDeBombas(x-1,c, [a|b])).
 end_of_list.
 
 formula_list(sos).
