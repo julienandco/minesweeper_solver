@@ -19,12 +19,34 @@ make_evaluable(_+_, $SUM(_,_)).
 make_evaluable(_-_, $DIFF(_,_)).
 
 list(demodulators).
+    % Función que devuelve si un elemento esta incluido en una lista o no.
     pertenece(x,[]) = $F.
     pertenece(x,[y|w]) = $IF($ID(x,y), $T, pertenece(x,w)).
 end_of_list.
 
 formula_list(usable).
-    % Construcción de listas de bombas posibles
+
+    %%%%%%%%%%%%%%%%%%%%%%% Construcción de listas de bombas posibles %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    %% 
+    %% Esa construcción es el parte principal de mi solución. La misma logica se aplica para filas y columnas, asi que 
+    %% todo que explico ahora por filas tambien es cierto por columnas.
+    %%
+    %% Al fin del proceso sale un hecho bombasPosiblesEnFila(f,[a|b],n) que nos dice que en la fila f haya un total de n 
+    %% bombas posibles y que habrá m <= n bombas en las celdas (f,y) con y \in [a|b] de la fila f.
+    %%
+    %% Porque lo estamos construyenda con el hecho ayudante bombasPossiblesEnFilaTemp, el hecho final (bombasPosiblesEnFila)
+    %% solo sale despues de que hemos recorrido el tamaño entero del tablero. Además, la construcción es generosa, es decir,
+    %% que si al fin del cabo las bombas de la fila f seran en las celdas (f,2) y f(,4), entonces el 2 y el 4 SIEMPRE seran
+    %% incluidos en CADA LISTA [a|b] de CADA HECHO bombasPosiblesEnFila(f,[a|b],n). Dicho de manera differente: si existe
+    %% un hecho bombasPosiblesEnFila(f,[a|b],n), entonces el 2 y el 4 están incluidos en [a|b].
+    %%
+    %% Por eso, saldrán de la construcción unos hechos bombasPosiblesEnFila(f,[a|b],n) demasiado generosos ([a|b] demasiado 
+    %% largo para poder resolver el problema directamente), pero gracias a las extra condiciones (hay un sensor, la celda ha estado
+    %% anotada vacía por culpa de otra regla o hay una columna completada y ninguna de las bombas de esa columna esta en la fila f),
+    %% tambien saldrá el hecho bombasPosiblesEnFila(f,[c|d],n) en lo cual [c|d] SOLO contiene a los indices de columnas, en las cuales
+    %% vamos a tener bombas y NINGUN otro más. Explico como determinamos si una columna está completada mas abajo de esto documento.
+    %%
 
     % En Filas
     all f (filas(f) -> bombasPosiblesEnFilaInit(f,[])).
@@ -48,35 +70,88 @@ formula_list(usable).
     all f a b c n z x y (bombasPosiblesEnColumnaTemp(c,f,[a|b],n) & f>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c) | (filaCompletada(f,[x|y]) & -pertenece(c,[x|y]))) -> bombasPosiblesEnColumnaTemp(c,f-1,[a|b],n)).
     all c a b n (bombasPosiblesEnColumnaTemp(c,0,[a|b],n) -> bombasPosiblesEnColumna(c,[a|b],n)).
 
-    % Sensores que no detectan nada - Vertical
+
+    %%%%%%%%%%%%%%%%%%%%%%% Sensores que detectan 0 bombas %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    % Vertical - Columnas
+
+    %% Si hay un sensor que detecta 0 bombas, inicio el vaciamiento de la columna
     all x y f (filas(f) & sensorV(x,y,0) -> vaciarColumna(y,f)).
+
+    %% Durante el vaciamiento de una columna, cada celda sera anotada vacía, tambien las que contienen sensores.
+    %% Como consideramos que vacía no significa que haya nada, si no que solo no haya bomba, no nos molesta.
     all f c (vaciarColumna(c,f) & f > 0 -> vacio(f,c) & vaciarColumna(c,f-1)).
 
-    % Sensores que no detectan nada - Horizontal
+    % Horizontal - Filas
+
+    %% Aplicamos la misma logica por el vaciamiento de filas como por las columnas.
     all x y c (columnas(c) & sensorH(x,y,0) -> vaciarFila(x,c)).
     all f c (vaciarFila(f,c) & c > 0 -> vacio(f,c) & vaciarFila(f,c-1)).
 
-    % Sensores que detectan todo - Vertical
+
+    %%%%%%%%%%%%%%%%%%%%%%% Sensores que detectan todas las bombas posibles %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    % Vertical - Columnas
+
+    %% Sabemos que las listas bombasPosiblesEnColumna(c,l,n) están construidas de manera que la lista de celdas en las
+    %% cuales habrá bombas al final, SIEMPRE está una sublista de l (expliciones arriba). Por eso, sabemos también que 
+    %% en el momento en lo cual solo hay n bombas posibles en una columna y que existe un sensor vertical que detecta 
+    %% exactamente n bombas en esta columna, tiene que estar una bomba en cada celda (x,c) de las posibles x incluidos en l.
+    %% Tambien queremos recordarnos en cuales celdas hay bombas para poder contarlas depués.
+    %% Por eso, vamos a vaciar una lista temporal en un paso de relleno, y tambien guardar la lista de celdas que inició el 
+    %% relleno. 
+    %%
+    %% Ejemplo: llenarColumna(4, [1,2,3],[1,2,3])
+    %% 
+    %% Eso representa el inicio del relleno de la columna c = 4. Vamos a poner una bomba en (1,4), (2,4) y (3,4).
+    %% Durante este relleno, nuevos hechos será añadidos, como p.ej. llenarColumna(4, [2,3],[1,2,3]). 
+    %% 
+    %% La primera lista es la lista temporal que va a vaciarse para que sabemos cuando se acabó el relleno.
+    %% La segunda lista es la lista de celdas en las cuales la columna tiene bombas. Daremos esta lista 
+    %% al hecho columnaCompletada y esto nos ayudará mucho durante la construcción de bombasPosiblesEnColumna 
+    %% por columnas que no están resolubles del principio (explicaciones arriba).
+    %%
+    %% En el caso del ejemplo, se introducirá el hecho columnaCompletada(4,[1,2,3]), porque todas las bombas que 
+    %% están en la columna 4 han sido desubiertos y están en las celdas (1,4), (2,4) y (3,4).
+    %%
+
+    %% Empezamos el relleno de la columna
     all a b c f n (sensorV(f,c,n) & bombasPosiblesEnColumna(c,[a|b],n) -> llenarColumna(c,[a|b],[a|b])).
+
+    %% Paso de relleno de columna
     all a b c d e (llenarColumna(c,[a|b],[d|e]) -> bomba(a,c) & llenarColumna(c,b,[d|e])).
+
+    %% Cuando no quedan mas celdas que rellenar en la columna, marcamos la columna como completa.
     all a b c (llenarColumna(c,[],[a|b]) -> columnaCompletada(c,[a|b])).
 
     % Sensores que detectan todo - Horizontal
+
+    %% Aplicamos exactamente la misma logica para rellenar filas como para rellenar columnas.
     all a b c f n (sensorH(f,c,n) & bombasPosiblesEnFila(f,[a|b],n) -> llenarFila(f,[a|b],[a|b])).
     all a b c d f (llenarFila(f,[a|b],[c|d]) -> bomba(f,a) & llenarFila(f,b,[c|d])).
     all a b f (llenarFila(f,[],[a|b]) -> filaCompletada(f,[a|b])).
 
     % Contar bombas
+
+    %% Queremos contar cuantas bombas hay en cada fila y columna para que sabemos cuando una fila/columna
+    %% está completada, es decir cuando todas las bombas que deben ser en la columna/fila han sido descubiertos.
+
+    %% Contar bombas en filas
+
     all f (filas(f) -> bombasEnFila(f,[],0)).
     all f (bombasEnFila(f,[],0) & f > 1 -> bombasEnFila(f-1,[],0)).
     all x y (bomba(x,y) & bombasEnFila(x,[],0) -> bombasEnFila(x,[y],1)).
     all x y a b n (bomba(x,y) & bombasEnFila(x,[a|b],n) & -pertenece(y,[a|b]) -> bombasEnFila(x,[y,a|b],n+1)).
+
+    %% Contar bombas en columnas
 
     all c (columnas(c) -> bombasEnColumna(c,[],0)).
     all c (bombasEnColumna(c,[],0) & c>1 -> bombasEnColumna(c-1,[],0)).
     all x y (bomba(x,y) & bombasEnColumna(y,[],0) -> bombasEnColumna(y,[x],1)).
     all x y a b n (bomba(x,y) & bombasEnColumna(y,[a|b],n) & -pertenece(x,[a|b]) -> bombasEnColumna(y,[x,a|b],n+1)).
 
+    %% Si hay n bombas en una fila/columna y existe un sensorV/sensorH que detecta n bombas en esa fila/columna,
+    %% entonces la fila/columna está completa.
     all f c z a b (sensorV(f,c,z) & bombasEnColumna(c,[a|b],z) -> columnaCompletada(c,[a|b])).
     all f c z a b (sensorH(f,c,z) & bombasEnFila(f,[a|b],z) -> filaCompletada(f,[a|b])).
 end_of_list.
