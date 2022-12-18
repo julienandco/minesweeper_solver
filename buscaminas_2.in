@@ -29,37 +29,58 @@ formula_list(usable).
     %%%%%%%%%%%%%%%%%%%%%%% Construcción de listas de bombas posibles %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     %% 
-    %% Esa construcción es el parte principal de mi solución. La misma logica se aplica para filas y columnas, asi que 
+    %% Esta construcción es el parte principal de mi solución. La misma logica se aplica para filas y columnas, así que 
     %% todo que explico ahora por filas tambien es cierto por columnas.
     %%
     %% Al fin del proceso sale un hecho bombasPosiblesEnFila(f,[a|b],n) que nos dice que en la fila f haya un total de n 
-    %% bombas posibles y que habrá m <= n bombas en las celdas (f,y) con y \in [a|b] de la fila f.
+    %% bombas posibles y que habrá m <= n bombas en las celdas (f,y) de la fila f con y \in [a|b].
     %%
-    %% Porque lo estamos construyenda con el hecho ayudante bombasPossiblesEnFilaTemp, el hecho final (bombasPosiblesEnFila)
-    %% solo sale despues de que hemos recorrido el tamaño entero del tablero. Además, la construcción es generosa, es decir,
-    %% que si al fin del cabo las bombas de la fila f seran en las celdas (f,2) y f(,4), entonces el 2 y el 4 SIEMPRE seran
-    %% incluidos en CADA LISTA [a|b] de CADA HECHO bombasPosiblesEnFila(f,[a|b],n). Dicho de manera differente: si existe
+    %% Porque lo estamos construyendo con el hecho ayudante bombasPossiblesEnFilaTemp, el hecho final (bombasPosiblesEnFila)
+    %% solo sale después de que hayamos recorrido el tamaño entero del tablero. Además, la construcción es generosa, es decir,
+    %% que si en el buscaminas resuelto las bombas de la fila f serán en las celdas (f,2) y (f,4), entonces el 2 y el 4 SIEMPRE
+    %% estarán incluidos en CADA LISTA [a|b] de CADA HECHO bombasPosiblesEnFila(f,[a|b],n). Dicho de manera differente: si existe
     %% un hecho bombasPosiblesEnFila(f,[a|b],n), entonces el 2 y el 4 están incluidos en [a|b].
     %%
-    %% Por eso, saldrán de la construcción unos hechos bombasPosiblesEnFila(f,[a|b],n) demasiado generosos ([a|b] demasiado 
-    %% largo para poder resolver el problema directamente), pero gracias a las extra condiciones (hay un sensor, la celda ha estado
-    %% anotada vacía por culpa de otra regla o hay una columna completada y ninguna de las bombas de esa columna esta en la fila f),
-    %% tambien saldrá el hecho bombasPosiblesEnFila(f,[c|d],n) en lo cual [c|d] SOLO contiene a los indices de columnas, en las cuales
-    %% vamos a tener bombas y NINGUN otro más. Explico como determinamos si una columna está completada mas abajo de esto documento.
+    %% Por eso, saldrán de la construcción unos hechos bombasPosiblesEnFila(f,[a|b],n) demasiado generosos (es decir [a|b] está demasiado 
+    %% largo para poder resolver el problema directamente), pero gracias a las condiciones adicionales (hay un sensor, la celda ha estado
+    %% anotada vacía por culpa de otra regla o hay una columna completada y ninguna de las bombas de esa columna está en la fila f),
+    %% tambien saldrá el hecho bombasPosiblesEnFila(f,[c|d],n) en lo cual [c|d] SOLO contiene a los índices de columnas en las cuales
+    %% vamos a tener bombas y NINGUN otro más. Por el ejemplo de antés sería: bombasPosiblesEnFila(f,[2,4],2). Explico como determinamos
+    %% si una columna está completada mas abajo de esto documento.
     %%
 
     % En Filas
+
+    %% Primero construimos una lista vacía por cada fila que existe
     all f (filas(f) -> bombasPosiblesEnFilaInit(f,[])).
     all f (bombasPosiblesEnFilaInit(f,[]) & f>1 -> bombasPosiblesEnFilaInit(f-1,[])).
+
+    %% Comienzo del relleno ingenuo -> cada celda de la fila puede contener una bomba
     all f c (bombasPosiblesEnFilaInit(f,[]) & columnas(c) -> bombasPosiblesEnFilaTemp(f,c-1,[c],1)).
+
+    %% Comienzo del relleno inteligente -> la celda puede tener una bomba si no tiene un sensor, no está vacía 
+    %% o no está en una columna completada y no contiene una bomba de esta columna.
     all f c z x y (bombasPosiblesEnFilaInit(f,[]) & columnas(c) & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c) | (columnaCompletada(c,[x|y]) & -pertenece(f,[x|y]))) -> bombasPosiblesEnFilaTemp(f,c-1,[],0)).
+
+    %% Paso de relleno ingenuo por las listas vacías (en todos los pasos de antés el relleno intelligente impedió la addición de un índice)
     all f c (bombasPosiblesEnFilaTemp(f,c,[],0) & c>0 -> bombasPosiblesEnFilaTemp(f,c-1,[c],1)).
+
+    %% Paso de relleno inteligente por las listas vacías
     all f c z x y (bombasPosiblesEnFilaTemp(f,c,[],0) & c>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c) | (columnaCompletada(c,[x|y]) & -pertenece(f,[x|y]))) -> bombasPosiblesEnFilaTemp(f,c-1,[],0)).
+
+    %% Paso de relleno ingenuo por las listas no vacías
     all f c a b n (bombasPosiblesEnFilaTemp(f,c,[a|b],n) & c>0 -> bombasPosiblesEnFilaTemp(f,c-1,[c,a|b],n+1)).
+
+    %% Paso de relleno inteligente por las listas no vacías
     all f a b c n z x y (bombasPosiblesEnFilaTemp(f,c,[a|b],n) & c>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c) | (columnaCompletada(c,[x|y]) & -pertenece(f,[x|y]))) -> bombasPosiblesEnFilaTemp(f,c-1,[a|b],n)).
+
+    %% Construcción terminada -> se construye el hecho final
     all f a b n (bombasPosiblesEnFilaTemp(f,0,[a|b],n) -> bombasPosiblesEnFila(f,[a|b],n)).
 
     % En Columnas
+
+    %% Utilizamos la misma lógica y los mismos pasos por las columnas como por las filas.
+    
     all c (columnas(c) -> bombasPosiblesEnColumnaInit(c,[])).
     all c (bombasPosiblesEnColumnaInit(c,[]) & c>1 -> bombasPosiblesEnColumnaInit(c-1,[])).
     all f c (bombasPosiblesEnColumnaInit(c,[]) & filas(f) -> bombasPosiblesEnColumnaTemp(c,f-1,[f],1)).
@@ -75,10 +96,10 @@ formula_list(usable).
 
     % Vertical - Columnas
 
-    %% Si hay un sensor que detecta 0 bombas, inicio el vaciamiento de la columna
+    %% Si hay un sensor que detecta 0 bombas, iniciamos el vaciamiento de la columna
     all x y f (filas(f) & sensorV(x,y,0) -> vaciarColumna(y,f)).
 
-    %% Durante el vaciamiento de una columna, cada celda sera anotada vacía, tambien las que contienen sensores.
+    %% Durante el vaciamiento de una columna, cada celda será annotada vacía, también las que contienen sensores.
     %% Como consideramos que vacía no significa que haya nada, si no que solo no haya bomba, no nos molesta.
     all f c (vaciarColumna(c,f) & f > 0 -> vacio(f,c) & vaciarColumna(c,f-1)).
 
