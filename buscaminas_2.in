@@ -21,6 +21,9 @@ make_evaluable(_-_, $DIFF(_,_)).
 % TODO: WENN EIN SENSOR NUR PARTIELLEN CALL MACHT (1 DETECTED, 3 MÖGLICH) UND ES ERFÜLLT WIRD (1 BOMBE IRGENDWO)
 % DANN MUSS DIE LISTE AUCH AKTUALISIERT WERDEN
 
+% TODO: es fickt mich jz, dass es jede bombasPosiblesEnFila/COlumna liste nur in einer reihenfolge gibt und nicht in allen
+% permutationen, weil ich dann keine elemente daraus löschen kann...
+
 formula_list(usable).
     % Listas iniciales de bombas posibles
 
@@ -30,6 +33,7 @@ formula_list(usable).
     all f c (bombasPosiblesEnFilaInit(f,[]) & columnas(c) -> bombasPosiblesEnFilaTemp(f,c-1,[c],1)).
     all f c z (bombasPosiblesEnFilaInit(f,[]) & columnas(c) & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c)) -> bombasPosiblesEnFilaTemp(f,c-1,[],0)).
     all f c (bombasPosiblesEnFilaTemp(f,c,[],0) & c>0 -> bombasPosiblesEnFilaTemp(f,c-1,[c],1)).
+    all f c (bombasPosiblesEnFilaTemp(f,c,[],0) & c>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c)) -> bombasPosiblesEnFilaTemp(f,c-1,[],0)).
     all f c a b n (bombasPosiblesEnFilaTemp(f,c,[a|b],n) & c>0 -> bombasPosiblesEnFilaTemp(f,c-1,[c,a|b],n+1)).
     all f a b c n z (bombasPosiblesEnFilaTemp(f,c,[a|b],n) & c>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c)) -> bombasPosiblesEnFilaTemp(f,c-1,[a|b],n)).
     all f a b n (bombasPosiblesEnFilaTemp(f,0,[a|b],n) -> bombasPosiblesEnFila(f,[a|b],n)).
@@ -40,6 +44,7 @@ formula_list(usable).
     all f c (bombasPosiblesEnColumnaInit(c,[]) & filas(f) -> bombasPosiblesEnColumnaTemp(c,f-1,[f],1)).
     all f c z (bombasPosiblesEnColumnaInit(c,[]) & filas(f) & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c)) -> bombasPosiblesEnColumnaTemp(c,f-1,[],0)).
     all f c (bombasPosiblesEnColumnaTemp(c,f,[],0) & f>0 -> bombasPosiblesEnColumnaTemp(c,f-1,[f],1)).
+    all f c (bombasPosiblesEnColumnaTemp(c,f,[],0) & f>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c)) -> bombasPosiblesEnColumnaTemp(c,f-1,[],0)).
     all f a b c n (bombasPosiblesEnColumnaTemp(c,f,[a|b],n) & f>0 -> bombasPosiblesEnColumnaTemp(c,f-1,[f,a|b],n+1)).
     all f a b c n z (bombasPosiblesEnColumnaTemp(c,f,[a|b],n) & f>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c)) -> bombasPosiblesEnColumnaTemp(c,f-1,[a|b],n)).
     all c a b n (bombasPosiblesEnColumnaTemp(c,0,[a|b],n) -> bombasPosiblesEnColumna(c,[a|b],n)).
