@@ -16,7 +16,6 @@ If you don't care about the details, you can just run the solver executing the `
 
 Solver one (```minesweeper_solver_1.in```) works with the classic minesweeper game. The initial game setup is given inside of ```formula_list(sos).```. There, you have to specify the number of rows and columns and the (X,Y,Z) values of the sensors. The sensors have the structure ```sensor(x,y,z)```, where ```x``` and ```y``` denote the coordinates of the sensor in the gameboard and ```z``` the number of bombs that sensor detects. For instance, if the gameboard were to look like this:
 
-| :---: | :---: | :---: |
 | 💣 | 👀 | |
 | 👀 | 💣 | 👀 |
 | 💣 | | 💣 |
@@ -47,7 +46,6 @@ Solver 2 (```minesweeper_solver_2.in```) works with a different version of the m
 
 For instance, if the gameboard were to look like this:
 
-| :---: | :---: | :---: |
 | 💣 | ↕️ | |
 | ↕️ | 💣 | ↔️ |
 | 💣 | | |
