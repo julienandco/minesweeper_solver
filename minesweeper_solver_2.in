@@ -62,19 +62,19 @@ formula_list(usable).
     %% Start of the smart filling (gets activated when the cell contains a sensor, is empty or is
     %% part of a completed column and does not contain a bomb of that column -> there cannot be a bomb in this row
     %% without breaking the rules).
-    all r c z x y (possibleBombsInRowInit(r,[]) & columns(c) & (sensorV(r,c,z) | sensorH(r,c,z) | empty(r,c) | (columnaCompletada(c,[x|y]) & -belongsTo(r,[x|y]))) -> possibleBombsInRowTemp(r,c-1,[],0)).
+    all r c z x y (possibleBombsInRowInit(r,[]) & columns(c) & (sensorV(r,c,z) | sensorH(r,c,z) | empty(r,c) | (columnCompleted(c,[x|y]) & -belongsTo(r,[x|y]))) -> possibleBombsInRowTemp(r,c-1,[],0)).
 
     %% Naive filling step for the empty lists (in every previous step the smart filling forbid the addition of an index)
     all r c (possibleBombsInRowTemp(r,c,[],0) & c>0 -> possibleBombsInRowTemp(r,c-1,[c],1)).
 
     %% Smart filling step for the empty lists
-    all r c z x y (possibleBombsInRowTemp(r,c,[],0) & c>0 & (sensorV(r,c,z) | sensorH(r,c,z) | empty(r,c) | (columnaCompletada(c,[x|y]) & -belongsTo(r,[x|y]))) -> possibleBombsInRowTemp(r,c-1,[],0)).
+    all r c z x y (possibleBombsInRowTemp(r,c,[],0) & c>0 & (sensorV(r,c,z) | sensorH(r,c,z) | empty(r,c) | (columnCompleted(c,[x|y]) & -belongsTo(r,[x|y]))) -> possibleBombsInRowTemp(r,c-1,[],0)).
 
     %% Naive filling step for the non-empty lists
     all r c a b n (possibleBombsInRowTemp(r,c,[a|b],n) & c>0 -> possibleBombsInRowTemp(r,c-1,[c,a|b],n+1)).
 
     %% Smart filling step for non-empty lists
-    all r a b c n z x y (possibleBombsInRowTemp(r,c,[a|b],n) & c>0 & (sensorV(r,c,z) | sensorH(r,c,z) | empty(r,c) | (columnaCompletada(c,[x|y]) & -belongsTo(r,[x|y]))) -> possibleBombsInRowTemp(r,c-1,[a|b],n)).
+    all r a b c n z x y (possibleBombsInRowTemp(r,c,[a|b],n) & c>0 & (sensorV(r,c,z) | sensorH(r,c,z) | empty(r,c) | (columnCompleted(c,[x|y]) & -belongsTo(r,[x|y]))) -> possibleBombsInRowTemp(r,c-1,[a|b],n)).
 
     %% Construction finished -> final fact is asserted
     all r a b n (possibleBombsInRowTemp(r,0,[a|b],n) -> possibleBombsInRow(r,[a|b],n)).
@@ -83,15 +83,15 @@ formula_list(usable).
 
     %% We'll use the same logic and steps for the columns as we did for the rows.
     
-    all c (columns(c) -> bombsPosiblesEnColumnaInit(c,[])).
-    all c (bombsPosiblesEnColumnaInit(c,[]) & c>1 -> bombsPosiblesEnColumnaInit(c-1,[])).
-    all r c (bombsPosiblesEnColumnaInit(c,[]) & rows(r) -> bombsPosiblesEnColumnaTemp(c,r-1,[r],1)).
-    all r c z x y (bombsPosiblesEnColumnaInit(c,[]) & rows(r) & (sensorV(r,c,z) | sensorH(r,c,z) | empty(r,c) | (filaCompletada(r,[x|y]) & -belongsTo(c,[x|y]))) -> bombsPosiblesEnColumnaTemp(c,r-1,[],0)).
-    all r c (bombsPosiblesEnColumnaTemp(c,r,[],0) & r>0 -> bombsPosiblesEnColumnaTemp(c,r-1,[r],1)).
-    all r c z x y (bombsPosiblesEnColumnaTemp(c,r,[],0) & r>0 & (sensorV(r,c,z) | sensorH(r,c,z) | empty(r,c) | (filaCompletada(r,[x|y]) & -belongsTo(c,[x|y]))) -> bombsPosiblesEnColumnaTemp(c,r-1,[],0)).
-    all r a b c n (bombsPosiblesEnColumnaTemp(c,r,[a|b],n) & r>0 -> bombsPosiblesEnColumnaTemp(c,r-1,[r,a|b],n+1)).
-    all r a b c n z x y (bombsPosiblesEnColumnaTemp(c,r,[a|b],n) & r>0 & (sensorV(r,c,z) | sensorH(r,c,z) | empty(r,c) | (filaCompletada(r,[x|y]) & -belongsTo(c,[x|y]))) -> bombsPosiblesEnColumnaTemp(c,r-1,[a|b],n)).
-    all c a b n (bombsPosiblesEnColumnaTemp(c,0,[a|b],n) -> bombsPosiblesEnColumna(c,[a|b],n)).
+    all c (columns(c) -> possibleBombsInColumnInit(c,[])).
+    all c (possibleBombsInColumnInit(c,[]) & c>1 -> possibleBombsInColumnInit(c-1,[])).
+    all r c (possibleBombsInColumnInit(c,[]) & rows(r) -> possibleBombsInColumnTemp(c,r-1,[r],1)).
+    all r c z x y (possibleBombsInColumnInit(c,[]) & rows(r) & (sensorV(r,c,z) | sensorH(r,c,z) | empty(r,c) | (rowCompleted(r,[x|y]) & -belongsTo(c,[x|y]))) -> possibleBombsInColumnTemp(c,r-1,[],0)).
+    all r c (possibleBombsInColumnTemp(c,r,[],0) & r>0 -> possibleBombsInColumnTemp(c,r-1,[r],1)).
+    all r c z x y (possibleBombsInColumnTemp(c,r,[],0) & r>0 & (sensorV(r,c,z) | sensorH(r,c,z) | empty(r,c) | (rowCompleted(r,[x|y]) & -belongsTo(c,[x|y]))) -> possibleBombsInColumnTemp(c,r-1,[],0)).
+    all r a b c n (possibleBombsInColumnTemp(c,r,[a|b],n) & r>0 -> possibleBombsInColumnTemp(c,r-1,[r,a|b],n+1)).
+    all r a b c n z x y (possibleBombsInColumnTemp(c,r,[a|b],n) & r>0 & (sensorV(r,c,z) | sensorH(r,c,z) | empty(r,c) | (rowCompleted(r,[x|y]) & -belongsTo(c,[x|y]))) -> possibleBombsInColumnTemp(c,r-1,[a|b],n)).
+    all c a b n (possibleBombsInColumnTemp(c,0,[a|b],n) -> possibleBombsInColumn(c,[a|b],n)).
 
 
     %%%%%%%%%%%%%%%%%%%%%%% Sensors that detect 0 bombs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -99,58 +99,58 @@ formula_list(usable).
     % Vertical - columns
 
     %% If there is a sensor detecting no bombs, we initiate the emptying of the column
-    all x y r (rows(r) & sensorV(x,y,0) -> vaciarColumna(y,r)).
+    all x y r (rows(r) & sensorV(x,y,0) -> emptyColumn(y,r)).
 
     %% During the emptying of a column, every cell will be considered as empty, also the ones that contain sensors.
     %% As we use the term "empty" to infer "no bomb" (and not "no sensor"), this does not break or logic.
-    all r c (vaciarColumna(c,r) & r > 0 -> empty(r,c) & vaciarColumna(c,r-1)).
+    all r c (emptyColumn(c,r) & r > 0 -> empty(r,c) & emptyColumn(c,r-1)).
 
     % Horizontal - rows
 
     %% We'll apply the same logic for the emptying of rows as we did for columns.
-    all x y c (columns(c) & sensorH(x,y,0) -> vaciarFila(x,c)).
-    all r c (vaciarFila(r,c) & c > 0 -> empty(r,c) & vaciarFila(r,c-1)).
+    all x y c (columns(c) & sensorH(x,y,0) -> emptyRow(x,c)).
+    all r c (emptyRow(r,c) & c > 0 -> empty(r,c) & emptyRow(r,c-1)).
 
     %%%%%%%%%%%%%%%%%%%%%%% Sensors that detect the maximal amount of bombs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Vertical - columns
 
-    %% We know that the lists bombsPosiblesEnColumna(c,l,n) are constructed in such a way that the list of cells in which
+    %% We know that the lists possibleBombsInColumn(c,l,n) are constructed in such a way that the list of cells in which
     %% there will be bombs in the end, ALWAYS is a sublist of l (see explanations above). Therefore, we know that if
     %% there only are n possible bombs in the column c and there is a vertical sensor detecting exactly n bombs in this column,
     %% there has to be a bomb in every cell (x,c) of the possible x included in l.
     %% We want to remember in which cells there are bombs, so we can count them later.
     %% To do so, we will empty a temporary list in a filling step and as well keep the list of cells that started the filling.
     %%
-    %% Example: llenarColumna(4, [1,2,3],[1,2,3])
+    %% Example: fillColumn(4, [1,2,3],[1,2,3])
     %% 
     %% This fact represents the beginning of the filling of column c = 4. We'll put a bomb in (1,4), (2,4) and (3,4).
-    %% During this filling, new facts will ber asserted, like for example llenarColumna(4, [2,3],[1,2,3]).
+    %% During this filling, new facts will ber asserted, like for example fillColumn(4, [2,3],[1,2,3]).
     %% 
     %% The first list is the temporary list that will be emptied to know when the filling is finished.
     %% The second list is the list of cells in which there will be bombs in the column at the end of the solved game.
-    %% We'll pass this list to the fact columnaCompletada and this will help us a lot during the construction of bombsPosiblesEnColumna
+    %% We'll pass this list to the fact columnCompleted and this will help us a lot during the construction of possibleBombsInColumn
     %% for columns that are not solvable straight from the beginning (see explanations above).
     %%
-    %% In the example case, we would assert the fact columnaCompletada(4,[1,2,3]), because all the bombs that
+    %% In the example case, we would assert the fact columnCompleted(4,[1,2,3]), because all the bombs that
     %% are in column 4 have been discovered and will be in the cells (1,4), (2,4) and (3,4).
     %%
 
     %% Start of the filling of the column
-    all a b c r n (sensorV(r,c,n) & bombsPosiblesEnColumna(c,[a|b],n) -> llenarColumna(c,[a|b],[a|b])).
+    all a b c r n (sensorV(r,c,n) & possibleBombsInColumn(c,[a|b],n) -> fillColumn(c,[a|b],[a|b])).
 
     %% Filling step for the column
-    all a b c d e (llenarColumna(c,[a|b],[d|e]) -> bomb(a,c) & llenarColumna(c,b,[d|e])).
+    all a b c d e (fillColumn(c,[a|b],[d|e]) -> bomb(a,c) & fillColumn(c,b,[d|e])).
 
     %% When there are on more cells to fill in a column, we mark the column as completed.
-    all a b c (llenarColumna(c,[],[a|b]) -> columnaCompletada(c,[a|b])).
+    all a b c (fillColumn(c,[],[a|b]) -> columnCompleted(c,[a|b])).
 
     % Sensors that detect the maximal amount of bombs - Horizontal
 
     %% We'll apply the same logic to fill rows as we did for columns.
-    all a b c r n (sensorH(r,c,n) & possibleBombsInRow(r,[a|b],n) -> llenarFila(r,[a|b],[a|b])).
-    all a b c d r (llenarFila(r,[a|b],[c|d]) -> bomb(r,a) & llenarFila(r,b,[c|d])).
-    all a b r (llenarFila(r,[],[a|b]) -> filaCompletada(r,[a|b])).
+    all a b c r n (sensorH(r,c,n) & possibleBombsInRow(r,[a|b],n) -> fillRow(r,[a|b],[a|b])).
+    all a b c d r (fillRow(r,[a|b],[c|d]) -> bomb(r,a) & fillRow(r,b,[c|d])).
+    all a b r (fillRow(r,[],[a|b]) -> rowCompleted(r,[a|b])).
 
     % Count bombs
 
@@ -159,22 +159,22 @@ formula_list(usable).
 
     %% Count bombs in rows
 
-    all r (rows(r) -> bombsEnFila(r,[],0)).
-    all r (bombsEnFila(r,[],0) & r > 1 -> bombsEnFila(r-1,[],0)).
-    all x y (bomb(x,y) & bombsEnFila(x,[],0) -> bombsEnFila(x,[y],1)).
-    all x y a b n (bomb(x,y) & bombsEnFila(x,[a|b],n) & -belongsTo(y,[a|b]) -> bombsEnFila(x,[y,a|b],n+1)).
+    all r (rows(r) -> bombsInRow(r,[],0)).
+    all r (bombsInRow(r,[],0) & r > 1 -> bombsInRow(r-1,[],0)).
+    all x y (bomb(x,y) & bombsInRow(x,[],0) -> bombsInRow(x,[y],1)).
+    all x y a b n (bomb(x,y) & bombsInRow(x,[a|b],n) & -belongsTo(y,[a|b]) -> bombsInRow(x,[y,a|b],n+1)).
 
     %% Count bombs in columns
 
-    all c (columns(c) -> bombsEnColumna(c,[],0)).
-    all c (bombsEnColumna(c,[],0) & c>1 -> bombsEnColumna(c-1,[],0)).
-    all x y (bomb(x,y) & bombsEnColumna(y,[],0) -> bombsEnColumna(y,[x],1)).
-    all x y a b n (bomb(x,y) & bombsEnColumna(y,[a|b],n) & -belongsTo(x,[a|b]) -> bombsEnColumna(y,[x,a|b],n+1)).
+    all c (columns(c) -> bombsInColumn(c,[],0)).
+    all c (bombsInColumn(c,[],0) & c>1 -> bombsInColumn(c-1,[],0)).
+    all x y (bomb(x,y) & bombsInColumn(y,[],0) -> bombsInColumn(y,[x],1)).
+    all x y a b n (bomb(x,y) & bombsInColumn(y,[a|b],n) & -belongsTo(x,[a|b]) -> bombsInColumn(y,[x,a|b],n+1)).
 
     %% If there are n bombs in a row/column and there is a sensorV/sensorH that detects n bombs in that row/column,
     %% then the row/column is completed.
-    all r c z a b (sensorV(r,c,z) & bombsEnColumna(c,[a|b],z) -> columnaCompletada(c,[a|b])).
-    all r c z a b (sensorH(r,c,z) & bombsEnFila(r,[a|b],z) -> filaCompletada(r,[a|b])).
+    all r c z a b (sensorV(r,c,z) & bombsInColumn(c,[a|b],z) -> columnCompleted(c,[a|b])).
+    all r c z a b (sensorH(r,c,z) & bombsInRow(r,[a|b],z) -> rowCompleted(r,[a|b])).
 end_of_list.
 
 formula_list(sos).
