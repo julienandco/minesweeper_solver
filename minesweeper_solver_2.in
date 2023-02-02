@@ -1,15 +1,16 @@
 set(hyper_res).
 assign(max_proofs,-1).
 
-% Lenguaje del Problema
+
+% Problem Language
 %
-% Propiedades:
-% - filas(x): Hay x filas en la cuadricúla
-% - columnas(x): Hay x columnas en la cuadricúla
-% - sensorH(x,y,z): En la casilla de coordenadas (x,y) hay un sensor H que detecta z bombas
-% - sensorV(x,y,z): En la casilla de coordenadas (x,y) hay un sensor V que detecta z bombas
-% - bomba(x,y): Hay una bomba en la casilla de coordenadas (x,y)
-% - vacio(x,y): La casilla de coordenas (x,y) no contiene una bomba (pero tal vez un sensor).
+% Properties:
+% - rows(x): There are x rows on the game board
+% - columns(y): There are y columns on the game board
+% - sensorH(x,y,z): There is a sensor in the cell (x,y) that detects z bombs in the row x
+% - sensorV(x,y,z): There is a sensor in the cell (x,y) that detects z bombs in the column y
+% - bomb(x,y): There is a bomb in the cell (x,y)
+% - empty(x,y): The cell (x,y) is empty
 %
 
 make_evaluable(_>_, $GT(_,_)).
@@ -19,169 +20,168 @@ make_evaluable(_+_, $SUM(_,_)).
 make_evaluable(_-_, $DIFF(_,_)).
 
 list(demodulators).
-    % Función que devuelve si un elemento esta incluido en una lista o no.
-    pertenece(x,[]) = $F.
-    pertenece(x,[y|w]) = $IF($ID(x,y), $T, pertenece(x,w)).
+    % Function that returns whether a given element x is part of a given list.
+    belongsTo(x,[]) = $F.
+    belongsTo(x,[y|w]) = $IF($ID(x,y), $T, belongsTo(x,w)).
 end_of_list.
 
 formula_list(usable).
 
-    %%%%%%%%%%%%%%%%%%%%%%% Construcción de listas de bombas posibles %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%% Construction of the lists of possible bombs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     %% 
-    %% Esta construcción es el parte principal de mi solución. La misma logica se aplica para filas y columnas, así que 
-    %% todo que explico ahora por filas tambien es cierto por columnas.
+    %% This construction is the main part of my solution. The same logic applies to rows and columns, so everything
+    %% I am about to explain for rows also applies to columns.
     %%
-    %% Al fin del proceso sale un hecho bombasPosiblesEnFila(f,[a|b],n) que nos dice que en la fila f haya un total de n 
-    %% bombas posibles y que habrá m <= n bombas en las celdas (f,y) de la fila f con y \in [a|b].
+    %% At the end of the process, a fact possibleBombsInRow(r,[a|b],n) is asserted that tells us that in row f there are a total of n
+    %% possible bombs and that there will be m <= n bombs in the cells (r,y) of row r with y \in [a|b].
     %%
-    %% Porque lo estamos construyendo con el hecho ayudante bombasPossiblesEnFilaTemp, el hecho final (bombasPosiblesEnFila)
-    %% solo sale después de que hayamos recorrido el tamaño entero del tablero. Además, la construcción es generosa, es decir,
-    %% que si en el buscaminas resuelto las bombas de la fila f serán en las celdas (f,2) y (f,4), entonces el 2 y el 4 SIEMPRE
-    %% estarán incluidos en CADA LISTA [a|b] de CADA HECHO bombasPosiblesEnFila(f,[a|b],n). Dicho de manera differente: si existe
-    %% un hecho bombasPosiblesEnFila(f,[a|b],n), entonces el 2 y el 4 están incluidos en [a|b].
+    %% Because we are constructing it with the auxiliary fact possibleBombsInRowTemp the final fact (possibleBombsInRow)
+    %% only gets asserted after we have traversed the entire board. Also, the construction is generous, i.e.
+    %% if the solved minesweeper the bombs of row r were in the cells (r,2) and (r,4), then 2 and 4 will ALWAYS be included in
+    %% EVERY LIST [a|b] of EVERY FACT possibleBombsInRow(r,[a|b],n). Or said differently: if there is
+    %% a fact possibleBombsInRow(r,[a|b],n), then 2 and 4 are in [a|b].
     %%
-    %% Por eso, saldrán de la construcción unos hechos bombasPosiblesEnFila(f,[a|b],n) demasiado generosos (es decir [a|b] está demasiado 
-    %% largo para poder resolver el problema directamente), pero gracias a las condiciones adicionales (hay un sensor, la celda ha estado
-    %% anotada vacía por culpa de otra regla o hay una columna completada y ninguna de las bombas de esa columna está en la fila f),
-    %% tambien saldrá el hecho bombasPosiblesEnFila(f,[c|d],n) en lo cual [c|d] SOLO contiene a los índices de columnas en las cuales
-    %% vamos a tener bombas y NINGUN otro más. Por el ejemplo de antés sería: bombasPosiblesEnFila(f,[2,4],2). Explico como determinamos
-    %% si una columna está completada mas abajo de esto documento.
+    %% Because of this, there will result some facts possibleBombsInRow(r,[a|b],n) that are too generous (i.e. [a|b] is too big
+    %% to solve the problem directly), but thanks to the additional conditions (there is a sensor, the cell has been marked empty
+    %% because of another rule or there is a completed column and none of the bombs of that column is in row r), 
+    %% there will also be a fact possibleBombsInRow(r,[c|d],n) asserted, in which [c|d] ONLY contains the indices of columns in which
+    %% there will be a bomb and NONE other. For the previous example this would be: possibleBombsInRow(r,[2,4],2). I explain how we 
+    %% determine whether a column is completed further down in this document.
     %%
 
-    % En Filas
+    % In rows
 
-    %% Primero construimos una lista vacía por cada fila que existe
-    all f (filas(f) -> bombasPosiblesEnFilaInit(f,[])).
-    all f (bombasPosiblesEnFilaInit(f,[]) & f>1 -> bombasPosiblesEnFilaInit(f-1,[])).
+    %% First, we construct an empty list for every existing row
+    all r (rows(r) -> possibleBombsInRowInit(r,[])).
+    all r (possibleBombsInRowInit(r,[]) & r>1 -> possibleBombsInRowInit(r-1,[])).
 
-    %% Comienzo del relleno ingenuo -> cada celda de la fila puede contener una bomba
-    all f c (bombasPosiblesEnFilaInit(f,[]) & columnas(c) -> bombasPosiblesEnFilaTemp(f,c-1,[c],1)).
+    %% Start of the naive filling -> every cell of the row could contain a bomb
+    all r c (possibleBombsInRowInit(r,[]) & columns(c) -> possibleBombsInRowTemp(r,c-1,[c],1)).
 
-    %% Comienzo del relleno inteligente (se activa si la celda tiene un sensor, está vacía o está en una
-    %% columna completada y no contiene una bomba de esta columna -> no puede contener una bomba en está fila,
-    %% sin romper el buscaminas).
-    all f c z x y (bombasPosiblesEnFilaInit(f,[]) & columnas(c) & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c) | (columnaCompletada(c,[x|y]) & -pertenece(f,[x|y]))) -> bombasPosiblesEnFilaTemp(f,c-1,[],0)).
+    %% Start of the smart filling (gets activated when the cell contains a sensor, is empty or is
+    %% part of a completed column and does not contain a bomb of that column -> there cannot be a bomb in this row
+    %% without breaking the rules).
+    all r c z x y (possibleBombsInRowInit(r,[]) & columns(c) & (sensorV(r,c,z) | sensorH(r,c,z) | vacio(r,c) | (columnaCompletada(c,[x|y]) & -belongsTo(r,[x|y]))) -> possibleBombsInRowTemp(r,c-1,[],0)).
 
-    %% Paso de relleno ingenuo por las listas vacías (en todos los pasos de antés el relleno intelligente impedió la addición de un índice)
-    all f c (bombasPosiblesEnFilaTemp(f,c,[],0) & c>0 -> bombasPosiblesEnFilaTemp(f,c-1,[c],1)).
+    %% Naive filling step for the empty lists (in every previous step the smart filling forbid the addition of an index)
+    all r c (possibleBombsInRowTemp(r,c,[],0) & c>0 -> possibleBombsInRowTemp(r,c-1,[c],1)).
 
-    %% Paso de relleno inteligente por las listas vacías
-    all f c z x y (bombasPosiblesEnFilaTemp(f,c,[],0) & c>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c) | (columnaCompletada(c,[x|y]) & -pertenece(f,[x|y]))) -> bombasPosiblesEnFilaTemp(f,c-1,[],0)).
+    %% Smart filling step for the empty lists
+    all r c z x y (possibleBombsInRowTemp(r,c,[],0) & c>0 & (sensorV(r,c,z) | sensorH(r,c,z) | vacio(r,c) | (columnaCompletada(c,[x|y]) & -belongsTo(r,[x|y]))) -> possibleBombsInRowTemp(r,c-1,[],0)).
 
-    %% Paso de relleno ingenuo por las listas no vacías
-    all f c a b n (bombasPosiblesEnFilaTemp(f,c,[a|b],n) & c>0 -> bombasPosiblesEnFilaTemp(f,c-1,[c,a|b],n+1)).
+    %% Naive filling step for the non-empty lists
+    all r c a b n (possibleBombsInRowTemp(r,c,[a|b],n) & c>0 -> possibleBombsInRowTemp(r,c-1,[c,a|b],n+1)).
 
-    %% Paso de relleno inteligente por las listas no vacías
-    all f a b c n z x y (bombasPosiblesEnFilaTemp(f,c,[a|b],n) & c>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c) | (columnaCompletada(c,[x|y]) & -pertenece(f,[x|y]))) -> bombasPosiblesEnFilaTemp(f,c-1,[a|b],n)).
+    %% Smart filling step for non-empty lists
+    all r a b c n z x y (possibleBombsInRowTemp(r,c,[a|b],n) & c>0 & (sensorV(r,c,z) | sensorH(r,c,z) | vacio(r,c) | (columnaCompletada(c,[x|y]) & -belongsTo(r,[x|y]))) -> possibleBombsInRowTemp(r,c-1,[a|b],n)).
 
-    %% Construcción terminada -> se construye el hecho final
-    all f a b n (bombasPosiblesEnFilaTemp(f,0,[a|b],n) -> bombasPosiblesEnFila(f,[a|b],n)).
+    %% Construction finished -> final fact is asserted
+    all r a b n (possibleBombsInRowTemp(r,0,[a|b],n) -> possibleBombsInRow(r,[a|b],n)).
 
-    % En Columnas
+    % In columns
 
-    %% Utilizamos la misma lógica y los mismos pasos por las columnas como por las filas.
+    %% We'll use the same logic and steps for the columns as we did for the rows.
     
-    all c (columnas(c) -> bombasPosiblesEnColumnaInit(c,[])).
-    all c (bombasPosiblesEnColumnaInit(c,[]) & c>1 -> bombasPosiblesEnColumnaInit(c-1,[])).
-    all f c (bombasPosiblesEnColumnaInit(c,[]) & filas(f) -> bombasPosiblesEnColumnaTemp(c,f-1,[f],1)).
-    all f c z x y (bombasPosiblesEnColumnaInit(c,[]) & filas(f) & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c) | (filaCompletada(f,[x|y]) & -pertenece(c,[x|y]))) -> bombasPosiblesEnColumnaTemp(c,f-1,[],0)).
-    all f c (bombasPosiblesEnColumnaTemp(c,f,[],0) & f>0 -> bombasPosiblesEnColumnaTemp(c,f-1,[f],1)).
-    all f c z x y (bombasPosiblesEnColumnaTemp(c,f,[],0) & f>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c) | (filaCompletada(f,[x|y]) & -pertenece(c,[x|y]))) -> bombasPosiblesEnColumnaTemp(c,f-1,[],0)).
-    all f a b c n (bombasPosiblesEnColumnaTemp(c,f,[a|b],n) & f>0 -> bombasPosiblesEnColumnaTemp(c,f-1,[f,a|b],n+1)).
-    all f a b c n z x y (bombasPosiblesEnColumnaTemp(c,f,[a|b],n) & f>0 & (sensorV(f,c,z) | sensorH(f,c,z) | vacio(f,c) | (filaCompletada(f,[x|y]) & -pertenece(c,[x|y]))) -> bombasPosiblesEnColumnaTemp(c,f-1,[a|b],n)).
-    all c a b n (bombasPosiblesEnColumnaTemp(c,0,[a|b],n) -> bombasPosiblesEnColumna(c,[a|b],n)).
+    all c (columns(c) -> bombsPosiblesEnColumnaInit(c,[])).
+    all c (bombsPosiblesEnColumnaInit(c,[]) & c>1 -> bombsPosiblesEnColumnaInit(c-1,[])).
+    all r c (bombsPosiblesEnColumnaInit(c,[]) & rows(r) -> bombsPosiblesEnColumnaTemp(c,r-1,[r],1)).
+    all r c z x y (bombsPosiblesEnColumnaInit(c,[]) & rows(r) & (sensorV(r,c,z) | sensorH(r,c,z) | vacio(r,c) | (filaCompletada(r,[x|y]) & -belongsTo(c,[x|y]))) -> bombsPosiblesEnColumnaTemp(c,r-1,[],0)).
+    all r c (bombsPosiblesEnColumnaTemp(c,r,[],0) & r>0 -> bombsPosiblesEnColumnaTemp(c,r-1,[r],1)).
+    all r c z x y (bombsPosiblesEnColumnaTemp(c,r,[],0) & r>0 & (sensorV(r,c,z) | sensorH(r,c,z) | vacio(r,c) | (filaCompletada(r,[x|y]) & -belongsTo(c,[x|y]))) -> bombsPosiblesEnColumnaTemp(c,r-1,[],0)).
+    all r a b c n (bombsPosiblesEnColumnaTemp(c,r,[a|b],n) & r>0 -> bombsPosiblesEnColumnaTemp(c,r-1,[r,a|b],n+1)).
+    all r a b c n z x y (bombsPosiblesEnColumnaTemp(c,r,[a|b],n) & r>0 & (sensorV(r,c,z) | sensorH(r,c,z) | vacio(r,c) | (filaCompletada(r,[x|y]) & -belongsTo(c,[x|y]))) -> bombsPosiblesEnColumnaTemp(c,r-1,[a|b],n)).
+    all c a b n (bombsPosiblesEnColumnaTemp(c,0,[a|b],n) -> bombsPosiblesEnColumna(c,[a|b],n)).
 
 
-    %%%%%%%%%%%%%%%%%%%%%%% Sensores que detectan 0 bombas %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%% Sensors that detect 0 bombs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    % Vertical - Columnas
+    % Vertical - columns
 
-    %% Si hay un sensor que detecta 0 bombas, iniciamos el vaciamiento de la columna
-    all x y f (filas(f) & sensorV(x,y,0) -> vaciarColumna(y,f)).
+    %% If there is a sensor detecting no bombs, we initiate the emptying of the column
+    all x y r (rows(r) & sensorV(x,y,0) -> vaciarColumna(y,r)).
 
-    %% Durante el vaciamiento de una columna, cada celda será annotada vacía, también las que contienen sensores.
-    %% Como consideramos que vacía no significa que haya nada, si no que solo no haya bomba, no nos molesta.
+    %% During the emptying of a column, every cell will be considered as empty, also the ones that contain sensors.
+    %% As we use the term "empty" to infer "no bomb" (and not "no sensor"), this does not break or logic.
     all f c (vaciarColumna(c,f) & f > 0 -> vacio(f,c) & vaciarColumna(c,f-1)).
 
-    % Horizontal - Filas
+    % Horizontal - rows
 
-    %% Aplicamos la misma logica por el vaciamiento de filas como por las columnas.
-    all x y c (columnas(c) & sensorH(x,y,0) -> vaciarFila(x,c)).
+    %% We'll apply the same logic for the emptying of rows as we did for columns.
+    all x y c (columns(c) & sensorH(x,y,0) -> vaciarFila(x,c)).
     all f c (vaciarFila(f,c) & c > 0 -> vacio(f,c) & vaciarFila(f,c-1)).
 
+    %%%%%%%%%%%%%%%%%%%%%%% Sensores que detectan todas las bombs posibles %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    %%%%%%%%%%%%%%%%%%%%%%% Sensores que detectan todas las bombas posibles %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Vertical - columns
 
-    % Vertical - Columnas
-
-    %% Sabemos que las listas bombasPosiblesEnColumna(c,l,n) están construidas de manera que la lista de celdas en las
-    %% cuales habrá bombas al final, SIEMPRE está una sublista de l (expliciones arriba). Por eso, sabemos también que 
-    %% en el momento en lo cual solo hay n bombas posibles en una columna y que existe un sensor vertical que detecta 
-    %% exactamente n bombas en esta columna, tiene que estar una bomba en cada celda (x,c) de las posibles x incluidos en l.
-    %% Tambien queremos recordarnos en cuales celdas hay bombas para poder contarlas depués.
+    %% Sabemos que las listas bombsPosiblesEnColumna(c,l,n) están construidas de manera que la lista de celdas en las
+    %% cuales habrá bombs al final, SIEMPRE está una sublista de l (expliciones arriba). Por eso, sabemos también que 
+    %% en el momento en lo cual solo hay n bombs posibles en una columna y que existe un sensor vertical que detecta 
+    %% exactamente n bombs en esta columna, tiene que estar una bomb en cada celda (x,c) de las posibles x incluidos en l.
+    %% Tambien queremos recordarnos en cuales celdas hay bombs para poder contarlas depués.
     %% Por eso, vamos a vaciar una lista temporal en un paso de relleno, y tambien guardar la lista de celdas que inició el 
     %% relleno. 
     %%
     %% Ejemplo: llenarColumna(4, [1,2,3],[1,2,3])
     %% 
-    %% Eso representa el inicio del relleno de la columna c = 4. Vamos a poner una bomba en (1,4), (2,4) y (3,4).
+    %% Eso representa el inicio del relleno de la columna c = 4. Vamos a poner una bomb en (1,4), (2,4) y (3,4).
     %% Durante este relleno, nuevos hechos será añadidos, como p.ej. llenarColumna(4, [2,3],[1,2,3]). 
     %% 
     %% La primera lista es la lista temporal que va a vaciarse para que sabemos cuando se acabó el relleno.
-    %% La segunda lista es la lista de celdas en las cuales la columna tiene bombas. Daremos esta lista 
-    %% al hecho columnaCompletada y esto nos ayudará mucho durante la construcción de bombasPosiblesEnColumna 
-    %% por columnas que no están resolubles del principio (explicaciones arriba).
+    %% La segunda lista es la lista de celdas en las cuales la columna tiene bombs. Daremos esta lista 
+    %% al hecho columnaCompletada y esto nos ayudará mucho durante la construcción de bombsPosiblesEnColumna 
+    %% por columns que no están resolubles del principio (explicaciones arriba).
     %%
-    %% En el caso del ejemplo, se introducirá el hecho columnaCompletada(4,[1,2,3]), porque todas las bombas que 
+    %% En el caso del ejemplo, se introducirá el hecho columnaCompletada(4,[1,2,3]), porque todas las bombs que 
     %% están en la columna 4 han sido desubiertos y están en las celdas (1,4), (2,4) y (3,4).
     %%
 
     %% Empezamos el relleno de la columna
-    all a b c f n (sensorV(f,c,n) & bombasPosiblesEnColumna(c,[a|b],n) -> llenarColumna(c,[a|b],[a|b])).
+    all a b c f n (sensorV(f,c,n) & bombsPosiblesEnColumna(c,[a|b],n) -> llenarColumna(c,[a|b],[a|b])).
 
     %% Paso de relleno de columna
-    all a b c d e (llenarColumna(c,[a|b],[d|e]) -> bomba(a,c) & llenarColumna(c,b,[d|e])).
+    all a b c d e (llenarColumna(c,[a|b],[d|e]) -> bomb(a,c) & llenarColumna(c,b,[d|e])).
 
     %% Cuando no quedan mas celdas que rellenar en la columna, marcamos la columna como completa.
     all a b c (llenarColumna(c,[],[a|b]) -> columnaCompletada(c,[a|b])).
 
     % Sensores que detectan todo - Horizontal
 
-    %% Aplicamos exactamente la misma logica para rellenar filas como para rellenar columnas.
-    all a b c f n (sensorH(f,c,n) & bombasPosiblesEnFila(f,[a|b],n) -> llenarFila(f,[a|b],[a|b])).
-    all a b c d f (llenarFila(f,[a|b],[c|d]) -> bomba(f,a) & llenarFila(f,b,[c|d])).
+    %% Aplicamos exactamente la misma logica para rellenar rows como para rellenar columns.
+    all a b c f n (sensorH(f,c,n) & possibleBombsInRow(f,[a|b],n) -> llenarFila(f,[a|b],[a|b])).
+    all a b c d f (llenarFila(f,[a|b],[c|d]) -> bomb(f,a) & llenarFila(f,b,[c|d])).
     all a b f (llenarFila(f,[],[a|b]) -> filaCompletada(f,[a|b])).
 
-    % Contar bombas
+    % Contar bombs
 
-    %% Queremos contar cuantas bombas hay en cada fila y columna para que sabemos cuando una fila/columna
-    %% está completada, es decir cuando todas las bombas que deben ser en la columna/fila han sido descubiertos.
+    %% Queremos contar cuantas bombs hay en cada fila y columna para que sabemos cuando una fila/columna
+    %% está completada, es decir cuando todas las bombs que deben ser en la columna/fila han sido descubiertos.
 
-    %% Contar bombas en filas
+    %% Contar bombs en rows
 
-    all f (filas(f) -> bombasEnFila(f,[],0)).
-    all f (bombasEnFila(f,[],0) & f > 1 -> bombasEnFila(f-1,[],0)).
-    all x y (bomba(x,y) & bombasEnFila(x,[],0) -> bombasEnFila(x,[y],1)).
-    all x y a b n (bomba(x,y) & bombasEnFila(x,[a|b],n) & -pertenece(y,[a|b]) -> bombasEnFila(x,[y,a|b],n+1)).
+    all f (rows(f) -> bombsEnFila(f,[],0)).
+    all f (bombsEnFila(f,[],0) & f > 1 -> bombsEnFila(f-1,[],0)).
+    all x y (bomb(x,y) & bombsEnFila(x,[],0) -> bombsEnFila(x,[y],1)).
+    all x y a b n (bomb(x,y) & bombsEnFila(x,[a|b],n) & -belongsTo(y,[a|b]) -> bombsEnFila(x,[y,a|b],n+1)).
 
-    %% Contar bombas en columnas
+    %% Contar bombs en columns
 
-    all c (columnas(c) -> bombasEnColumna(c,[],0)).
-    all c (bombasEnColumna(c,[],0) & c>1 -> bombasEnColumna(c-1,[],0)).
-    all x y (bomba(x,y) & bombasEnColumna(y,[],0) -> bombasEnColumna(y,[x],1)).
-    all x y a b n (bomba(x,y) & bombasEnColumna(y,[a|b],n) & -pertenece(x,[a|b]) -> bombasEnColumna(y,[x,a|b],n+1)).
+    all c (columns(c) -> bombsEnColumna(c,[],0)).
+    all c (bombsEnColumna(c,[],0) & c>1 -> bombsEnColumna(c-1,[],0)).
+    all x y (bomb(x,y) & bombsEnColumna(y,[],0) -> bombsEnColumna(y,[x],1)).
+    all x y a b n (bomb(x,y) & bombsEnColumna(y,[a|b],n) & -belongsTo(x,[a|b]) -> bombsEnColumna(y,[x,a|b],n+1)).
 
-    %% Si hay n bombas en una fila/columna y existe un sensorV/sensorH que detecta n bombas en esa fila/columna,
+    %% Si hay n bombs en una fila/columna y existe un sensorV/sensorH que detecta n bombs en esa fila/columna,
     %% entonces la fila/columna está completa.
-    all f c z a b (sensorV(f,c,z) & bombasEnColumna(c,[a|b],z) -> columnaCompletada(c,[a|b])).
-    all f c z a b (sensorH(f,c,z) & bombasEnFila(f,[a|b],z) -> filaCompletada(f,[a|b])).
+    all f c z a b (sensorV(f,c,z) & bombsEnColumna(c,[a|b],z) -> columnaCompletada(c,[a|b])).
+    all f c z a b (sensorH(f,c,z) & bombsEnFila(f,[a|b],z) -> filaCompletada(f,[a|b])).
 end_of_list.
 
 formula_list(sos).
-    % Situación inicial.
-    filas(5).
-    columnas(5).
+    % Initial situation.
+    rows(5).
+    columns(5).
     sensorV(3,2,0).
     sensorH(1,3,2).
     sensorV(4,3,3).
@@ -192,6 +192,6 @@ formula_list(sos).
 end_of_list.
 
 formula_list(passive).
-    % Cada vez que encontramos a una bomba, la devolvemos como respuesta.
-    all x y (bomba(x,y) -> $ANS(bomba(x,y))).
+    % Everytime we find a bomb, we return it as an ANSWER datastructure.
+    all x y (bomb(x,y) -> $ANS(bomb(x,y))).
 end_of_list.

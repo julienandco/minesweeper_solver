@@ -14,7 +14,7 @@ If you don't care about the details, you can just run the solver executing the `
 
 ## Solver 1
 
-Solver one works with the classic minesweeper game. The initial game setup is given inside of ```formula_list(sos).```. There, you have to specify the number of rows and columns and the (X,Y,Z) values of the sensors. The sensors have the structure ```sensor(x,y,z)```, where ```x``` and ```y``` denote the coordinates of the sensor in the gameboard and ```z``` the number of bombs that sensor detects. For instance, if the gameboard were to look like this:
+Solver one (```minesweeper_solver_1.in```) works with the classic minesweeper game. The initial game setup is given inside of ```formula_list(sos).```. There, you have to specify the number of rows and columns and the (X,Y,Z) values of the sensors. The sensors have the structure ```sensor(x,y,z)```, where ```x``` and ```y``` denote the coordinates of the sensor in the gameboard and ```z``` the number of bombs that sensor detects. For instance, if the gameboard were to look like this:
 
 | :---: | :---: | :---: |
 | 💣 | 👀 | |
@@ -43,7 +43,7 @@ and watch it solve the game!
 
 ## Solver 2
 
-Solver 2 works with a different version of the minesweeper game. Now, there is two different types of sensors: vertical and horizontal ones. A vertical sensor (```sensorV```) tells you the number of bombs there is in the sensor's column (his spot not counted, so if you have a 3x3 board, the maximal number of possible bombs in a column whith a sensor would be 2, as one cell is already occupied by the sensor). The same goas for the horizontal sensors analogously.
+Solver 2 (```minesweeper_solver_2.in```) works with a different version of the minesweeper game. Now, there is two different types of sensors: vertical and horizontal ones. A vertical sensor (```sensorV```) tells you the number of bombs there is in the sensor's column (his spot not counted, so if you have a 3x3 board, the maximal number of possible bombs in a column whith a sensor would be 2, as one cell is already occupied by the sensor). The same goas for the horizontal sensors analogously.
 
 For instance, if the gameboard were to look like this:
 
