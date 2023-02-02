@@ -1,0 +1,154 @@
+set(hyper_res).
+assign(max_proofs,-1).
+
+% Problem Language
+%
+% Properties:
+% - rows(x): There are x rows on the game board
+% - columns(y): There are y columns on the game board
+% - sensor(x,y,z): There is a sensor in the cell (x,y) that detects z bombs
+% - bomb(x,y): There is a bomb in the cell (x,y)
+% - empty(x,y): The cell (x,y) is empty
+%
+
+make_evaluable(_>_, $GT(_,_)).
+make_evaluable(_<_, $LT(_,_)).
+make_evaluable(_<=_, $LE(_,_)).
+make_evaluable(_+_, $SUM(_,_)).
+make_evaluable(_-_, $DIFF(_,_)).
+
+formula_list(usable).
+
+    %%%%%%%%%%%%%%%%%%%%%%% Additional knowledge %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    % Every cell can only have one state
+    all x y z (empty(x,y) -> (-bomb(x,y) & -sensor(x,y,z))).
+    all x y z (bomb(x,y) -> (-empty(x,y) & -sensor(x,y,z))).
+    all x y z (sensor(x,y,z) -> (-empty(x,y) & -bomb(x,y))).   
+
+    %%%%%%%%%%%%%%%%%%%%%%% Sensors that detect 0 bombs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    % In the gameboard's corners
+    sensor(1,1,0) -> (empty(1,2) & empty(2,1)).
+    all f ((rows(f) & sensor(f,1,0)) -> (empty(f-1,1) & empty(f,2))).
+    all c ((columns(c) & sensor(1,c,0)) -> (empty(1,c-1) & empty(2,c))).
+    all f c ((rows(f) & columns(c) & sensor(f,c,0)) -> (empty(f,c-1) & empty(f-1,c))).
+
+    % On the gameboard's sides
+    all y c ((columns(c) & y>1 & y<c & sensor(1,y,0)) -> (empty(1,y-1) & empty(1,y+1) & empty(2,y))).
+    all y f c ((rows(f) & columns(c) & y>1 & y<c & sensor(f,y,0)) -> (empty(f,y-1) & empty(f,y+1) & empty(f-1,y))).
+    all x f ((rows(f) & x>1 & x<f & sensor(x,1,0)) -> (empty(x-1,1) & empty(x+1,1) & empty(x,2))).
+    all x f c ((rows(f) & columns(c) & x>1 & x<f & sensor(x,c,0)) -> (empty(x-1,c) & empty(x+1,c) & empty(x,c-1))).
+
+    % In the center of the gameboard
+    all x y f c ((rows(f) & columns(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,0)) -> (empty(x-1,y) & empty(x+1,y) & empty(x,y-1) & empty(x,y+1))).
+
+
+    %%%%%%%%%%%%%%%%%%%%%%% Sensors that detect a bomb in every neighbouring cell %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    %%%% In the gameboard's corners (2 bombs) %%%%
+
+    sensor(1,1,2) -> (bomb(1, 2) & bomb(2,1)).
+    all f ((rows(f) & sensor(f,1,2)) -> (bomb(f-1,1) & bomb(f,2))).
+    all c ((columns(c) & sensor(1,c,2)) -> (bomb(1,c-1) & bomb(2,c))).
+    all f c ((rows(f) & columns(c) & sensor(f,c,2)) -> (bomb(f,c-1) & bomb(f-1,c))).
+
+    %%%% On the gameboard's sides (3 bombs) %%%%
+    all y c ((columns(c) & y>1 & y<c & sensor(1,y,3)) -> (bomb(1,y-1) & bomb(1,y+1) & bomb(2,y))).
+    all y f c ((rows(f) & columns(c) & y>1 & y<c & sensor(f,y,3)) -> (bomb(f,y-1) & bomb(f,y+1) & bomb(f-1,y))).
+    all x f ((rows(f) & x>1 & x<f & sensor(x,1,3)) -> (bomb(x-1,1) & bomb(x+1,1) & bomb(x,2))).
+    all x f c ((rows(f) & columns(c) & x>1 & x<f & sensor(x,c,3)) -> (bomb(x-1,c) & bomb(x+1,c) & bomb(x,c-1))).
+
+    %%%% In the middle of the gameboard (4 bombs) %%%% 
+    all x y f c ((rows(f) & columns(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,4)) -> (bomb(x-1,y) & bomb(x+1,y) & bomb(x,y-1) & bomb(x,y+1))).
+
+    %%%%%%%%%%%%%%%%%%%%%%% Sensors that detect 0 < n < max bombs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    %%%%% In the gameboard's corners (only 1 bomb possible) %%%%%
+
+    % Generally, one cell has to be empty and the other one contains a bomb  
+    sensor(1,1,1) -> (((bomb(1,2) & empty(2,1)) | (empty(1,2) & bomb(2,1)))).
+    all f ((rows(f) & sensor(f,1,1)) -> (((bomb(f-1,1) & empty(f,2)) | (empty(f-1,1) & bomb(f,2))))).
+    all c ((columns(c) & sensor(1,c,1)) -> (((bomb(2,c) & empty(1,c-1)) | (empty(2,c) & bomb(1,c-1))))).
+    all f c ((rows(f) & columns(c) & sensor(f,c,1)) -> (((bomb(f,c-1) & empty(f-1,c)) | (empty(f,c-1) & bomb(f-1,c))))).
+
+
+    %%%%% On the gameboard's sides (1 bomb) %%%%%
+
+    % On the top side (x = 1)
+
+    % Generally, two cells have to be empty and the other one contains a bomb  
+    all y c ((columns(c) & y>1 & y<c & sensor(1,y,1)) -> (((bomb(1,y-1) & empty(1,y+1) & empty(2,y)) | (empty(1,y-1) & bomb(1,y+1) & empty(2,y)) | (empty(1,y-1) & empty(1,y+1) & bomb(2,y))))).
+
+    % On the bottom side (x = number of rows)
+
+    % Generally, two cells have to be empty and the other one contains a bomb
+    all y f c ((rows(f) & columns(c) & y>1 & y<c & sensor(f,y,1)) -> (((bomb(f,y-1) & empty(f,y+1) & empty(f-1,y)) | (empty(f,y-1) & bomb(f,y+1) & empty(f-1,y)) | (empty(f,y-1) & empty(f,y+1) & bomb(f-1,y))))).
+  
+    % On the left side (y = 1)
+
+    % Generally, two cells have to be empty and the other one contains a bomb
+    all x f ((rows(f) & x>1 & x<f & sensor(x,1,1)) -> (((bomb(x-1,1) & empty(x+1,1) & empty(x,2)) | (empty(x-1,1) & bomb(x+1,1) & empty(x,2)) | (empty(x-1,1) & empty(x+1,1) & bomb(x,2))))).
+
+    % On the right side (y = number of columns)
+
+    % Generally, two cells have to be empty and the other one contains a bomb
+    all x f c ((rows(f) & columns(c) & x>1 & x<f & sensor(x,c,1)) -> (((bomb(x-1,c) & empty(x+1,c) & empty(x,c-1)) | (empty(x-1,c) & bomb(x+1,c) & empty(x,c-1)) | (empty(x-1,c) & empty(x+1,c) & bomb(x,c-1))))).
+
+
+    %%%%% On the gameboard's sides (2 bombs) %%%%%
+
+    % On the top side
+
+    % Generally, two cells have to be empty and the other one contains a bomb
+    all y c ((columns(c) & y>1 & y<c & sensor(1,y,2)) -> (((bomb(1,y-1) & bomb(1,y+1) & empty(2,y)) | (bomb(1,y-1) & empty(1,y+1) & bomb(2,y)) | (empty(1,y-1) & bomb(1,y+1) & bomb(2,y))))).
+
+    % On the bottom side
+
+    % Generally, two cells have to be empty and the other one contains a bomb
+    all y f c ((rows(f) & columns(c) & y>1 & y<c & sensor(f,y,2)) -> (((bomb(f,y-1) & bomb(f,y+1) & empty(f-1,y)) | (bomb(f,y-1) & empty(f,y+1) & bomb(f-1,y)) | (empty(f,y-1) & bomb(f,y+1) & bomb(f-1,y))))).
+
+    % On the left side
+
+    % Generally, two cells have to be empty and the other one contains a bomb
+    all x f ((rows(f) & x>1 & x<f & sensor(x,1,2)) -> (((bomb(x-1,1) & bomb(x+1,1) & empty(x,2)) | (bomb(x-1,1) & empty(x+1,1) & bomb(x,2)) | (empty(x-1,1) & bomb(x+1,1) & bomb(x,2))))).
+
+    % On the right side
+
+    % Generally, two cells have to be empty and the other one contains a bomb
+    all x f c ((rows(f) & columns(c) & x>1 & x<f & sensor(x,c,2)) -> (((bomb(x-1,c) & bomb(x+1,c) & empty(x,c-1)) | (bomb(x-1,c) & empty(x+1,c) & bomb(x,c-1)) | (empty(x-1,c) & bomb(x+1,c) & bomb(x,c-1))))).
+
+
+    %%%%% In the middle of the gameboard (1 bomb) %%%%%
+
+    % Generally, three cells have to be empty and the other one contains a bomb
+    all x y f c ((rows(f) & columns(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,1)) -> (((bomb(x-1,y) & empty(x+1,y) & empty(x,y-1) & empty(x,y+1)) | (empty(x-1,y) & bomb(x+1,y) & empty(x,y-1) & empty(x,y+1)) | (empty(x-1,y) & empty(x+1,y) & bomb(x,y-1) & empty(x,y+1)) | (empty(x-1,y) & empty(x+1,y) & empty(x,y-1) & bomb(x,y+1))))).
+
+    %%%%% In the middle of the gameboard (2 bombs) %%%%%
+
+    % Generally, two cells have to be empty and the other two ones contain a bomb
+    all x y f c ((rows(f) & columns(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,2)) -> ((bomb(x-1,y) & bomb(x+1,y) & empty(x,y-1) & empty(x,y+1)) | (empty(x-1,y) & bomb(x+1,y) & bomb(x,y-1) & empty(x,y+1)) | (empty(x-1,y) & empty(x+1,y) & bomb(x,y-1) & bomb(x,y+1)) | (bomb(x-1,y) & empty(x+1,y) & empty(x,y-1) & bomb(x,y+1)) | (bomb(x-1,y) & empty(x+1,y) & bomb(x,y-1) & empty(x,y+1)) | (empty(x-1,y) & bomb(x+1,y) & empty(x,y-1) & bomb(x,y+1)))).
+
+    %%%%% In the middle of the gameboard (3 bombs) %%%%%
+
+    % Generally, three cells have to contain a bomb and the other one is empty
+    all x y f c ((rows(f) & columns(c) & x>1 & x<f & y>1 & y<c & sensor(x,y,3)) -> (((bomb(x-1,y) & bomb(x+1,y) & bomb(x,y-1) & empty(x,y+1)) | (bomb(x-1,y) & bomb(x+1,y) & empty(x,y-1) & bomb(x,y+1)) | (bomb(x-1,y) & empty(x+1,y) & bomb(x,y-1) & bomb(x,y+1)) | (empty(x-1,y) & bomb(x+1,y) & bomb(x,y-1) & bomb(x,y+1))))).
+end_of_list.
+
+formula_list(sos).
+    % Initial situation.
+    rows(5).
+    columns(5).
+    sensor(1,3,3).
+    sensor(2,4,2).
+    sensor(3,2,0).
+    sensor(4,1,1).
+    sensor(4,3,2).
+    sensor(4,5,2).
+    sensor(5,4,2).
+end_of_list.
+
+formula_list(passive).
+    % Everytime we find a bomb, we return it as an ANSWER datastructure.
+    all x y (bomb(x,y) -> $ANS(bomb(x,y))).
+end_of_list.
