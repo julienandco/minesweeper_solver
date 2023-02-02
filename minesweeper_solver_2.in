@@ -111,30 +111,29 @@ formula_list(usable).
     all x y c (columns(c) & sensorH(x,y,0) -> vaciarFila(x,c)).
     all r c (vaciarFila(r,c) & c > 0 -> empty(r,c) & vaciarFila(r,c-1)).
 
-    %%%%%%%%%%%%%%%%%%%%%%% Sensores que detectan todas las bombs posibles %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%% Sensors that detect the maximal amount of bombs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Vertical - columns
 
-    %% Sabemos que las listas bombsPosiblesEnColumna(c,l,n) están construidas de manera que la lista de celdas en las
-    %% cuales habrá bombs al final, SIEMPRE está una sublista de l (expliciones arriba). Por eso, sabemos también que 
-    %% en el momento en lo cual solo hay n bombs posibles en una columna y que existe un sensor vertical que detecta 
-    %% exactamente n bombs en esta columna, tiene que estar una bomb en cada celda (x,c) de las posibles x incluidos en l.
-    %% Tambien queremos recordarnos en cuales celdas hay bombs para poder contarlas depués.
-    %% Por eso, vamos a vaciar una lista temporal en un paso de relleno, y tambien guardar la lista de celdas que inició el 
-    %% relleno. 
+    %% We know that the lists bombsPosiblesEnColumna(c,l,n) are constructed in such a way that the list of cells in which
+    %% there will be bombs in the end, ALWAYS is a sublist of l (see explanations above). Therefore, we know that if
+    %% there only are n possible bombs in the column c and there is a vertical sensor detecting exactly n bombs in this column,
+    %% there has to be a bomb in every cell (x,c) of the possible x included in l.
+    %% We want to remember in which cells there are bombs, so we can count them later.
+    %% To do so, we will empty a temporary list in a filling step and as well keep the list of cells that started the filling.
     %%
-    %% Ejemplo: llenarColumna(4, [1,2,3],[1,2,3])
+    %% Example: llenarColumna(4, [1,2,3],[1,2,3])
     %% 
-    %% Eso representa el inicio del relleno de la columna c = 4. Vamos a poner una bomb en (1,4), (2,4) y (3,4).
-    %% Durante este relleno, nuevos hechos será añadidos, como p.ej. llenarColumna(4, [2,3],[1,2,3]). 
+    %% This fact represents the beginning of the filling of column c = 4. We'll put a bomb in (1,4), (2,4) and (3,4).
+    %% During this filling, new facts will ber asserted, like for example llenarColumna(4, [2,3],[1,2,3]).
     %% 
-    %% La primera lista es la lista temporal que va a vaciarse para que sabemos cuando se acabó el relleno.
-    %% La segunda lista es la lista de celdas en las cuales la columna tiene bombs. Daremos esta lista 
-    %% al hecho columnaCompletada y esto nos ayudará mucho durante la construcción de bombsPosiblesEnColumna 
-    %% por columns que no están resolubles del principio (explicaciones arriba).
+    %% The first list is the temporary list that will be emptied to know when the filling is finished.
+    %% The second list is the list of cells in which there will be bombs in the column at the end of the solved game.
+    %% We'll pass this list to the fact columnaCompletada and this will help us a lot during the construction of bombsPosiblesEnColumna
+    %% for columns that are not solvable straight from the beginning (see explanations above).
     %%
-    %% En el caso del ejemplo, se introducirá el hecho columnaCompletada(4,[1,2,3]), porque todas las bombs que 
-    %% están en la columna 4 han sido desubiertos y están en las celdas (1,4), (2,4) y (3,4).
+    %% In the example case, we would assert the fact columnaCompletada(4,[1,2,3]), because all the bombs that
+    %% are in column 4 have been discovered and will be in the cells (1,4), (2,4) and (3,4).
     %%
 
     %% Empezamos el relleno de la columna
