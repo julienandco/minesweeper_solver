@@ -136,45 +136,45 @@ formula_list(usable).
     %% are in column 4 have been discovered and will be in the cells (1,4), (2,4) and (3,4).
     %%
 
-    %% Empezamos el relleno de la columna
-    all a b c f n (sensorV(f,c,n) & bombsPosiblesEnColumna(c,[a|b],n) -> llenarColumna(c,[a|b],[a|b])).
+    %% Start of the filling of the column
+    all a b c r n (sensorV(r,c,n) & bombsPosiblesEnColumna(c,[a|b],n) -> llenarColumna(c,[a|b],[a|b])).
 
-    %% Paso de relleno de columna
+    %% Filling step for the column
     all a b c d e (llenarColumna(c,[a|b],[d|e]) -> bomb(a,c) & llenarColumna(c,b,[d|e])).
 
-    %% Cuando no quedan mas celdas que rellenar en la columna, marcamos la columna como completa.
+    %% When there are on more cells to fill in a column, we mark the column as completed.
     all a b c (llenarColumna(c,[],[a|b]) -> columnaCompletada(c,[a|b])).
 
-    % Sensores que detectan todo - Horizontal
+    % Sensors that detect the maximal amount of bombs - Horizontal
 
-    %% Aplicamos exactamente la misma logica para rellenar rows como para rellenar columns.
-    all a b c f n (sensorH(f,c,n) & possibleBombsInRow(f,[a|b],n) -> llenarFila(f,[a|b],[a|b])).
-    all a b c d f (llenarFila(f,[a|b],[c|d]) -> bomb(f,a) & llenarFila(f,b,[c|d])).
-    all a b f (llenarFila(f,[],[a|b]) -> filaCompletada(f,[a|b])).
+    %% We'll apply the same logic to fill rows as we did for columns.
+    all a b c r n (sensorH(r,c,n) & possibleBombsInRow(r,[a|b],n) -> llenarFila(r,[a|b],[a|b])).
+    all a b c d r (llenarFila(r,[a|b],[c|d]) -> bomb(r,a) & llenarFila(r,b,[c|d])).
+    all a b r (llenarFila(r,[],[a|b]) -> filaCompletada(r,[a|b])).
 
-    % Contar bombs
+    % Count bombs
 
-    %% Queremos contar cuantas bombs hay en cada fila y columna para que sabemos cuando una fila/columna
-    %% está completada, es decir cuando todas las bombs que deben ser en la columna/fila han sido descubiertos.
+    %% We'd like to count the number of bombs in each row and column, so we know when a row/column is completed,
+    %% i.e. when all the bombs that should be in the row/column have been discovered.
 
-    %% Contar bombs en rows
+    %% Count bombs in rows
 
-    all f (rows(f) -> bombsEnFila(f,[],0)).
-    all f (bombsEnFila(f,[],0) & f > 1 -> bombsEnFila(f-1,[],0)).
+    all r (rows(r) -> bombsEnFila(r,[],0)).
+    all r (bombsEnFila(r,[],0) & r > 1 -> bombsEnFila(r-1,[],0)).
     all x y (bomb(x,y) & bombsEnFila(x,[],0) -> bombsEnFila(x,[y],1)).
     all x y a b n (bomb(x,y) & bombsEnFila(x,[a|b],n) & -belongsTo(y,[a|b]) -> bombsEnFila(x,[y,a|b],n+1)).
 
-    %% Contar bombs en columns
+    %% Count bombs in columns
 
     all c (columns(c) -> bombsEnColumna(c,[],0)).
     all c (bombsEnColumna(c,[],0) & c>1 -> bombsEnColumna(c-1,[],0)).
     all x y (bomb(x,y) & bombsEnColumna(y,[],0) -> bombsEnColumna(y,[x],1)).
     all x y a b n (bomb(x,y) & bombsEnColumna(y,[a|b],n) & -belongsTo(x,[a|b]) -> bombsEnColumna(y,[x,a|b],n+1)).
 
-    %% Si hay n bombs en una fila/columna y existe un sensorV/sensorH que detecta n bombs en esa fila/columna,
-    %% entonces la fila/columna está completa.
-    all f c z a b (sensorV(f,c,z) & bombsEnColumna(c,[a|b],z) -> columnaCompletada(c,[a|b])).
-    all f c z a b (sensorH(f,c,z) & bombsEnFila(f,[a|b],z) -> filaCompletada(f,[a|b])).
+    %% If there are n bombs in a row/column and there is a sensorV/sensorH that detects n bombs in that row/column,
+    %% then the row/column is completed.
+    all r c z a b (sensorV(r,c,z) & bombsEnColumna(c,[a|b],z) -> columnaCompletada(c,[a|b])).
+    all r c z a b (sensorH(r,c,z) & bombsEnFila(r,[a|b],z) -> filaCompletada(r,[a|b])).
 end_of_list.
 
 formula_list(sos).
